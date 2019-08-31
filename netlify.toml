@@ -1,0 +1,14 @@
+[build]
+command = "hugo"
+#functions = "lambdas"
+publish = "public"
+
+[build.environment]
+GO_IMPORT_PATH = "github.com/swoogles/bionicBodyFitness"
+
+[context.production.environment]
+HUGO_ENV = "production"
+HUGO_ENABLEGITINFO = "true"
+
+[context.deploy-preview]
+command = "hugo --buildDrafts --buildFuture --baseURL $DEPLOY_PRIME_URL --ignoreCache"

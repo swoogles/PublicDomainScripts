@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="{{.Site.LanguageCode}}">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, minimum-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	{{- with .Site.Params.themeColor }}
+	<meta name="theme-color" content="{{.}}">
+	<meta name="msapplication-TileColor" content="{{.}}">
+	{{- end }}
+	{{- partial "structured-data.html" . }}
+	{{- partial "favicons.html" }}
+	<title>{{.Title}}</title>
+	{{ range .AlternativeOutputFormats -}}
+		{{ printf `<link rel="%s" type="%s+%s" href="%s" title="%s" />` .Rel .MediaType.Type .MediaType.Suffix .Permalink $.Site.Title | safeHTML }}
+	{{ end -}}
+	{{ $style := resources.Get "scss/style.scss" | resources.ExecuteAsTemplate "css/style.css" . | toCSS | minify | fingerprint -}}
+	<link rel="stylesheet" href="{{ $style.Permalink }}" {{ printf "integrity=%q" $style.Data.Integrity | safeHTMLAttr }}>
+	{{- block "head" . -}}{{- end }}
+	{{- range .Site.Params.customCSS }}
+	<link rel="stylesheet" href="{{ . | absURL }}">
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3/build/web/hack.css">
+	{{- end }}
+	{{- if templates.Exists "partials/extra-head.html" -}}
+	{{ partial "extra-head.html" . }}
+	{{- end }}
+</head>
+
+<body id="page">
+	{{ block "header" . -}}{{ end -}}
+
+	<div id="control-footer">
+    <div class="one-row-layout" hidden>
+      <div class="row minorControls">
+        <button class="scroll-to-previous-line-big column controls">
+          &lt;&lt;
+        </button>
+        <button class="scroll-to-previous-line column controls">
+          &lt;
+        </button>
+        <button class="scroll-to-next-line column controls">
+          &gt;
+        </button>
+        <button class="scroll-to-next-line-big column controls">
+          &gt;&gt;
+        </button>
+      </div>
+    </div>
+
+    <div class="two-row-layout" hidden>
+      <div class="row majorControls">
+        <button class="scroll-to-previous-line smallColumn controls">
+          &lt;
+        </button>
+        <button class="scroll-to-next-line bigColumn controls">
+          &gt;
+        </button>
+      </div>
+      <div class="row minorControls">
+        <button class="scroll-to-previous-line-big smallColumn controls">
+          &lt;&lt;
+        </button>
+        <button class="scroll-to-next-line-big bigColumn controls">
+          &gt;&gt;
+        </button>
+      </div>
+    </div>
+  </div>
+	{{ block "main" . -}}{{ end -}}
+	{{ block "footer" . -}}{{ end }}
+	{{ $script := resources.Get "js/main.js" | minify | fingerprint -}}
+	{{ $script := resources.Get "js/example-fastopt-bundle.js" | minify | fingerprint -}}
+	{{/*{{ $script := resources.Get "js/example-fastopt.js.map" -}}*/}}
+	<script src="{{ $script.Permalink }}" {{ printf "integrity=%q" $script.Data.Integrity | safeHTMLAttr }}></script>
+	{{- partial "analytics.html" . }}
+	{{- if templates.Exists "partials/extra-foot.html" -}}
+	{{ partial "extra-foot.html" . }}
+	{{- end }}
+</body>
+
+</html>

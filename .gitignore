@@ -1,0 +1,14 @@
+playScripts/.idea
+playScripts/out/
+resources/_gen/assets/js/js
+project/
+resources/_gen/
+.idea/
+playScripts/.idea_modules/
+jsClient/target/
+.bloop
+.metals
+.vscode
+out
+target
+node_modules
