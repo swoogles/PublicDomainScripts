@@ -77,6 +77,17 @@ object ConnectedLine {
     spokenLines.headOption
   }
 
+  def calculateNextLineIndexForLastLine(
+      lastTargetLineIndex: Int,
+      offset: Int,
+      lastLineIndex: Int
+  ): Int = {
+    if (lastTargetLineIndex + offset > lastLineIndex)
+      lastLineIndex
+    else
+      lastTargetLineIndex + offset
+  }
+
   // This is the ugliest POS in the entire program.
   private def connectManipulatedLinesWithHtmlOriginalSource(
       lines: List[Line],
@@ -84,6 +95,7 @@ object ConnectedLine {
   ): List[ConnectedLine] = {
     val offset = 1
     val firstLineIndex = targetLines(0).index
+    val lastLineIndex: Int = lines.last.index
     val targetCharacter = targetLines.head.character // TODO Eh, don't like this
     val firstCueLine =
       findCueLineBeforeCharacterBased(firstLineIndex, lines, targetCharacter)
@@ -97,7 +109,7 @@ object ConnectedLine {
           targetLines(0),
           lines(firstLineIndex + offset),
           targetLines(0),
-          lines(targetLines(0).index + offset)
+          lines(firstLineIndex + offset)
         )
       )
     } else if (targetLines.length == 2) {
@@ -109,7 +121,7 @@ object ConnectedLine {
           targetLines(0),
           lines(firstLineIndex + offset),
           targetLines(0),
-          lines(targetLines(0).index + offset)
+          lines(firstLineIndex + offset)
         ),
         ConnectedLine(
           lines(targetLines(targetLines.length - 2).index - offset),
@@ -142,18 +154,17 @@ object ConnectedLine {
           lines(targetLines(1).index + offset)
         )
 
-      val lastLineIndex: Int = lines.last.index
-
       val middleLines: List[ConnectedLine] =
         targetLines
           .sliding(3)
           .map { lineGroup: List[ManipulatedLine] =>
             {
+              val firstSlidingLineIndex = lineGroup(0).index
               val previousLineBuffer =
-                if (lineGroup(0).index == 0)
-                  lineGroup(0).index
+                if (firstSlidingLineIndex == 0)
+                  firstSlidingLineIndex
                 else
-                  lineGroup(0).index - offset
+                  firstSlidingLineIndex - offset
               ConnectedLine(
                 lines(previousLineBuffer),
                 lineGroup(0),
@@ -166,21 +177,22 @@ object ConnectedLine {
                 lines(lineGroup(1).index + offset),
                 lineGroup(2),
                 lines(
-                  if ((lineGroup(2).index + offset) > lastLineIndex)
+                  calculateNextLineIndexForLastLine(
+                    lineGroup(2).index,
+                    offset,
                     lastLineIndex
-                  else
-                    lineGroup(2).index + offset
+                  )
                 )
               )
             }
           }
           .toList
 
-      val nextLineForLastLine =
-        if (targetLines.last.index + offset > lastLineIndex)
-          lastLineIndex
-        else
-          targetLines.last.index + offset
+      val nextLineForLastLine = calculateNextLineIndexForLastLine(
+        targetLines.last.index,
+        offset,
+        lastLineIndex
+      )
 
       val lastLine =
         ConnectedLine(
