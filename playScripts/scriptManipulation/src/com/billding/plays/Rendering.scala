@@ -127,11 +127,13 @@ object Rendering {
     }
   }
 
+  val DIRECTORY_NAME = "opensourceplaymemorization"
+
   def getrelativeUrl(filePath: String): String = {
-    filePath
-      .replace("/home/bfrasure/Repositories/play9592/content", "") // TODO this is brittle
+    filePath.toLowerCase
+//                              "/home/bfrasure/repositories/opensourceplaymemorization/content/generated/othello/character_menu"
+      .replace(s"/home/bfrasure/repositories/$DIRECTORY_NAME/content", "") // TODO this is brittle
       .takeWhile(_ != '.')
-      .toLowerCase
   }
 
   private def makeAnchorFromFile(file: File) = {

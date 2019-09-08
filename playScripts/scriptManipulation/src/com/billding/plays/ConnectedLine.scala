@@ -165,6 +165,7 @@ object ConnectedLine {
                   firstSlidingLineIndex
                 else
                   firstSlidingLineIndex - offset
+
               ConnectedLine(
                 lines(previousLineBuffer),
                 lineGroup(0),
@@ -194,10 +195,12 @@ object ConnectedLine {
         lastLineIndex
       )
 
+      val secondToLastLine = targetLines(targetLines.length - 2)
+
       val lastLine =
         ConnectedLine(
-          lines(targetLines(targetLines.length - 2).index - offset),
-          targetLines(targetLines.length - 2),
+          lines(secondToLastLine.index - offset),
+          secondToLastLine,
           findCueLineBeforeCharacterBased(
             targetLines.last.index,
             lines,
