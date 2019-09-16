@@ -55,6 +55,7 @@ class UnsafeWorld(workingDirectory: File) {
 
   def getFilesInGeneratedDir(
       ): List[File] = {
+    println("Getting files!")
     ls(generatedDirectory).toList.filterNot(_.name.contains("menu"))
   }
 

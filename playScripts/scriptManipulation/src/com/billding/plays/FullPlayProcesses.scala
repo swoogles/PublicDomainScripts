@@ -2,6 +2,7 @@ package com.billding.plays
 
 import com.billding.plays.parsing.MitHtml
 import better.files.Dsl.cwd
+import scalatags.Text
 import zio.{Task, ZIO}
 
 object FullPlayProcesses {
@@ -23,20 +24,18 @@ object FullPlayProcesses {
     // TODO Get my main class figured out / synced with this test
     val allPlays = ZIO { unsafeWorld.getFilesInGeneratedDir() }
 
-    val playMenu =
+    val playMenu: ZIO[Any, Throwable, Text.TypedTag[String]] =
       for {
         allPlaysValue <- allPlays
       } yield {
+        println("Doing stuff!")
         Rendering.listPlays(allPlaysValue)
       }
 
-//    unsafeWorld.writePlaySelectionMenuZio.map(_ => "We done")
-    ZIO {
-      unsafeWorld.writePlaySelectionMenu(playMenu.toString())
+    playMenu.map(playMenuText => {
+      unsafeWorld.writePlaySelectionMenu(playMenuText.toString())
       "Sucessfully created character menu"
-    }
-//    ZIO.fromFunction(something  => unsafeWorld.writePlaySelectionMenu(playMenu.toString())).map(something => "We done")
-//    unsafeWorld.writePlaySelectionMenu(playMenu.toString())
+    })
   }
 
   val ALL_SCRIPT_VARIANTS: Set[ScriptVariant] =
