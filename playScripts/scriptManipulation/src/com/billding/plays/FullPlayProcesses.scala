@@ -22,20 +22,17 @@ object FullPlayProcesses {
     theComedyOfErrors()
     othello()
     // TODO Get my main class figured out / synced with this test
-    val allPlays = ZIO { unsafeWorld.getFilesInGeneratedDir() }
-
-    val playMenu: ZIO[Any, Throwable, Text.TypedTag[String]] =
-      for {
-        allPlaysValue <- allPlays
-      } yield {
-        println("Doing stuff!")
-        Rendering.listPlays(allPlaysValue)
+    ZIO { unsafeWorld.getFilesInGeneratedDir() }
+      .map { files =>
+        Rendering.listPlays(files)
       }
-
-    playMenu.map(playMenuText => {
-      unsafeWorld.writePlaySelectionMenu(playMenuText.toString())
-      "Sucessfully created character menu"
-    })
+      .flatMap(
+        playMenuText =>
+          ZIO {
+            unsafeWorld.writePlaySelectionMenu(playMenuText.toString())
+            "Sucessfully created character menu"
+          }
+      )
   }
 
   val ALL_SCRIPT_VARIANTS: Set[ScriptVariant] =
