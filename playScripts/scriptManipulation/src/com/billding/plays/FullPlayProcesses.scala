@@ -70,60 +70,66 @@ object FullPlayProcesses {
       outputPlayName: String,
       scriptVariants: Set[ScriptVariant],
       scriptTyper: String => List[Line]
-  ): Unit = {
-    val fileContent: String =
-      unsafeWorld.getFileAsOneBigString(nameOfFileToParse)
+  ) = {
+    unsafeWorld.getFileAsOneBigString(nameOfFileToParse).flatMap {
+      fileContent: String =>
+        ZIO {
 
-    val typedLinesOutter =
-      scriptTyper(fileContent)
+          val typedLinesOutter =
+            scriptTyper(fileContent)
 
-    val allCharactersDynamic = getCharactersWithSpokenLines(typedLinesOutter)
+          val allCharactersDynamic =
+            getCharactersWithSpokenLines(typedLinesOutter)
 
-    println(s"Creating script variations for $outputPlayName")
-    for (scriptVariant <- scriptVariants) {
-      println(s"   -${scriptVariant.name}")
+          println(s"Creating script variations for $outputPlayName")
+          for (scriptVariant <- scriptVariants) {
+            println(s"   -${scriptVariant.name}")
 
-      val manipulatedScript: List[Line] = Parsing.manipulateScript(
-        typedLinesOutter,
-        scriptVariant.transformation
-      )
+            val manipulatedScript: List[Line] = Parsing.manipulateScript(
+              typedLinesOutter,
+              scriptVariant.transformation
+            )
 
-      val characterAgnosticConnectedLines: List[Either[Line, ConnectedLine]] =
-        ConnectedLine.makeAllConnectedLines(manipulatedScript)
-      import scalatags.Text // TODO Hrm. Doesn't belong in this file.
-      val htmlOutput: List[Text.TypedTag[String]] =
-        characterAgnosticConnectedLines
-          .map {
-            case Left(line) => Rendering.toHtml(line)
-            case Right(connectedLine) =>
-              Rendering.toHtml(connectedLine)
+            val characterAgnosticConnectedLines
+                : List[Either[Line, ConnectedLine]] =
+              ConnectedLine.makeAllConnectedLines(manipulatedScript)
+            import scalatags.Text // TODO Hrm. Doesn't belong in this file.
+            val htmlOutput: List[Text.TypedTag[String]] =
+              characterAgnosticConnectedLines
+                .map {
+                  case Left(line) => Rendering.toHtml(line)
+                  case Right(connectedLine) =>
+                    Rendering.toHtml(connectedLine)
+                }
+
+            unsafeWorld.writeNewLinesForPlay(
+              outputPlayName,
+              scriptVariant.name,
+              htmlOutput.map(_.toString)
+            )
+
           }
 
-      unsafeWorld.writeNewLinesForPlay(
-        outputPlayName,
-        scriptVariant.name,
-        htmlOutput.map(_.toString)
-      )
+          for (character <- allCharactersDynamic) {
+            unsafeWorld.createCharacterDirector(character, outputPlayName)
 
-    }
+            unsafeWorld.writeRootCharacterMenu(
+              Rendering
+                .characterListMenu(allCharactersDynamic, outputPlayName)
+                .toString(),
+              outputPlayName
+            )
 
-    for (character <- allCharactersDynamic) {
-      unsafeWorld.createCharacterDirector(character, outputPlayName)
+            val characterScripts: CharacterScripts =
+              unsafeWorld.getCharacterScripts(character, outputPlayName)
 
-      unsafeWorld.writeRootCharacterMenu(
-        Rendering
-          .characterListMenu(allCharactersDynamic, outputPlayName)
-          .toString(),
-        outputPlayName
-      )
+            val renderedMenu =
+              Rendering.characterSubdirectory(characterScripts).toString()
 
-      val characterScripts: CharacterScripts =
-        unsafeWorld.getCharacterScripts(character, outputPlayName)
+            unsafeWorld.writeMenu(character, renderedMenu, outputPlayName)
+          }
 
-      val renderedMenu =
-        Rendering.characterSubdirectory(characterScripts).toString()
-
-      unsafeWorld.writeMenu(character, renderedMenu, outputPlayName)
+        }
     }
 
   }
@@ -133,15 +139,12 @@ object FullPlayProcesses {
       outputPlayName: String,
       scriptVariants: Set[ScriptVariant]
   ): Task[Unit] = {
-    ZIO {
-      playVariations(
-        nameOfFileToParse,
-        outputPlayName,
-        scriptVariants,
-        MitHtml.typedLinesFromRawScript
-      )
-    }
-
+    playVariations(
+      nameOfFileToParse,
+      outputPlayName,
+      scriptVariants,
+      MitHtml.typedLinesFromRawScript
+    )
   }
 
   def romeoAndJuliet(): Task[Unit] = {

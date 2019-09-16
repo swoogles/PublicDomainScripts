@@ -42,7 +42,7 @@ class UnsafeWorld(workingDirectory: File) {
   }
 
   @deprecated("Use version with folderName")
-  def getFileAsOneBigString(fileName: String): String = {
+  def getFileAsOneBigString(fileName: String) = ZIO {
     val betterFile: File = workingDirectory / "publicDomainScripts" / fileName
     betterFile.contentAsString
   }
