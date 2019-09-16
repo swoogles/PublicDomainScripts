@@ -187,20 +187,22 @@ object MitHtmlTest extends TestSuite {
 
 
     'ReadFileAsString - {
-      val fileContents = unsafeWorld.getFileAsOneBigString("shakespeareGoodVersion.html")
+      unsafeWorld.getFileAsOneBigString("shakespeareGoodVersion.html").map(fileContents =>
       fileContents.split("\\n\\n")
       .flatMap(MitHtml.normalize)
+      )
     }
 
     'ConvertFullScript - {
-      val fileContents = unsafeWorld.getFileAsOneBigString("shakespeareGoodVersion.html")
-      val results = fileContents.split("\\n\\n")
-      .flatMap(MitHtml.normalize)
-      .filter(!_.trim.isEmpty)
-      .zipWithIndex
-      .map{case (line, lineNumber) => MitHtml.Conversion.convert(line, lineNumber)}
-      .map(_.toString)
-      .toList
+      unsafeWorld.getFileAsOneBigString("shakespeareGoodVersion.html").map { fileContents =>
+        val results = fileContents.split("\\n\\n")
+          .flatMap(MitHtml.normalize)
+          .filter(!_.trim.isEmpty)
+          .zipWithIndex
+          .map { case (line, lineNumber) => MitHtml.Conversion.convert(line, lineNumber) }
+          .map(_.toString)
+          .toList
+      }
 //      unsafeWorld.writeNewLinesForPlay("romeoAndJuliet", "shakespeare" + ".parsed", results)
     }
 
