@@ -153,7 +153,7 @@ object FullPlayProcesses {
     )
   }
 
-  def romeoAndJuliet(): ZIO[Console, Throwable, Unit] = {
+  private def romeoAndJuliet() = {
     mitPlay(
       "shakespeareGoodVersion.html",
       "romeoAndJuliet",
@@ -161,7 +161,7 @@ object FullPlayProcesses {
     )
   }
 
-  def aMidSummerNightsDream(): ZIO[Console, Throwable, Unit] = {
+  private def aMidSummerNightsDream() = {
     mitPlay(
       "AMidSummerNightsDream.html",
       "AMidSummerNightsDream",
@@ -169,7 +169,7 @@ object FullPlayProcesses {
     )
   }
 
-  def muchAdoAboutNothing(): ZIO[Console, Throwable, Unit] = {
+  private def muchAdoAboutNothing() = {
     mitPlay(
       "MuchAdoAboutNothing.html",
       "MuchAdoAboutNothing",
@@ -177,7 +177,7 @@ object FullPlayProcesses {
     )
   }
 
-  def hamlet(): ZIO[Console, Throwable, Unit] = {
+  private def hamlet() = {
     mitPlay(
       "Hamlet.html",
       "Hamlet",
@@ -185,7 +185,7 @@ object FullPlayProcesses {
     )
   }
 
-  def macbeth(): ZIO[Console, Throwable, Unit] = {
+  private def macbeth() = {
     mitPlay(
       "Macbeth.html",
       "Macbeth",
@@ -193,7 +193,7 @@ object FullPlayProcesses {
     )
   }
 
-  def kingLear(): ZIO[Console, Throwable, Unit] = {
+  private def kingLear() = {
     mitPlay(
       "KingLear.html",
       "KingLear",
@@ -201,7 +201,7 @@ object FullPlayProcesses {
     )
   }
 
-  def juliusCaesar(): ZIO[Console, Throwable, Unit] = {
+  private def juliusCaesar() = {
     mitPlay(
       "JuliusCaesar.html",
       "JuliusCaesar",
@@ -209,7 +209,7 @@ object FullPlayProcesses {
     )
   }
 
-  def theTamingOfTheShrew(): ZIO[Console, Throwable, Unit] = {
+  private def theTamingOfTheShrew() = {
     mitPlay(
       "TheTamingOfTheShrew.html",
       "TheTamingOfTheShrew",
@@ -217,7 +217,7 @@ object FullPlayProcesses {
     )
   }
 
-  def theComedyOfErrors(): ZIO[Console, Throwable, Unit] = {
+  private def theComedyOfErrors() = {
     mitPlay(
       "TheComedyOfErrors.html",
       "TheComedyOfErrors",
@@ -225,7 +225,7 @@ object FullPlayProcesses {
     )
   }
 
-  def allsWellThatEndsWell(): ZIO[Console, Throwable, Unit] = {
+  private def allsWellThatEndsWell() = {
     mitPlay(
       "AllsWellThatEndsWell.html",
       "AllsWellThatEndsWell",
