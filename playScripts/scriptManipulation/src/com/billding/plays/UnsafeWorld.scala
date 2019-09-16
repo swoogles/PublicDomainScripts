@@ -2,6 +2,7 @@ package com.billding.plays
 
 import better.files.Dsl.ls
 import better.files.File
+import zio.{Task, ZIO}
 
 class UnsafeWorld(workingDirectory: File) {
   private val generatedDirectory = workingDirectory.parent / "content" / "generated"
@@ -123,5 +124,8 @@ toc = true
       Seq(menuContent)
     )
   }
+
+//  val writePlaySelectionMenuZio =
+//    ZIO.fromFunction(writePlaySelectionMenu)
 
 }

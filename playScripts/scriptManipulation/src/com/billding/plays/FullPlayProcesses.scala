@@ -2,12 +2,13 @@ package com.billding.plays
 
 import com.billding.plays.parsing.MitHtml
 import better.files.Dsl.cwd
+import zio.{Task, ZIO}
 
 object FullPlayProcesses {
   val workingDirectory = cwd
   val unsafeWorld = new UnsafeWorld(workingDirectory)
 
-  def mainContents() = {
+  def mainContents(): Task[String] = {
 
     romeoAndJuliet()
     aMidSummerNightsDream()
@@ -24,7 +25,13 @@ object FullPlayProcesses {
 
     val playMenu = Rendering.listPlays(allPlays)
 
-    unsafeWorld.writePlaySelectionMenu(playMenu.toString())
+//    unsafeWorld.writePlaySelectionMenuZio.map(_ => "We done")
+    ZIO {
+      unsafeWorld.writePlaySelectionMenu(playMenu.toString())
+      "Sucessfully created character menu"
+    }
+//    ZIO.fromFunction(something  => unsafeWorld.writePlaySelectionMenu(playMenu.toString())).map(something => "We done")
+//    unsafeWorld.writePlaySelectionMenu(playMenu.toString())
   }
 
   val ALL_SCRIPT_VARIANTS: Set[ScriptVariant] =
