@@ -3,12 +3,13 @@ package com.billding.plays
 import com.billding.plays.parsing.MitHtml
 import better.files.Dsl.cwd
 import zio.{Task, ZIO}
+import zio.console._
 
 object FullPlayProcesses {
   val workingDirectory = cwd
   val unsafeWorld = new UnsafeWorld(workingDirectory)
 
-  def mainContents(): Task[String] = {
+  def mainContents(): ZIO[Console, Throwable, Unit] = {
 
     romeoAndJuliet()
       .flatMap(_ => aMidSummerNightsDream())
@@ -70,7 +71,7 @@ object FullPlayProcesses {
       outputPlayName: String,
       scriptVariants: Set[ScriptVariant],
       scriptTyper: String => List[Line]
-  ) = {
+  ): ZIO[Console, Throwable, Unit] = {
     unsafeWorld.getFileAsOneBigString(nameOfFileToParse).flatMap {
       fileContent: String =>
         val typedLinesOutter =
@@ -79,56 +80,62 @@ object FullPlayProcesses {
         val allCharactersDynamic =
           getCharactersWithSpokenLines(typedLinesOutter)
 
-        println(s"Creating script variations for $outputPlayName")
-        for (scriptVariant <- scriptVariants) {
-          println(s"   -${scriptVariant.name}")
+        val lineWriting =
+          (for (scriptVariant <- scriptVariants) yield {
+            putStrLn(s"   -${scriptVariant.name}").flatMap { _ =>
+              val manipulatedScript: List[Line] = Parsing.manipulateScript(
+                typedLinesOutter,
+                scriptVariant.transformation
+              )
 
-          val manipulatedScript: List[Line] = Parsing.manipulateScript(
-            typedLinesOutter,
-            scriptVariant.transformation
-          )
+              val characterAgnosticConnectedLines
+                  : List[Either[Line, ConnectedLine]] =
+                ConnectedLine.makeAllConnectedLines(manipulatedScript)
+              import scalatags.Text // TODO Hrm. Doesn't belong in this file.
+              val htmlOutput: List[Text.TypedTag[String]] =
+                characterAgnosticConnectedLines
+                  .map {
+                    case Left(line) => Rendering.toHtml(line)
+                    case Right(connectedLine) =>
+                      Rendering.toHtml(connectedLine)
+                  }
 
-          val characterAgnosticConnectedLines
-              : List[Either[Line, ConnectedLine]] =
-            ConnectedLine.makeAllConnectedLines(manipulatedScript)
-          import scalatags.Text // TODO Hrm. Doesn't belong in this file.
-          val htmlOutput: List[Text.TypedTag[String]] =
-            characterAgnosticConnectedLines
-              .map {
-                case Left(line) => Rendering.toHtml(line)
-                case Right(connectedLine) =>
-                  Rendering.toHtml(connectedLine)
+              ZIO {
+                unsafeWorld.writeNewLinesForPlay(
+                  outputPlayName,
+                  scriptVariant.name,
+                  htmlOutput.map(_.toString)
+                )
               }
+            }
 
-          unsafeWorld.writeNewLinesForPlay(
-            outputPlayName,
-            scriptVariant.name,
-            htmlOutput.map(_.toString)
+          }).reduce((z1, z2) => z1.flatMap(_ => z2)) // TODO There's DEFINITELY some simple way of reducing these. Is traverse the move here?
+        putStrLn(s"Creating script variations for $outputPlayName")
+          .flatMap(_ => lineWriting)
+          .flatMap(
+            ignored =>
+              ZIO {
+                for (character <- allCharactersDynamic) {
+                  unsafeWorld.createCharacterDirector(character, outputPlayName)
+
+                  unsafeWorld.writeRootCharacterMenu(
+                    Rendering
+                      .characterListMenu(allCharactersDynamic, outputPlayName)
+                      .toString(),
+                    outputPlayName
+                  )
+
+                  val characterScripts: CharacterScripts =
+                    unsafeWorld.getCharacterScripts(character, outputPlayName)
+
+                  val renderedMenu =
+                    Rendering.characterSubdirectory(characterScripts).toString()
+
+                  unsafeWorld.writeMenu(character, renderedMenu, outputPlayName)
+                }
+
+              }
           )
-
-        }
-
-        ZIO {
-          for (character <- allCharactersDynamic) {
-            unsafeWorld.createCharacterDirector(character, outputPlayName)
-
-            unsafeWorld.writeRootCharacterMenu(
-              Rendering
-                .characterListMenu(allCharactersDynamic, outputPlayName)
-                .toString(),
-              outputPlayName
-            )
-
-            val characterScripts: CharacterScripts =
-              unsafeWorld.getCharacterScripts(character, outputPlayName)
-
-            val renderedMenu =
-              Rendering.characterSubdirectory(characterScripts).toString()
-
-            unsafeWorld.writeMenu(character, renderedMenu, outputPlayName)
-          }
-
-        }
     }
 
   }
@@ -137,7 +144,7 @@ object FullPlayProcesses {
       nameOfFileToParse: String,
       outputPlayName: String,
       scriptVariants: Set[ScriptVariant]
-  ): Task[Unit] = {
+  ) = {
     playVariations(
       nameOfFileToParse,
       outputPlayName,
@@ -146,7 +153,7 @@ object FullPlayProcesses {
     )
   }
 
-  def romeoAndJuliet(): Task[Unit] = {
+  def romeoAndJuliet(): ZIO[Console, Throwable, Unit] = {
     mitPlay(
       "shakespeareGoodVersion.html",
       "romeoAndJuliet",
@@ -154,7 +161,7 @@ object FullPlayProcesses {
     )
   }
 
-  def aMidSummerNightsDream(): Task[Unit] = {
+  def aMidSummerNightsDream(): ZIO[Console, Throwable, Unit] = {
     mitPlay(
       "AMidSummerNightsDream.html",
       "AMidSummerNightsDream",
@@ -162,7 +169,7 @@ object FullPlayProcesses {
     )
   }
 
-  def muchAdoAboutNothing(): Task[Unit] = {
+  def muchAdoAboutNothing(): ZIO[Console, Throwable, Unit] = {
     mitPlay(
       "MuchAdoAboutNothing.html",
       "MuchAdoAboutNothing",
@@ -170,7 +177,7 @@ object FullPlayProcesses {
     )
   }
 
-  def hamlet(): Task[Unit] = {
+  def hamlet(): ZIO[Console, Throwable, Unit] = {
     mitPlay(
       "Hamlet.html",
       "Hamlet",
@@ -178,7 +185,7 @@ object FullPlayProcesses {
     )
   }
 
-  def macbeth(): Task[Unit] = {
+  def macbeth(): ZIO[Console, Throwable, Unit] = {
     mitPlay(
       "Macbeth.html",
       "Macbeth",
@@ -186,7 +193,7 @@ object FullPlayProcesses {
     )
   }
 
-  def kingLear(): Task[Unit] = {
+  def kingLear(): ZIO[Console, Throwable, Unit] = {
     mitPlay(
       "KingLear.html",
       "KingLear",
@@ -194,7 +201,7 @@ object FullPlayProcesses {
     )
   }
 
-  def juliusCaesar(): Task[Unit] = {
+  def juliusCaesar(): ZIO[Console, Throwable, Unit] = {
     mitPlay(
       "JuliusCaesar.html",
       "JuliusCaesar",
@@ -202,7 +209,7 @@ object FullPlayProcesses {
     )
   }
 
-  def theTamingOfTheShrew(): Task[Unit] = {
+  def theTamingOfTheShrew(): ZIO[Console, Throwable, Unit] = {
     mitPlay(
       "TheTamingOfTheShrew.html",
       "TheTamingOfTheShrew",
@@ -210,7 +217,7 @@ object FullPlayProcesses {
     )
   }
 
-  def theComedyOfErrors(): Task[Unit] = {
+  def theComedyOfErrors(): ZIO[Console, Throwable, Unit] = {
     mitPlay(
       "TheComedyOfErrors.html",
       "TheComedyOfErrors",
@@ -218,7 +225,7 @@ object FullPlayProcesses {
     )
   }
 
-  def allsWellThatEndsWell(): Task[Unit] = {
+  def allsWellThatEndsWell(): ZIO[Console, Throwable, Unit] = {
     mitPlay(
       "AllsWellThatEndsWell.html",
       "AllsWellThatEndsWell",
@@ -226,7 +233,7 @@ object FullPlayProcesses {
     )
   }
 
-  def othello(): Task[Unit] = {
+  def othello(): ZIO[Console, Throwable, Unit] = {
     mitPlay(
       "Othello.html",
       "Othello",
