@@ -7,7 +7,11 @@ object main extends App {
 
   override def run(args: List[String]): ZIO[Environment, Nothing, Int] = {
 
-    myAppLogic.fold(_ => 1, _ => 0)
+    myAppLogic.fold(failure => {
+      println("Failure: " + failure)
+      println("ouch!")
+      1
+    }, _ => 0)
   }
 
   val myAppLogic =

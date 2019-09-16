@@ -11,17 +11,18 @@ object FullPlayProcesses {
   def mainContents(): Task[String] = {
 
     romeoAndJuliet()
-    aMidSummerNightsDream()
-    muchAdoAboutNothing()
-    hamlet()
-    macbeth()
-    kingLear()
-    juliusCaesar()
-    theTamingOfTheShrew()
-    theComedyOfErrors()
-    othello()
-    // TODO Get my main class figured out / synced with this test
-    ZIO { unsafeWorld.getFilesInGeneratedDir() }
+      .flatMap(_ => aMidSummerNightsDream())
+      .flatMap(_ => muchAdoAboutNothing())
+      .flatMap(_ => hamlet())
+      .flatMap(_ => macbeth())
+      .flatMap(_ => kingLear())
+      .flatMap(_ => juliusCaesar())
+      .flatMap(_ => theTamingOfTheShrew())
+      .flatMap(_ => theComedyOfErrors())
+      .flatMap(_ => othello())
+      .flatMap { _ =>
+        ZIO { unsafeWorld.getFilesInGeneratedDir() }
+      }
       .map { files =>
         Rendering.listPlays(files)
       }
@@ -131,17 +132,19 @@ object FullPlayProcesses {
       nameOfFileToParse: String,
       outputPlayName: String,
       scriptVariants: Set[ScriptVariant]
-  ): Unit = {
-    playVariations(
-      nameOfFileToParse,
-      outputPlayName,
-      scriptVariants,
-      MitHtml.typedLinesFromRawScript
-    )
+  ): Task[Unit] = {
+    ZIO {
+      playVariations(
+        nameOfFileToParse,
+        outputPlayName,
+        scriptVariants,
+        MitHtml.typedLinesFromRawScript
+      )
+    }
 
   }
 
-  def romeoAndJuliet(): Unit = {
+  def romeoAndJuliet(): Task[Unit] = {
     mitPlay(
       "shakespeareGoodVersion.html",
       "romeoAndJuliet",
@@ -149,7 +152,7 @@ object FullPlayProcesses {
     )
   }
 
-  def aMidSummerNightsDream(): Unit = {
+  def aMidSummerNightsDream(): Task[Unit] = {
     mitPlay(
       "AMidSummerNightsDream.html",
       "AMidSummerNightsDream",
@@ -157,7 +160,7 @@ object FullPlayProcesses {
     )
   }
 
-  def muchAdoAboutNothing(): Unit = {
+  def muchAdoAboutNothing(): Task[Unit] = {
     mitPlay(
       "MuchAdoAboutNothing.html",
       "MuchAdoAboutNothing",
@@ -165,7 +168,7 @@ object FullPlayProcesses {
     )
   }
 
-  def hamlet(): Unit = {
+  def hamlet(): Task[Unit] = {
     mitPlay(
       "Hamlet.html",
       "Hamlet",
@@ -173,7 +176,7 @@ object FullPlayProcesses {
     )
   }
 
-  def macbeth(): Unit = {
+  def macbeth(): Task[Unit] = {
     mitPlay(
       "Macbeth.html",
       "Macbeth",
@@ -181,7 +184,7 @@ object FullPlayProcesses {
     )
   }
 
-  def kingLear(): Unit = {
+  def kingLear(): Task[Unit] = {
     mitPlay(
       "KingLear.html",
       "KingLear",
@@ -189,7 +192,7 @@ object FullPlayProcesses {
     )
   }
 
-  def juliusCaesar(): Unit = {
+  def juliusCaesar(): Task[Unit] = {
     mitPlay(
       "JuliusCaesar.html",
       "JuliusCaesar",
@@ -197,7 +200,7 @@ object FullPlayProcesses {
     )
   }
 
-  def theTamingOfTheShrew(): Unit = {
+  def theTamingOfTheShrew(): Task[Unit] = {
     mitPlay(
       "TheTamingOfTheShrew.html",
       "TheTamingOfTheShrew",
@@ -205,7 +208,7 @@ object FullPlayProcesses {
     )
   }
 
-  def theComedyOfErrors(): Unit = {
+  def theComedyOfErrors(): Task[Unit] = {
     mitPlay(
       "TheComedyOfErrors.html",
       "TheComedyOfErrors",
@@ -213,7 +216,7 @@ object FullPlayProcesses {
     )
   }
 
-  def allsWellThatEndsWell(): Unit = {
+  def allsWellThatEndsWell(): Task[Unit] = {
     mitPlay(
       "AllsWellThatEndsWell.html",
       "AllsWellThatEndsWell",
@@ -221,7 +224,7 @@ object FullPlayProcesses {
     )
   }
 
-  def othello(): Unit = {
+  def othello(): Task[Unit] = {
     mitPlay(
       "Othello.html",
       "Othello",
