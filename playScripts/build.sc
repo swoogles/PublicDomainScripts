@@ -15,7 +15,8 @@ object scriptManipulation extends ScalaModule with ScalafmtModule {
     ivy"com.lihaoyi::pprint:0.5.3",
     ivy"com.lihaoyi::fastparse:2.1.3",
     ivy"net.ruippeixotog::scala-scraper:2.1.0",
-    ivy"com.google.guava:guava:28.0-jre"
+    ivy"com.google.guava:guava:28.0-jre",
+    ivy"dev.zio::zio:1.0.0-RC12-1"
 
     )
   object test extends Tests {

@@ -32,9 +32,7 @@ object ConnectedLineToRender {
       cueLineId = idFor(
         connectedLine.cueLine.map(_.index).getOrElse(connectedLine.self.index)
       ),
-      scrollForwardBufferId = idFor(
-        connectedLine.selfScrollForwardBuffer.index
-      ),
+      scrollForwardBufferId = idFor(connectedLine.selfScrollForwardBuffer.index),
       previousBufferId = idFor(
         connectedLine.previousBuffer.index
       ),
