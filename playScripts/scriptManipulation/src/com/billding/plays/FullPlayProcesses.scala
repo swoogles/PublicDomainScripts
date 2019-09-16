@@ -114,27 +114,40 @@ object FullPlayProcesses {
           .flatMap(_ => lineWriting)
           .flatMap(
             ignored =>
-              ZIO {
-                for (character <- allCharactersDynamic) {
-                  unsafeWorld.createCharacterDirector(character, outputPlayName)
+              (for (character <- allCharactersDynamic) yield {
+                unsafeWorld
+                  .createCharacterDirector(character, outputPlayName)
+                  .flatMap {
+                    _ =>
+                      unsafeWorld.writeRootCharacterMenu(
+                        Rendering
+                          .characterListMenu(
+                            allCharactersDynamic,
+                            outputPlayName
+                          )
+                          .toString(),
+                        outputPlayName
+                      )
 
-                  unsafeWorld.writeRootCharacterMenu(
-                    Rendering
-                      .characterListMenu(allCharactersDynamic, outputPlayName)
-                      .toString(),
-                    outputPlayName
-                  )
+                      unsafeWorld
+                        .getCharacterScripts(character, outputPlayName)
+                        .flatMap { characterScripts =>
+                          val renderedMenu =
+                            Rendering
+                              .characterSubdirectory(characterScripts)
+                              .toString()
 
-                  val characterScripts: CharacterScripts =
-                    unsafeWorld.getCharacterScripts(character, outputPlayName)
-
-                  val renderedMenu =
-                    Rendering.characterSubdirectory(characterScripts).toString()
-
-                  unsafeWorld.writeMenu(character, renderedMenu, outputPlayName)
-                }
-
-              }
+                          ZIO {
+                            unsafeWorld
+                              .writeMenu(
+                                character,
+                                renderedMenu,
+                                outputPlayName
+                              )
+                          }
+                        }
+                  }
+              }).reduce((z1, z2) => z1.flatMap(_ => z2)) // TODO There's DEFINITELY some simple way of reducing these. Is traverse the move here?
           )
     }
 

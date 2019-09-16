@@ -10,11 +10,13 @@ class UnsafeWorld(workingDirectory: File) {
   def createCharacterDirector(
       character: PlayCharacter,
       playName: String
-  ): Unit = {
+  ) = {
     val snakeCasedCharacterName = character.normalizedName.upperSnakeCase
 
     val directory = generatedDirectory / playName / snakeCasedCharacterName
-    directory.createDirectories()
+    ZIO {
+      directory.createDirectories()
+    }
   }
 
   def writeNewLinesForPlay(
@@ -62,16 +64,18 @@ class UnsafeWorld(workingDirectory: File) {
   def getCharacterScripts(
       playCharacter: PlayCharacter,
       playName: String
-  ): CharacterScripts = {
+  ): Task[CharacterScripts] = {
     val directory = generatedDirectory / playName
       .replace(" ", "_")
 
-    CharacterScripts(
-      playCharacter,
-      ls(directory).toList
-        .filterNot(_.name.contains("menu"))
-        .filter(_.name.endsWith(".html"))
-    )
+    ZIO {
+      CharacterScripts(
+        playCharacter,
+        ls(directory).toList
+          .filterNot(_.name.contains("menu"))
+          .filter(_.name.endsWith(".html"))
+      )
+    }
   }
 
   private def writeArbitraryContents(
