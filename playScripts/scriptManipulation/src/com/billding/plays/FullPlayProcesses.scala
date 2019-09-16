@@ -21,9 +21,14 @@ object FullPlayProcesses {
     theComedyOfErrors()
     othello()
     // TODO Get my main class figured out / synced with this test
-    val allPlays = unsafeWorld.getFilesInGeneratedDir()
+    val allPlays = ZIO { unsafeWorld.getFilesInGeneratedDir() }
 
-    val playMenu = Rendering.listPlays(allPlays)
+    val playMenu =
+      for {
+        allPlaysValue <- allPlays
+      } yield {
+        Rendering.listPlays(allPlaysValue)
+      }
 
 //    unsafeWorld.writePlaySelectionMenuZio.map(_ => "We done")
     ZIO {
