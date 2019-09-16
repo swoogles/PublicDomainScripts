@@ -73,43 +73,42 @@ object FullPlayProcesses {
   ) = {
     unsafeWorld.getFileAsOneBigString(nameOfFileToParse).flatMap {
       fileContent: String =>
+        val typedLinesOutter =
+          scriptTyper(fileContent)
+
+        val allCharactersDynamic =
+          getCharactersWithSpokenLines(typedLinesOutter)
+
+        println(s"Creating script variations for $outputPlayName")
+        for (scriptVariant <- scriptVariants) {
+          println(s"   -${scriptVariant.name}")
+
+          val manipulatedScript: List[Line] = Parsing.manipulateScript(
+            typedLinesOutter,
+            scriptVariant.transformation
+          )
+
+          val characterAgnosticConnectedLines
+              : List[Either[Line, ConnectedLine]] =
+            ConnectedLine.makeAllConnectedLines(manipulatedScript)
+          import scalatags.Text // TODO Hrm. Doesn't belong in this file.
+          val htmlOutput: List[Text.TypedTag[String]] =
+            characterAgnosticConnectedLines
+              .map {
+                case Left(line) => Rendering.toHtml(line)
+                case Right(connectedLine) =>
+                  Rendering.toHtml(connectedLine)
+              }
+
+          unsafeWorld.writeNewLinesForPlay(
+            outputPlayName,
+            scriptVariant.name,
+            htmlOutput.map(_.toString)
+          )
+
+        }
+
         ZIO {
-
-          val typedLinesOutter =
-            scriptTyper(fileContent)
-
-          val allCharactersDynamic =
-            getCharactersWithSpokenLines(typedLinesOutter)
-
-          println(s"Creating script variations for $outputPlayName")
-          for (scriptVariant <- scriptVariants) {
-            println(s"   -${scriptVariant.name}")
-
-            val manipulatedScript: List[Line] = Parsing.manipulateScript(
-              typedLinesOutter,
-              scriptVariant.transformation
-            )
-
-            val characterAgnosticConnectedLines
-                : List[Either[Line, ConnectedLine]] =
-              ConnectedLine.makeAllConnectedLines(manipulatedScript)
-            import scalatags.Text // TODO Hrm. Doesn't belong in this file.
-            val htmlOutput: List[Text.TypedTag[String]] =
-              characterAgnosticConnectedLines
-                .map {
-                  case Left(line) => Rendering.toHtml(line)
-                  case Right(connectedLine) =>
-                    Rendering.toHtml(connectedLine)
-                }
-
-            unsafeWorld.writeNewLinesForPlay(
-              outputPlayName,
-              scriptVariant.name,
-              htmlOutput.map(_.toString)
-            )
-
-          }
-
           for (character <- allCharactersDynamic) {
             unsafeWorld.createCharacterDirector(character, outputPlayName)
 
