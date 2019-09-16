@@ -119,33 +119,36 @@ object FullPlayProcesses {
                   .createCharacterDirector(character, outputPlayName)
                   .flatMap {
                     _ =>
-                      unsafeWorld.writeRootCharacterMenu(
-                        Rendering
-                          .characterListMenu(
-                            allCharactersDynamic,
-                            outputPlayName
-                          )
-                          .toString(),
-                        outputPlayName
-                      )
-
                       unsafeWorld
-                        .getCharacterScripts(character, outputPlayName)
-                        .flatMap { characterScripts =>
-                          val renderedMenu =
-                            Rendering
-                              .characterSubdirectory(characterScripts)
-                              .toString()
-
-                          ZIO {
+                        .writeRootCharacterMenu(
+                          Rendering
+                            .characterListMenu(
+                              allCharactersDynamic,
+                              outputPlayName
+                            )
+                            .toString(),
+                          outputPlayName
+                        )
+                        .flatMap(
+                          _ =>
                             unsafeWorld
-                              .writeMenu(
-                                character,
-                                renderedMenu,
-                                outputPlayName
-                              )
-                          }
-                        }
+                              .getCharacterScripts(character, outputPlayName)
+                              .flatMap { characterScripts =>
+                                val renderedMenu =
+                                  Rendering
+                                    .characterSubdirectory(characterScripts)
+                                    .toString()
+
+                                ZIO {
+                                  unsafeWorld
+                                    .writeMenu(
+                                      character,
+                                      renderedMenu,
+                                      outputPlayName
+                                    )
+                                }
+                              }
+                        )
                   }
               }).reduce((z1, z2) => z1.flatMap(_ => z2)) // TODO There's DEFINITELY some simple way of reducing these. Is traverse the move here?
           )

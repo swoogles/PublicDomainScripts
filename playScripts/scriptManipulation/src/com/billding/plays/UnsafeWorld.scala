@@ -96,14 +96,16 @@ toc = true
 
   }
 
-  def writeRootCharacterMenu(content: String, playName: String): Unit = {
+  def writeRootCharacterMenu(content: String, playName: String) = {
     val dir = generatedDirectory / playName
     dir.createDirectories()
-    writeArbitraryContents(
-      dir / "character_menu.html",
-      "Choose Your Character",
-      Seq(content)
-    )
+    ZIO {
+      writeArbitraryContents(
+        dir / "character_menu.html",
+        "Choose Your Character",
+        Seq(content)
+      )
+    }
   }
 
   def writeMenu(
