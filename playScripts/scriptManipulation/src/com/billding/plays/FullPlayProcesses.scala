@@ -2,7 +2,6 @@ package com.billding.plays
 
 import com.billding.plays.parsing.MitHtml
 import better.files.Dsl.cwd
-import scalatags.Text
 import zio.{Task, ZIO}
 
 object FullPlayProcesses {
@@ -46,40 +45,24 @@ object FullPlayProcesses {
   def createTypedLines(
       lines: List[String],
       lineTyper: (String, Int) => Line
-  ): List[Line] = {
+  ): List[Line] =
     lines.zipWithIndex
-      .map { case (line, index) => lineTyper(line, index) }
-      .map {
-        case SpokenLine(PlayCharacter(name, description), content, index) =>
-          SpokenLine(
-            PlayCharacter(name, description),
-            content,
-            index
-          )
-        case other => other
-      }
-  }
+      .map(lineTyper.tupled)
 
   def getCharactersWithSpokenLines(
       typedLines: List[Line]
-  ): List[PlayCharacter] = {
+  ): List[PlayCharacter] =
     typedLines
-      .flatMap {
-        case SpokenLine(character, _, _)         => Some(character)
-        case ManipulatedLine(character, _, _, _) => Some(character)
-        case _                                   => None
-      }
-      .map {
-        case PlayCharacter(name, description) =>
-          PlayCharacter(name, description)
+      .collect {
+        case manipulatedLine: ManipulatedLine => manipulatedLine.character
+        case spokenLine: SpokenLine           => spokenLine.character
       }
       // Currently ignoring all group/multi-character lines
       .filter { character =>
         !(character.name.contains(",") || character.name.contains("&"))
       }
       .distinct
-      .sortWith(_.name < _.name)
-  }
+      .sortBy(_.name)
 
   def playVariations(
       nameOfFileToParse: String,
@@ -92,15 +75,6 @@ object FullPlayProcesses {
 
     val typedLinesOutter =
       scriptTyper(fileContent)
-        .map { // TODO encapsulate this normalization of character names elsewhere
-          case SpokenLine(PlayCharacter(name, description), content, index) =>
-            SpokenLine(
-              PlayCharacter(name, description),
-              content,
-              index
-            )
-          case other => other
-        }
 
     val allCharactersDynamic = getCharactersWithSpokenLines(typedLinesOutter)
 
