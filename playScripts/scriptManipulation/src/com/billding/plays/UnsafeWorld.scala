@@ -44,7 +44,7 @@ class UnsafeWorld(workingDirectory: File) {
   }
 
   @deprecated("Use version with folderName")
-  def getFileAsOneBigString(fileName: String) = ZIO {
+  def getFileAsOneBigString(fileName: String): Task[String] = ZIO {
     val betterFile: File = workingDirectory / "publicDomainScripts" / fileName
     betterFile.contentAsString
   }
@@ -56,7 +56,7 @@ class UnsafeWorld(workingDirectory: File) {
   }
 
   def getFilesInGeneratedDir(
-      ): List[File] = {
+      ): Task[List[File]] = ZIO {
     println("Getting files!")
     ls(generatedDirectory).toList.filterNot(_.name.contains("menu"))
   }

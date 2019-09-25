@@ -21,12 +21,8 @@ object FullPlayProcesses {
       .flatMap(_ => theTamingOfTheShrew())
       .flatMap(_ => theComedyOfErrors())
       .flatMap(_ => othello())
-      .flatMap { _ =>
-        ZIO { unsafeWorld.getFilesInGeneratedDir() }
-      }
-      .map { files =>
-        Rendering.listPlays(files)
-      }
+      .flatMap ( _ => unsafeWorld.getFilesInGeneratedDir() )
+      .map { files => Rendering.listPlays(files) }
       .flatMap(
         playMenuText =>
           ZIO {
