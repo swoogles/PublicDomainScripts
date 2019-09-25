@@ -34,11 +34,9 @@ object FullPlayProcesses {
         }
         .flatMap(
           playMenuText =>
-            ZIO {
-              unsafeWorld.writePlaySelectionMenu(playMenuText.toString())
-              "Sucessfully created character menu"
-            }
+            unsafeWorld.writePlaySelectionMenu(playMenuText.toString())
         )
+        .map(_ => "Sucessfully created character menu")
     } else {
 
       romeoAndJuliet()
@@ -57,11 +55,9 @@ object FullPlayProcesses {
         }
         .flatMap(
           playMenuText =>
-            ZIO {
-              unsafeWorld.writePlaySelectionMenu(playMenuText.toString())
-              "Sucessfully created character menu"
-            }
+            unsafeWorld.writePlaySelectionMenu(playMenuText.toString())
         )
+        .map(_ => "Sucessfully created character menu")
 
     }
   }
@@ -130,13 +126,11 @@ object FullPlayProcesses {
                       Rendering.toHtml(connectedLine)
                   }
 
-              ZIO {
-                unsafeWorld.writeNewLinesForPlay(
-                  outputPlayName,
-                  scriptVariant.name,
-                  htmlOutput.map(_.toString)
-                )
-              }
+              unsafeWorld.writeNewLinesForPlay(
+                outputPlayName,
+                scriptVariant.name,
+                htmlOutput.map(_.toString)
+              )
             }
 
           }).reduce((z1, z2) => z1.flatMap(_ => z2)) // TODO There's DEFINITELY some simple way of reducing these. Is traverse the move here?
@@ -169,14 +163,12 @@ object FullPlayProcesses {
                                     .characterSubdirectory(characterScripts)
                                     .toString()
 
-                                ZIO {
-                                  unsafeWorld
-                                    .writeMenu(
-                                      character,
-                                      renderedMenu,
-                                      outputPlayName
-                                    )
-                                }
+                                unsafeWorld
+                                  .writeMenu(
+                                    character,
+                                    renderedMenu,
+                                    outputPlayName
+                                  )
                               }
                         )
                   }

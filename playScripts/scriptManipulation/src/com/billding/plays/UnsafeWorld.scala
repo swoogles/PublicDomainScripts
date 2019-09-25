@@ -2,6 +2,7 @@ package com.billding.plays
 
 import better.files.Dsl.ls
 import better.files.File
+import zio.console.Console
 import zio.{Task, ZIO}
 
 class UnsafeWorld(workingDirectory: File) {
@@ -23,7 +24,7 @@ class UnsafeWorld(workingDirectory: File) {
       play: String,
       scriptVariantName: String,
       newLines: List[String]
-  ): Unit = {
+  ): ZIO[Console, Throwable, Unit] = {
     val dir = generatedDirectory / play
       .replace(" ", "_")
     dir.createDirectories()
@@ -82,7 +83,7 @@ class UnsafeWorld(workingDirectory: File) {
       targetFile: File,
       title: String,
       content: Seq[String]
-  ): Unit = {
+  ): ZIO[Console, Throwable, Unit] = ZIO {
 
     val header = s"""+++
 title = "$title"
@@ -96,23 +97,21 @@ toc = true
 
   }
 
-  def writeRootCharacterMenu(content: String, playName: String) = {
+  def writeRootCharacterMenu(content: String, playName: String): ZIO[Console, Throwable, Unit] = {
     val dir = generatedDirectory / playName
     dir.createDirectories()
-    ZIO {
-      writeArbitraryContents(
-        dir / "character_menu.html",
-        "Choose Your Character",
-        Seq(content)
-      )
-    }
+    writeArbitraryContents(
+      dir / "character_menu.html",
+      "Choose Your Character",
+      Seq(content)
+    )
   }
 
   def writeMenu(
       playCharacter: PlayCharacter,
       menuContent: String,
       playName: String
-  ): Unit = {
+  ): ZIO[Console, Throwable, Unit] = {
     val file = generatedDirectory / playName / playCharacter.normalizedName.upperSnakeCase / "menu.html"
 
     writeArbitraryContents(
@@ -124,7 +123,7 @@ toc = true
 
   def writePlaySelectionMenu(
       menuContent: String
-  ): Unit = {
+  ): ZIO[Console, Throwable, Unit] = {
     writeArbitraryContents(
       generatedDirectory / "menu.html",
       s"All Scripts",
