@@ -11,7 +11,7 @@ object FullProcessesTest extends TestSuite{
       val workingDirectory = cwd
       val unsafeWorld = new UnsafeWorld(workingDirectory)
       val allPlays = unsafeWorld.listFilesInGeneratedDir()
-      val playMenu = Rendering.listPlays(allPlays)
+      val playMenu = Rendering.createPlayMenuContent(allPlays)
       unsafeWorld.writePlaySelectionMenu(playMenu.toString())
   }
 }

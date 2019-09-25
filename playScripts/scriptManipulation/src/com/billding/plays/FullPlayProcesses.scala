@@ -30,7 +30,7 @@ object FullPlayProcesses {
         )
         .flatMap(_ => unsafeWorld.listFilesInGeneratedDir())
         .map { files =>
-          Rendering.listPlays(files)
+          Rendering.createPlayMenuContent(files)
         }
         .flatMap(
           playMenuText =>
@@ -51,7 +51,7 @@ object FullPlayProcesses {
         .flatMap(_ => othello)
         .flatMap(_ => unsafeWorld.listFilesInGeneratedDir())
         .map { files =>
-          Rendering.listPlays(files)
+          Rendering.createPlayMenuContent(files)
         }
         .flatMap(
           playMenuText =>

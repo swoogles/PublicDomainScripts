@@ -158,7 +158,7 @@ object Rendering {
     )
   }
 
-  def listPlays(
+  def createPlayMenuContent(
       plays: List[File]
   ): Text.TypedTag[String] = {
     val scriptLinks =
