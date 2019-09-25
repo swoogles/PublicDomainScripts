@@ -16,16 +16,16 @@ object FullPlayProcesses {
       ZIO
         .collectAllPar(
           Set(
-            aMidSummerNightsDream(),
-            muchAdoAboutNothing(),
-            hamlet(),
-            macbeth(),
-            kingLear(),
-            juliusCaesar(),
-            romeoAndJuliet(),
-            theTamingOfTheShrew(),
-            theComedyOfErrors(),
-            othello()
+            aMidSummerNightsDream,
+            muchAdoAboutNothing,
+            hamlet,
+            macbeth,
+            kingLear,
+            juliusCaesar,
+            romeoAndJuliet,
+            theTamingOfTheShrew,
+            theComedyOfErrors,
+            othello
           )
         )
         .flatMap(_ => unsafeWorld.listFilesInGeneratedDir())
@@ -39,16 +39,16 @@ object FullPlayProcesses {
         .map(_ => "Sucessfully created character menu")
     } else {
 
-      romeoAndJuliet()
-        .flatMap(_ => aMidSummerNightsDream())
-        .flatMap(_ => muchAdoAboutNothing())
-        .flatMap(_ => hamlet())
-        .flatMap(_ => macbeth())
-        .flatMap(_ => kingLear())
-        .flatMap(_ => juliusCaesar())
-        .flatMap(_ => theTamingOfTheShrew())
-        .flatMap(_ => theComedyOfErrors())
-        .flatMap(_ => othello())
+      romeoAndJuliet
+        .flatMap(_ => aMidSummerNightsDream)
+        .flatMap(_ => muchAdoAboutNothing)
+        .flatMap(_ => hamlet)
+        .flatMap(_ => macbeth)
+        .flatMap(_ => kingLear)
+        .flatMap(_ => juliusCaesar)
+        .flatMap(_ => theTamingOfTheShrew)
+        .flatMap(_ => theComedyOfErrors)
+        .flatMap(_ => othello)
         .flatMap(_ => unsafeWorld.listFilesInGeneratedDir())
         .map { files =>
           Rendering.listPlays(files)
@@ -191,92 +191,81 @@ object FullPlayProcesses {
     )
   }
 
-  private def romeoAndJuliet() = {
+  private val romeoAndJuliet =
     mitPlay(
       "shakespeareGoodVersion.html",
       "romeoAndJuliet",
       ALL_SCRIPT_VARIANTS
     )
-  }
 
-  private def aMidSummerNightsDream() = {
+  private val aMidSummerNightsDream =
     mitPlay(
       "AMidSummerNightsDream.html",
       "AMidSummerNightsDream",
       ALL_SCRIPT_VARIANTS
     )
-  }
 
-  private def muchAdoAboutNothing() = {
+  private val muchAdoAboutNothing =
     mitPlay(
       "MuchAdoAboutNothing.html",
       "MuchAdoAboutNothing",
       ALL_SCRIPT_VARIANTS
     )
-  }
 
-  private def hamlet() = {
+  private val hamlet =
     mitPlay(
       "Hamlet.html",
       "Hamlet",
       ALL_SCRIPT_VARIANTS
     )
-  }
 
-  private def macbeth() = {
+  private val macbeth =
     mitPlay(
       "Macbeth.html",
       "Macbeth",
       ALL_SCRIPT_VARIANTS
     )
-  }
 
-  private def kingLear() = {
+  private val kingLear =
     mitPlay(
       "KingLear.html",
       "KingLear",
       ALL_SCRIPT_VARIANTS
     )
-  }
 
-  private def juliusCaesar() = {
+  private val juliusCaesar =
     mitPlay(
       "JuliusCaesar.html",
       "JuliusCaesar",
       ALL_SCRIPT_VARIANTS
     )
-  }
 
-  private def theTamingOfTheShrew() = {
+  private val theTamingOfTheShrew =
     mitPlay(
       "TheTamingOfTheShrew.html",
       "TheTamingOfTheShrew",
       ALL_SCRIPT_VARIANTS
     )
-  }
 
-  private def theComedyOfErrors() = {
+  private val theComedyOfErrors =
     mitPlay(
       "TheComedyOfErrors.html",
       "TheComedyOfErrors",
       ALL_SCRIPT_VARIANTS
     )
-  }
 
-  private def allsWellThatEndsWell() = {
+  private val allsWellThatEndsWell =
     mitPlay(
       "AllsWellThatEndsWell.html",
       "AllsWellThatEndsWell",
       ALL_SCRIPT_VARIANTS
     )
-  }
 
-  def othello(): ZIO[Console, Throwable, Unit] = {
+  val othello: ZIO[Console, Throwable, Unit] =
     mitPlay(
       "Othello.html",
       "Othello",
       ALL_SCRIPT_VARIANTS
     )
-  }
 
 }
