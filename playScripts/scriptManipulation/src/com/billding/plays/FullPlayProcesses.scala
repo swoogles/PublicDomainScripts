@@ -2,7 +2,7 @@ package com.billding.plays
 
 import com.billding.plays.parsing.MitHtml
 import better.files.Dsl.cwd
-import zio.{Task, ZIO}
+import zio.{Fiber, Task, ZIO}
 import zio.console._
 
 object FullPlayProcesses {
@@ -10,26 +10,60 @@ object FullPlayProcesses {
   val unsafeWorld = new UnsafeWorld(workingDirectory)
 
   def mainContents(): ZIO[Console, Throwable, Unit] = {
+    val parallel = true
 
-    romeoAndJuliet()
-      .flatMap(_ => aMidSummerNightsDream())
-      .flatMap(_ => muchAdoAboutNothing())
-      .flatMap(_ => hamlet())
-      .flatMap(_ => macbeth())
-      .flatMap(_ => kingLear())
-      .flatMap(_ => juliusCaesar())
-      .flatMap(_ => theTamingOfTheShrew())
-      .flatMap(_ => theComedyOfErrors())
-      .flatMap(_ => othello())
-      .flatMap ( _ => unsafeWorld.getFilesInGeneratedDir() )
-      .map { files => Rendering.listPlays(files) }
-      .flatMap(
-        playMenuText =>
-          ZIO {
-            unsafeWorld.writePlaySelectionMenu(playMenuText.toString())
-            "Sucessfully created character menu"
-          }
-      )
+    if (parallel) {
+      ZIO
+        .collectAllPar(
+          Set(
+            aMidSummerNightsDream(),
+            muchAdoAboutNothing(),
+            hamlet(),
+            macbeth(),
+            kingLear(),
+            juliusCaesar(),
+            romeoAndJuliet(),
+            theTamingOfTheShrew(),
+            theComedyOfErrors(),
+            othello()
+          )
+        )
+        .flatMap(_ => unsafeWorld.getFilesInGeneratedDir())
+        .map { files =>
+          Rendering.listPlays(files)
+        }
+        .flatMap(
+          playMenuText =>
+            ZIO {
+              unsafeWorld.writePlaySelectionMenu(playMenuText.toString())
+              "Sucessfully created character menu"
+            }
+        )
+    } else {
+
+      romeoAndJuliet()
+        .flatMap(_ => aMidSummerNightsDream())
+        .flatMap(_ => muchAdoAboutNothing())
+        .flatMap(_ => hamlet())
+        .flatMap(_ => macbeth())
+        .flatMap(_ => kingLear())
+        .flatMap(_ => juliusCaesar())
+        .flatMap(_ => theTamingOfTheShrew())
+        .flatMap(_ => theComedyOfErrors())
+        .flatMap(_ => othello())
+        .flatMap(_ => unsafeWorld.getFilesInGeneratedDir())
+        .map { files =>
+          Rendering.listPlays(files)
+        }
+        .flatMap(
+          playMenuText =>
+            ZIO {
+              unsafeWorld.writePlaySelectionMenu(playMenuText.toString())
+              "Sucessfully created character menu"
+            }
+        )
+
+    }
   }
 
   val ALL_SCRIPT_VARIANTS: Set[ScriptVariant] =
