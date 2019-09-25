@@ -4,6 +4,7 @@ import better.files.Dsl.ls
 import better.files.File
 import zio.console.Console
 import zio.{Task, ZIO}
+import zio.console._
 
 class UnsafeWorld(workingDirectory: File) {
   private val generatedDirectory = workingDirectory.parent / "content" / "generated"
@@ -39,11 +40,6 @@ class UnsafeWorld(workingDirectory: File) {
     )
   }
 
-  def getFileLines(fileName: String): List[String] = {
-    val betterFile: File = workingDirectory / fileName
-    betterFile.contentAsString.split("\n").toList
-  }
-
   @deprecated("Use version with folderName")
   def getFileAsOneBigString(fileName: String): Task[String] = ZIO {
     val betterFile: File = workingDirectory / "publicDomainScripts" / fileName
@@ -56,11 +52,14 @@ class UnsafeWorld(workingDirectory: File) {
     betterFile.contentAsString
   }
 
-  def getFilesInGeneratedDir(
-      ): Task[List[File]] = ZIO {
-    println("Getting files!")
-    ls(generatedDirectory).toList.filterNot(_.name.contains("menu"))
-  }
+  def listFilesInGeneratedDir(
+      ) =
+    putStrLn("Getting files!")
+      .flatMap { _ =>
+        ZIO {
+          ls(generatedDirectory).toList.filterNot(_.name.contains("menu"))
+        }
+      }
 
   def getCharacterScripts(
       playCharacter: PlayCharacter,
@@ -70,13 +69,10 @@ class UnsafeWorld(workingDirectory: File) {
       .replace(" ", "_")
 
     ZIO {
-      CharacterScripts(
-        playCharacter,
-        ls(directory).toList
-          .filterNot(_.name.contains("menu"))
-          .filter(_.name.endsWith(".html"))
-      )
-    }
+      ls(directory).toList
+        .filterNot(_.name.contains("menu"))
+        .filter(_.name.endsWith(".html"))
+    }.map(files => CharacterScripts(playCharacter, files))
   }
 
   private def writeArbitraryContents(
@@ -97,7 +93,10 @@ toc = true
 
   }
 
-  def writeRootCharacterMenu(content: String, playName: String): ZIO[Console, Throwable, Unit] = {
+  def writeRootCharacterMenu(
+      content: String,
+      playName: String
+  ): ZIO[Console, Throwable, Unit] = {
     val dir = generatedDirectory / playName
     dir.createDirectories()
     writeArbitraryContents(

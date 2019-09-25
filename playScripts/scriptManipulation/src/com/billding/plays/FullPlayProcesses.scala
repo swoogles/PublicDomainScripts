@@ -28,7 +28,7 @@ object FullPlayProcesses {
             othello()
           )
         )
-        .flatMap(_ => unsafeWorld.getFilesInGeneratedDir())
+        .flatMap(_ => unsafeWorld.listFilesInGeneratedDir())
         .map { files =>
           Rendering.listPlays(files)
         }
@@ -49,7 +49,7 @@ object FullPlayProcesses {
         .flatMap(_ => theTamingOfTheShrew())
         .flatMap(_ => theComedyOfErrors())
         .flatMap(_ => othello())
-        .flatMap(_ => unsafeWorld.getFilesInGeneratedDir())
+        .flatMap(_ => unsafeWorld.listFilesInGeneratedDir())
         .map { files =>
           Rendering.listPlays(files)
         }
