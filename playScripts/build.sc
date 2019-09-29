@@ -8,9 +8,6 @@ object scriptManipulation extends ScalaModule with ScalafmtModule {
   def scalaVersion = "2.12.7"
   override def ivyDeps = Agg(
     ivy"com.github.pathikrit::better-files:3.7.1",
-    ivy"io.circe::circe-core:0.10.0",
-    ivy"io.circe::circe-generic:0.10.0",
-    ivy"io.circe::circe-parser:0.10.0",
     ivy"com.lihaoyi::scalatags:0.6.7",
     ivy"com.lihaoyi::pprint:0.5.3",
     ivy"com.lihaoyi::fastparse:2.1.3",
