@@ -166,18 +166,19 @@ object FullPlayProcesses {
   ) = {
     unsafeWorld
       .createCharacterDirectory(character, outputPlayName)
-      .flatMap { _ =>
-        unsafeWorld
-          .writeRootCharacterMenu(
-            Rendering
-              .characterListMenu(
-                allCharactersDynamic,
-                outputPlayName
-              )
-              .toString(),
-            outputPlayName
-          )
-      }
+      .flatMap(
+        _ =>
+          unsafeWorld
+            .writeRootCharacterMenu(
+              Rendering
+                .characterListMenu(
+                  allCharactersDynamic,
+                  outputPlayName
+                )
+                .toString(),
+              outputPlayName
+            )
+      )
       .flatMap(
         _ =>
           unsafeWorld
@@ -198,94 +199,46 @@ object FullPlayProcesses {
       }
   }
 
-  private def mitPlay(
-      nameOfFileToParse: String,
-      outputPlayName: String,
-      scriptVariants: Set[ScriptVariant]
-  ) = {
+  private def mitPlay(nameOfFileToParse: String, outputPlayName: String) = {
     playVariations(
       nameOfFileToParse,
       outputPlayName,
-      scriptVariants,
+      ALL_SCRIPT_VARIANTS,
       MitHtml.typedLinesFromRawScript
     )
   }
 
   private val romeoAndJuliet =
-    mitPlay(
-      "shakespeareGoodVersion.html",
-      "romeoAndJuliet",
-      ALL_SCRIPT_VARIANTS
-    )
+    mitPlay("shakespeareGoodVersion.html", "romeoAndJuliet")
 
   private val aMidSummerNightsDream =
-    mitPlay(
-      "AMidSummerNightsDream.html",
-      "AMidSummerNightsDream",
-      ALL_SCRIPT_VARIANTS
-    )
+    mitPlay("AMidSummerNightsDream.html", "AMidSummerNightsDream")
 
   private val muchAdoAboutNothing =
-    mitPlay(
-      "MuchAdoAboutNothing.html",
-      "MuchAdoAboutNothing",
-      ALL_SCRIPT_VARIANTS
-    )
+    mitPlay("MuchAdoAboutNothing.html", "MuchAdoAboutNothing")
 
   private val hamlet =
-    mitPlay(
-      "Hamlet.html",
-      "Hamlet",
-      ALL_SCRIPT_VARIANTS
-    )
+    mitPlay("Hamlet.html", "Hamlet")
 
   private val macbeth =
-    mitPlay(
-      "Macbeth.html",
-      "Macbeth",
-      ALL_SCRIPT_VARIANTS
-    )
+    mitPlay("Macbeth.html", "Macbeth")
 
   private val kingLear =
-    mitPlay(
-      "KingLear.html",
-      "KingLear",
-      ALL_SCRIPT_VARIANTS
-    )
+    mitPlay("KingLear.html", "KingLear")
 
   private val juliusCaesar =
-    mitPlay(
-      "JuliusCaesar.html",
-      "JuliusCaesar",
-      ALL_SCRIPT_VARIANTS
-    )
+    mitPlay("JuliusCaesar.html", "JuliusCaesar")
 
   private val theTamingOfTheShrew =
-    mitPlay(
-      "TheTamingOfTheShrew.html",
-      "TheTamingOfTheShrew",
-      ALL_SCRIPT_VARIANTS
-    )
+    mitPlay("TheTamingOfTheShrew.html", "TheTamingOfTheShrew")
 
   private val theComedyOfErrors =
-    mitPlay(
-      "TheComedyOfErrors.html",
-      "TheComedyOfErrors",
-      ALL_SCRIPT_VARIANTS
-    )
+    mitPlay("TheComedyOfErrors.html", "TheComedyOfErrors")
 
   private val allsWellThatEndsWell =
-    mitPlay(
-      "AllsWellThatEndsWell.html",
-      "AllsWellThatEndsWell",
-      ALL_SCRIPT_VARIANTS
-    )
+    mitPlay("AllsWellThatEndsWell.html", "AllsWellThatEndsWell")
 
   val othello: ZIO[Console, Throwable, List[Unit]] =
-    mitPlay(
-      "Othello.html",
-      "Othello",
-      ALL_SCRIPT_VARIANTS
-    )
+    mitPlay("Othello.html", "Othello")
 
 }
