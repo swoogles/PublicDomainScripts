@@ -7,10 +7,10 @@ import zio.{Fiber, Task, ZIO}
 import zio.console._
 
 object FullPlayProcesses {
-  val workingDirectory = cwd
-  val unsafeWorld = new UnsafeWorld(workingDirectory)
+  private val workingDirectory = cwd
+  private val unsafeWorld = new UnsafeWorld(workingDirectory)
 
-  def mainContents(): ZIO[Console, Throwable, Unit] = {
+  def mainContents(): ZIO[Console, Throwable, String] = {
     val parallel = true
 
     if (parallel) {
@@ -30,29 +30,25 @@ object FullPlayProcesses {
           )
         )
         .flatMap(_ => unsafeWorld.listFilesInGeneratedDir())
-        .map { files =>
-          Rendering.createPlayMenuContent(files)
-        }
-        .flatMap(
-          playMenuText =>
-            unsafeWorld.writePlaySelectionMenu(playMenuText.toString())
-        )
+        .flatMap( files => createAndWritePlaySelectionPage(files) )
         .map(_ => "Sucessfully created character menu")
     } else {
 
-      romeoAndJuliet
-        .flatMap(_ => aMidSummerNightsDream)
-        .flatMap(_ => muchAdoAboutNothing)
-        .flatMap(_ => hamlet)
-        .flatMap(_ => macbeth)
-        .flatMap(_ => kingLear)
-        .flatMap(_ => juliusCaesar)
-        .flatMap(_ => theTamingOfTheShrew)
-        .flatMap(_ => theComedyOfErrors)
-        .flatMap(_ => othello)
-        .flatMap(_ => unsafeWorld.listFilesInGeneratedDir())
-        .flatMap(files => createAndWritePlaySelectionPage(files))
-        .flatMap(_ => ZIO("Sucessfully created character menu"))
+      for {
+        _ <- romeoAndJuliet
+        _ <- aMidSummerNightsDream
+        _ <- muchAdoAboutNothing
+        _ <- hamlet
+        _ <- macbeth
+        _ <- kingLear
+        _ <- juliusCaesar
+        _ <- theTamingOfTheShrew
+        _ <- theComedyOfErrors
+        _ <- othello
+        files <- unsafeWorld.listFilesInGeneratedDir()
+        _ <- createAndWritePlaySelectionPage(files)
+        _ <- ZIO("Sucessfully created character menu")
+      } yield { "Sucessfully created character menu" }
 
     }
   }
