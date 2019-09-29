@@ -1,6 +1,7 @@
 // Turn this project into a Scala.js project by importing these settings
 enablePlugins(ScalaJSPlugin)
 enablePlugins(ScalaJSBundlerPlugin)
+// TODO Get scalafmt in the mix here
 
 name := "Example"
 
