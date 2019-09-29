@@ -106,7 +106,7 @@ object FullPlayProcesses {
         val allCharactersDynamic =
           getCharactersWithSpokenLines(typedLinesOutter)
 
-        val lineWriting =
+        val lineWriting: ZIO[Console, Throwable, Unit] =
           (for (scriptVariant <- scriptVariants) yield {
             putStrLn(s"   -${scriptVariant.name}").flatMap { _ =>
               val manipulatedScript: List[Line] = Parsing.manipulateScript(
@@ -134,13 +134,14 @@ object FullPlayProcesses {
             }
 
           }).reduce((z1, z2) => z1.flatMap(_ => z2)) // TODO There's DEFINITELY some simple way of reducing these. Is traverse the move here?
+
         putStrLn(s"Creating script variations for $outputPlayName")
           .flatMap(_ => lineWriting)
           .flatMap(
             ignored =>
               (for (character <- allCharactersDynamic) yield {
                 unsafeWorld
-                  .createCharacterDirector(character, outputPlayName)
+                  .createCharacterDirectory(character, outputPlayName)
                   .flatMap {
                     _ =>
                       unsafeWorld

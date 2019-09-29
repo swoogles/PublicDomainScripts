@@ -9,7 +9,7 @@ import zio.console._
 class UnsafeWorld(workingDirectory: File) {
   private val generatedDirectory = workingDirectory.parent / "content" / "generated"
 
-  def createCharacterDirector(
+  def createCharacterDirectory(
       character: PlayCharacter,
       playName: String
   ) = {
