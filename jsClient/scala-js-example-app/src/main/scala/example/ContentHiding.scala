@@ -9,6 +9,12 @@ object ContentHiding {
   private def hide(element: JQuery): Unit =
     element.css("display", "none")
 
+  def hideInstantly(selector: String): JQuery =
+    jquery(selector).hide(0)
+
+  def reveal(selector: String): JQuery =
+    jquery(selector).attr("hidden", false)
+
   private def displayInline(element: JQuery): Unit =
     element.css("display", "inline")
 

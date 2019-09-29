@@ -43,62 +43,54 @@ object ScriptNavigation {
   }
 
   def setupScriptNavigationOrHideControls() {
-
     // TODO get query param character here.
     // dom.document.URL
     // val fields=temp_url.split("&").map(js.URIUtils.decodeURIComponent)
-    println("The freshest.")
     val targetCharacterWithPrefix = dom.window.location.toString.dropWhile(_ != '=')
-    val targetCharacter = if (!targetCharacterWithPrefix.isEmpty) targetCharacterWithPrefix.tail else "NO_TARGET_CHARACTER"
-    println("crudely retrieved character: " + targetCharacter)
+    val targetCharacterAttempt: Option[String] = if (!targetCharacterWithPrefix.isEmpty) Some(targetCharacterWithPrefix.tail) else None
+    targetCharacterAttempt.foreach( targetCharacter => { // Only setup controls if there is a character selected
+      println("crudely retrieved character: " + targetCharacter)
 
-    val targetCharacterLines = jquery(s".$targetCharacter")
-    println("Number of character lines: " + targetCharacterLines.length)
+      val targetCharacterLines = jquery(s".$targetCharacter")
 
-    if (targetCharacterLines.length == 0) { // There are no characters, so we're not viewing a script that needs controls.
-      jquery(".one-row-layout").hide(0)
-      jquery(".two-row-layout").hide(0)
-    }
-    else if(dom.document.URL.contains(s"$TARGET_SCRIPT_VARIATION/")) { // What an ugly way to work with this for the time being
-      println("Should show two row layout")
-      jquery(".two-row-layout").attr("hidden",false)
-    } else {
-      println("Should show one row layout")
-      jquery(".one-row-layout").attr("hidden",false)
-    }
-    println("HI!")
+      if (targetCharacterLines.length == 0) { // There are no characters, so we're not viewing a script that needs controls.
+        ContentHiding.hideInstantly(".one-row-layout")
+        ContentHiding.hideInstantly(".two-row-layout")
+      }
+      else if (dom.document.URL.contains(s"$TARGET_SCRIPT_VARIATION/")) { // What an ugly way to work with this for the time being
+        ContentHiding.reveal(".two-row-layout")
+      } else {
+        ContentHiding.reveal(".one-row-layout")
+      }
+
+        val firstCharacterLine = targetCharacterLines.get(0)
+        nextLineId = firstCharacterLine.id
+        previousLineId = firstCharacterLine.id
+
+        def getPrevLineId(): String = previousLineId
+
+        def getNextLineId(): String = nextLineId
+
+        targetCharacterLines
+          .click(ContentHiding.toggleContent _)
+
+        jquery(".scroll-to-next-line")
+          .click { _: JQueryEventObject => scrollToElementWithBuffer(getNextLineId, Next) }
+
+        jquery(".scroll-to-next-line-big")
+          .click { _: JQueryEventObject => iterateToElement(getNextLineId, 10, Next) }
+
+        jquery(".scroll-to-previous-line")
+          .click { _: JQueryEventObject => scrollToElementWithBuffer(getPrevLineId, Prev) }
+
+        jquery(".scroll-to-previous-line-big")
+          .click { _: JQueryEventObject => iterateToElement(getPrevLineId, 10, Prev) }
+
+        targetCharacterLines.each((index, line) => ContentHiding.toggleContentInJqueryElement(line))
+        targetCharacterLines.each((index, line) => jquery(line).addClass("targetCharacter"))
 
 
-    if (targetCharacterLines.length == 0) {
-      // It's not a script, so there's no need to setup the controls.
-    } else {
-      val firstCharacterLine = targetCharacterLines.get(0)
-      nextLineId = firstCharacterLine.id
-      previousLineId = firstCharacterLine.id
-
-      def getPrevLineId(): String = previousLineId
-
-      def getNextLineId(): String = nextLineId
-
-      targetCharacterLines
-        .click(ContentHiding.toggleContent _)
-
-      jquery(".scroll-to-next-line")
-        .click { _: JQueryEventObject => scrollToElementWithBuffer(getNextLineId, Next) }
-
-      jquery(".scroll-to-next-line-big")
-        .click { _: JQueryEventObject => iterateToElement(getNextLineId, 10, Next) }
-
-      jquery(".scroll-to-previous-line")
-        .click { _: JQueryEventObject => scrollToElementWithBuffer(getPrevLineId, Prev) }
-
-      jquery(".scroll-to-previous-line-big")
-        .click { _: JQueryEventObject => iterateToElement(getPrevLineId, 10, Prev) }
-
-    targetCharacterLines.each( (index, line) => ContentHiding.toggleContentInJqueryElement(line))
-    targetCharacterLines.each( (index, line) => jquery(line).addClass("targetCharacter"))
-
-    }
+      })
   }
 
 }
