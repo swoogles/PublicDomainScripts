@@ -3,7 +3,7 @@ package com.billding.plays
 import com.billding.plays.parsing.MitHtml
 import better.files.Dsl.cwd
 import better.files.File
-import zio.{Fiber, Task, ZIO}
+import zio.ZIO
 import zio.console._
 
 object FullPlayProcesses {
@@ -30,7 +30,7 @@ object FullPlayProcesses {
           )
         )
         .flatMap(_ => unsafeWorld.listFilesInGeneratedDir())
-        .flatMap( files => createAndWritePlaySelectionPage(files) )
+        .flatMap(files => createAndWritePlaySelectionPage(files))
         .map(_ => "Sucessfully created character menu")
     } else {
 
@@ -93,7 +93,7 @@ object FullPlayProcesses {
       outputPlayName: String,
       scriptVariants: Set[ScriptVariant],
       scriptTyper: String => List[Line]
-  ): ZIO[Console, Throwable, Unit] = {
+  ): ZIO[Console, Throwable, List[Unit]] = {
     unsafeWorld.getFileAsOneBigString(nameOfFileToParse).flatMap {
       fileContent: String =>
         val typedLinesOutter =
@@ -102,8 +102,8 @@ object FullPlayProcesses {
         val allCharactersDynamic =
           getCharactersWithSpokenLines(typedLinesOutter)
 
-        val lineWriting: ZIO[Console, Throwable, Unit] =
-          (for (scriptVariant <- scriptVariants) yield {
+        val lineWriting: Set[ZIO[Console, Throwable, Unit]] =
+          for (scriptVariant <- scriptVariants) yield {
             putStrLn(s"   -${scriptVariant.name}").flatMap { _ =>
               val manipulatedScript: List[Line] = Parsing.manipulateScript(
                 typedLinesOutter,
@@ -129,48 +129,47 @@ object FullPlayProcesses {
               )
             }
 
-          }).reduce((z1, z2) => z1.flatMap(_ => z2)) // TODO There's DEFINITELY some simple way of reducing these. Is traverse the move here?
+          }
+
+        val characterSpecificWork: List[ZIO[Console, Throwable, Unit]] =
+          for (character <- allCharactersDynamic) yield {
+            unsafeWorld
+              .createCharacterDirectory(character, outputPlayName)
+              .flatMap { _ =>
+                unsafeWorld
+                  .writeRootCharacterMenu(
+                    Rendering
+                      .characterListMenu(
+                        allCharactersDynamic,
+                        outputPlayName
+                      )
+                      .toString(),
+                    outputPlayName
+                  )
+              }
+              .flatMap(
+                _ =>
+                  unsafeWorld
+                    .getCharacterScripts(character, outputPlayName)
+              )
+              .flatMap { characterScripts =>
+                val renderedMenu =
+                  Rendering
+                    .characterSubdirectory(characterScripts)
+                    .toString()
+
+                unsafeWorld
+                  .writeMenu(
+                    character,
+                    renderedMenu,
+                    outputPlayName
+                  )
+              }
+          }
 
         putStrLn(s"Creating script variations for $outputPlayName")
-          .flatMap(_ => lineWriting)
-          .flatMap(
-            ignored =>
-              (for (character <- allCharactersDynamic) yield {
-                unsafeWorld
-                  .createCharacterDirectory(character, outputPlayName)
-                  .flatMap {
-                    _ =>
-                      unsafeWorld
-                        .writeRootCharacterMenu(
-                          Rendering
-                            .characterListMenu(
-                              allCharactersDynamic,
-                              outputPlayName
-                            )
-                            .toString(),
-                          outputPlayName
-                        )
-                        .flatMap(
-                          _ =>
-                            unsafeWorld
-                              .getCharacterScripts(character, outputPlayName)
-                              .flatMap { characterScripts =>
-                                val renderedMenu =
-                                  Rendering
-                                    .characterSubdirectory(characterScripts)
-                                    .toString()
-
-                                unsafeWorld
-                                  .writeMenu(
-                                    character,
-                                    renderedMenu,
-                                    outputPlayName
-                                  )
-                              }
-                        )
-                  }
-              }).reduce((z1, z2) => z1.flatMap(_ => z2)) // TODO There's DEFINITELY some simple way of reducing these. Is traverse the move here?
-          )
+          .flatMap(_ => ZIO.collectAll(lineWriting))
+          .flatMap(ignored => ZIO.collectAll(characterSpecificWork))
     }
 
   }
@@ -258,7 +257,7 @@ object FullPlayProcesses {
       ALL_SCRIPT_VARIANTS
     )
 
-  val othello: ZIO[Console, Throwable, Unit] =
+  val othello: ZIO[Console, Throwable, List[Unit]] =
     mitPlay(
       "Othello.html",
       "Othello",
