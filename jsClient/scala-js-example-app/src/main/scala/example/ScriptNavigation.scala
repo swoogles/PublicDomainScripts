@@ -4,10 +4,11 @@ import org.scalajs.dom
 import dom.document.getElementById
 import org.scalajs.jquery.{JQuery, JQueryEventObject}
 
-class CurrentTargets(
-               var previousLineId: String,
-               var nextLineId: String
-             )
+class CurrentTarget( var connectedLine: ConnectedLine ) {
+  def updateTarget (targetId: CurrentTarget => String): Unit =
+    this.connectedLine = ConnectedLine(getElementById(targetId(this)))
+}
+
 
 object ScriptNavigation {
   var targetCharacterLines: JQuery = _
@@ -16,31 +17,24 @@ object ScriptNavigation {
 //    "full_script_with_lines_highlighted"
   "completely_blank_lines_with_spoken_cues"
 
-  private def iterateToElement(targetId: (CurrentTargets) => String, numSteps: Int, scrollingTarget: ScrollingTarget, currentTargets: CurrentTargets): Unit = {
-    val targetLine = getElementById(targetId(currentTargets))
-    val targetLineTyped = ConnectedLine(targetLine)
+  private def iterateToElement(targetId: (CurrentTarget) => String, numSteps: Int, scrollingTarget: ScrollingTarget, currentTarget: CurrentTarget): Unit = {
+    currentTarget.updateTarget(targetId)
 
-    currentTargets.nextLineId = targetLineTyped.nextLineId
-    currentTargets.previousLineId = targetLineTyped.previousLineId
     if( numSteps > 0)
-      iterateToElement(targetId, numSteps -1, scrollingTarget, currentTargets)
+      iterateToElement(targetId, numSteps -1, scrollingTarget, currentTarget)
     else
-      scrollToElementWithBuffer(targetId, scrollingTarget, currentTargets)
+      scrollToElementWithBuffer(targetId, scrollingTarget, currentTarget)
   }
 
-  private def scrollToElementWithBuffer(targetId: (CurrentTargets) => String, scrollingTarget: ScrollingTarget, currentTargets: CurrentTargets): Unit = {
-    val targetLine = getElementById(targetId(currentTargets))
-    val targetLineTyped = ConnectedLine(targetLine)
-
-    currentTargets.nextLineId = targetLineTyped.nextLineId
-    currentTargets.previousLineId = targetLineTyped.previousLineId
+  private def scrollToElementWithBuffer(targetId: (CurrentTarget) => String, scrollingTarget: ScrollingTarget, currentTarget: CurrentTarget): Unit = {
+    currentTarget.updateTarget(targetId)
 
     if(dom.document.URL.contains(s"$TARGET_SCRIPT_VARIATION/")) { // What an ugly way to work with this for the time being
-      targetLineTyped.cueLine.scrollIntoView(true)
+      currentTarget.connectedLine.cueLine.scrollIntoView(true)
 
-      SpeechClient.speak(targetLineTyped.cueLineContent)
+      SpeechClient.speak(currentTarget.connectedLine.cueLineContent)
     } else {
-      targetLineTyped.dataScrollBuffer.scrollIntoView(false)
+      currentTarget.connectedLine.dataScrollBuffer.scrollIntoView(false)
     }
   }
 
@@ -56,7 +50,7 @@ object ScriptNavigation {
   }
 
   def setupScriptNavigationOrHideControls() {
-    println("3:36")
+    println("3:54")
 
     val targetCharacterAttempt: Option[String] = getCurrentCharacterName(dom.window.location.toString)
     targetCharacterAttempt.foreach( targetCharacter => { // Only setup controls if there is a character selected
@@ -79,19 +73,19 @@ object ScriptNavigation {
         targetCharacterLines
           .click(ContentHiding.toggleContent _)
 
-        val currentTargets = new CurrentTargets(firstCharacterLine.id, firstCharacterLine.id)
+        val currentTarget = new CurrentTarget(ConnectedLine(getElementById(firstCharacterLine.id)))
 
         jquery(".scroll-to-next-line")
-          .click { _: JQueryEventObject => scrollToElementWithBuffer(_.nextLineId, Next, currentTargets) }
+          .click { _: JQueryEventObject => scrollToElementWithBuffer(_.connectedLine.nextLineId, Next, currentTarget) }
 
         jquery(".scroll-to-next-line-big")
-          .click { _: JQueryEventObject => iterateToElement(_.nextLineId, 10, Next, currentTargets) }
+          .click { _: JQueryEventObject => iterateToElement(_.connectedLine.nextLineId, 10, Next, currentTarget) }
 
         jquery(".scroll-to-previous-line")
-          .click { _: JQueryEventObject => scrollToElementWithBuffer(_.previousLineId, Prev, currentTargets) }
+          .click { _: JQueryEventObject => scrollToElementWithBuffer(_.connectedLine.previousLineId, Prev, currentTarget) }
 
         jquery(".scroll-to-previous-line-big")
-          .click { _: JQueryEventObject => iterateToElement(_.previousLineId, 10, Prev, currentTargets) }
+          .click { _: JQueryEventObject => iterateToElement(_.connectedLine.previousLineId, 10, Prev, currentTarget) }
 
         targetCharacterLines.each((index, line) => ContentHiding.toggleContentInJqueryElement(line))
         targetCharacterLines.each((index, line) => jquery(line).addClass("targetCharacter"))
