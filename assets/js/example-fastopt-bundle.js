@@ -1394,6 +1394,64 @@ function $f_sci_VectorPointer__gotoPosWritable1__I__I__I__V($thiz, oldIndex, new
     throw $ct_jl_IllegalArgumentException__init___(new $c_jl_IllegalArgumentException())
   }
 }
+function $p_Lexample_ContentHiding$__hide__Lorg_scalajs_jquery_JQuery__V($thiz, element) {
+  element.css("display", "none")
+}
+function $p_Lexample_ContentHiding$__displayInline__Lorg_scalajs_jquery_JQuery__V($thiz, element) {
+  element.css("display", "inline")
+}
+/** @constructor */
+function $c_Lexample_ContentHiding$() {
+  /*<skip>*/
+}
+$c_Lexample_ContentHiding$.prototype = new $h_O();
+$c_Lexample_ContentHiding$.prototype.constructor = $c_Lexample_ContentHiding$;
+/** @constructor */
+function $h_Lexample_ContentHiding$() {
+  /*<skip>*/
+}
+$h_Lexample_ContentHiding$.prototype = $c_Lexample_ContentHiding$.prototype;
+$c_Lexample_ContentHiding$.prototype.toggleContentInJqueryElement__Lorg_scalajs_dom_raw_Element__V = (function(element) {
+  var fullContent = $i_jquery(element).children(".full-content");
+  var reducedContent = $i_jquery(element).children(".reduced-content");
+  if (($as_T(fullContent.css("display")) === "none")) {
+    $p_Lexample_ContentHiding$__displayInline__Lorg_scalajs_jquery_JQuery__V(this, fullContent);
+    $p_Lexample_ContentHiding$__hide__Lorg_scalajs_jquery_JQuery__V(this, reducedContent)
+  } else {
+    $p_Lexample_ContentHiding$__hide__Lorg_scalajs_jquery_JQuery__V(this, fullContent);
+    $p_Lexample_ContentHiding$__displayInline__Lorg_scalajs_jquery_JQuery__V(this, reducedContent)
+  }
+});
+$c_Lexample_ContentHiding$.prototype.toggleContent__Lorg_scalajs_jquery_JQueryEventObject__sjs_js_Any = (function(eventObject) {
+  var self = $i_jquery(("#" + $as_T(eventObject.delegateTarget.id)));
+  var fullContent = self.children(".full-content");
+  var reducedContent = self.children(".reduced-content");
+  if (($as_T(fullContent.css("display")) === "none")) {
+    $p_Lexample_ContentHiding$__displayInline__Lorg_scalajs_jquery_JQuery__V(this, fullContent);
+    $p_Lexample_ContentHiding$__hide__Lorg_scalajs_jquery_JQuery__V(this, reducedContent);
+    var value = (void 0);
+    return value
+  } else {
+    $p_Lexample_ContentHiding$__hide__Lorg_scalajs_jquery_JQuery__V(this, fullContent);
+    $p_Lexample_ContentHiding$__displayInline__Lorg_scalajs_jquery_JQuery__V(this, reducedContent);
+    var value$1 = (void 0);
+    return value$1
+  }
+});
+var $d_Lexample_ContentHiding$ = new $TypeData().initClass({
+  Lexample_ContentHiding$: 0
+}, false, "example.ContentHiding$", {
+  Lexample_ContentHiding$: 1,
+  O: 1
+});
+$c_Lexample_ContentHiding$.prototype.$classData = $d_Lexample_ContentHiding$;
+var $n_Lexample_ContentHiding$ = (void 0);
+function $m_Lexample_ContentHiding$() {
+  if ((!$n_Lexample_ContentHiding$)) {
+    $n_Lexample_ContentHiding$ = new $c_Lexample_ContentHiding$()
+  };
+  return $n_Lexample_ContentHiding$
+}
 /** @constructor */
 function $c_Lexample_ScalaJSExample$() {
   /*<skip>*/
@@ -1422,39 +1480,6 @@ function $m_Lexample_ScalaJSExample$() {
   };
   return $n_Lexample_ScalaJSExample$
 }
-function $p_Lexample_ScriptNavigation$__hide__Lorg_scalajs_jquery_JQuery__V($thiz, element) {
-  element.css("display", "none")
-}
-function $p_Lexample_ScriptNavigation$__displayInline__Lorg_scalajs_jquery_JQuery__V($thiz, element) {
-  element.css("display", "inline")
-}
-function $p_Lexample_ScriptNavigation$__toggleContentInJqueryElement__Lorg_scalajs_dom_raw_Element__V($thiz, element) {
-  var fullContent = $i_jquery(element).children(".full-content");
-  var reducedContent = $i_jquery(element).children(".reduced-content");
-  if (($as_T(fullContent.css("display")) === "none")) {
-    $p_Lexample_ScriptNavigation$__displayInline__Lorg_scalajs_jquery_JQuery__V($thiz, fullContent);
-    $p_Lexample_ScriptNavigation$__hide__Lorg_scalajs_jquery_JQuery__V($thiz, reducedContent)
-  } else {
-    $p_Lexample_ScriptNavigation$__hide__Lorg_scalajs_jquery_JQuery__V($thiz, fullContent);
-    $p_Lexample_ScriptNavigation$__displayInline__Lorg_scalajs_jquery_JQuery__V($thiz, reducedContent)
-  }
-}
-function $p_Lexample_ScriptNavigation$__toggleContent__Lorg_scalajs_jquery_JQueryEventObject__sjs_js_Any($thiz, eventObject) {
-  var self = $i_jquery(("#" + $as_T(eventObject.delegateTarget.id)));
-  var fullContent = self.children(".full-content");
-  var reducedContent = self.children(".reduced-content");
-  if (($as_T(fullContent.css("display")) === "none")) {
-    $p_Lexample_ScriptNavigation$__displayInline__Lorg_scalajs_jquery_JQuery__V($thiz, fullContent);
-    $p_Lexample_ScriptNavigation$__hide__Lorg_scalajs_jquery_JQuery__V($thiz, reducedContent);
-    var value = (void 0);
-    return value
-  } else {
-    $p_Lexample_ScriptNavigation$__hide__Lorg_scalajs_jquery_JQuery__V($thiz, fullContent);
-    $p_Lexample_ScriptNavigation$__displayInline__Lorg_scalajs_jquery_JQuery__V($thiz, reducedContent);
-    var value$1 = (void 0);
-    return value$1
-  }
-}
 /** @constructor */
 function $c_Lexample_ScriptNavigation$() {
   this.targetCharacterLines$1 = null;
@@ -1475,7 +1500,7 @@ $h_Lexample_ScriptNavigation$.prototype = $c_Lexample_ScriptNavigation$.prototyp
 $c_Lexample_ScriptNavigation$.prototype.setupScriptNavigationOrHideControls__V = (function() {
   var this$2 = $m_s_Console$();
   var this$3 = $as_Ljava_io_PrintStream(this$2.outVar$2.v$1);
-  this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V("fresh setup with watch!!\n");
+  this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V("The freshest.\n");
   var x = $dp_toString__T($m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().location);
   var this$5 = new $c_sci_StringOps(x);
   var $$this = this$5.repr$1;
@@ -1551,7 +1576,7 @@ $c_Lexample_ScriptNavigation$.prototype.setupScriptNavigationOrHideControls__V =
     this.previousLineId$1 = $as_T(firstCharacterLine.id);
     targetCharacterLines.click($m_sjs_js_Any$().fromFunction1__F1__sjs_js_Function1(new $c_sjsr_AnonFunction1((function(this$2$1) {
       return (function(eventObject$2) {
-        return $p_Lexample_ScriptNavigation$__toggleContent__Lorg_scalajs_jquery_JQueryEventObject__sjs_js_Any(this$2$1, eventObject$2)
+        return $m_Lexample_ContentHiding$().toggleContent__Lorg_scalajs_jquery_JQueryEventObject__sjs_js_Any(eventObject$2)
       })
     })(this))));
     $i_jquery(".scroll-to-next-line").click($m_sjs_js_Any$().fromFunction1__F1__sjs_js_Function1(new $c_sjsr_AnonFunction1((function(this$3$1) {
@@ -1670,8 +1695,7 @@ $c_Lexample_ScriptNavigation$.prototype.setupScriptNavigationOrHideControls__V =
     })(this))));
     targetCharacterLines.each((function(arg1$2, arg2$2) {
       $uI(arg1$2);
-      var this$64 = $m_Lexample_ScriptNavigation$();
-      $p_Lexample_ScriptNavigation$__toggleContentInJqueryElement__Lorg_scalajs_dom_raw_Element__V(this$64, arg2$2)
+      $m_Lexample_ContentHiding$().toggleContentInJqueryElement__Lorg_scalajs_dom_raw_Element__V(arg2$2)
     }));
     targetCharacterLines.each((function(arg1$2$1, arg2$2$1) {
       var arg1$3 = $uI(arg1$2$1);

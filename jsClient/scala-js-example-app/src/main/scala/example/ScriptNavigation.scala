@@ -2,58 +2,12 @@ package example
 
 import org.scalajs.dom
 import dom.document.getElementById
-import org.scalajs.jquery.{JQuery, JQueryEventObject, JQueryStatic}
-import org.scalajs.dom.Element
-
-import scala.scalajs.js
-import scala.scalajs.js.annotation.{JSGlobal, JSImport}
+import org.scalajs.jquery.{JQuery, JQueryEventObject}
 
 object ScriptNavigation {
   var targetCharacterLines: JQuery = _
   var previousLineId: String = ""
   var nextLineId: String = ""
-
-  private def hide(element: JQuery): Unit =
-    element.css("display", "none")
-
-  private def displayInline(element: JQuery): Unit =
-    element.css("display", "inline")
-
-  private def toggleContentInJqueryElement(element: Element): Unit = {
-      val fullContent: JQuery = jquery(element).children(".full-content")
-      val reducedContent = jquery(element).children(".reduced-content")
-      if (fullContent.css("display") == "none") {
-        displayInline(fullContent)
-        hide(reducedContent)
-      } else {
-        hide(fullContent)
-        displayInline(reducedContent)
-      }
-  }
-
-  private def toggleContent( eventObject:  JQueryEventObject): js.Any = {
-      val self = jquery("#" + eventObject.delegateTarget.id)
-      val fullContent: JQuery = self.children(".full-content")
-      val reducedContent = self.children(".reduced-content")
-      if (fullContent.css("display") == "none") {
-        displayInline(fullContent)
-        hide(reducedContent)
-      } else {
-        hide(fullContent)
-        displayInline(reducedContent)
-      }
-    }
-
-  sealed trait ScrollingTarget {
-    val token: String
-  }
-  case object Prev extends ScrollingTarget {
-    val token = "previous"
-
-  }
-  case object Next extends ScrollingTarget {
-    val token = "next"
-  }
 
   val TARGET_SCRIPT_VARIATION =
 //    "full_script_with_lines_highlighted"
@@ -93,7 +47,7 @@ object ScriptNavigation {
     // TODO get query param character here.
     // dom.document.URL
     // val fields=temp_url.split("&").map(js.URIUtils.decodeURIComponent)
-    println("fresh setup with watch!!!")
+    println("The freshest.")
     val targetCharacterWithPrefix = dom.window.location.toString.dropWhile(_ != '=')
     val targetCharacter = if (!targetCharacterWithPrefix.isEmpty) targetCharacterWithPrefix.tail else "NO_TARGET_CHARACTER"
     println("crudely retrieved character: " + targetCharacter)
@@ -127,7 +81,7 @@ object ScriptNavigation {
       def getNextLineId(): String = nextLineId
 
       targetCharacterLines
-        .click(toggleContent _)
+        .click(ContentHiding.toggleContent _)
 
       jquery(".scroll-to-next-line")
         .click { _: JQueryEventObject => scrollToElementWithBuffer(getNextLineId, Next) }
@@ -141,7 +95,7 @@ object ScriptNavigation {
       jquery(".scroll-to-previous-line-big")
         .click { _: JQueryEventObject => iterateToElement(getPrevLineId, 10, Prev) }
 
-    targetCharacterLines.each( (index, line) => toggleContentInJqueryElement(line))
+    targetCharacterLines.each( (index, line) => ContentHiding.toggleContentInJqueryElement(line))
     targetCharacterLines.each( (index, line) => jquery(line).addClass("targetCharacter"))
 
     }
