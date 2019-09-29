@@ -10,4 +10,3 @@ case object Prev extends ScrollingTarget {
 case object Next extends ScrollingTarget {
   val token = "next"
 }
-

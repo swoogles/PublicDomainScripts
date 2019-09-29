@@ -18,6 +18,7 @@ object ContentHiding {
   private def displayInline(element: JQuery): Unit =
     element.css("display", "inline")
 
+  // TODO Condense these 2 functions
   def toggleContentInJqueryElement(element: Element): Unit = {
     val fullContent: JQuery = jquery(element).children(".full-content")
     val reducedContent = jquery(element).children(".reduced-content")
@@ -30,7 +31,7 @@ object ContentHiding {
     }
   }
 
-  def toggleContent( eventObject:  JQueryEventObject): js.Any = {
+  def toggleContent(eventObject: JQueryEventObject): js.Any = {
     val self = jquery("#" + eventObject.delegateTarget.id)
     val fullContent: JQuery = self.children(".full-content")
     val reducedContent = self.children(".reduced-content")

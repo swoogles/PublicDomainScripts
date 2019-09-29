@@ -1548,7 +1548,7 @@ $c_Lexample_ScriptNavigation$.prototype.getCurrentCharacterName__T__s_Option = (
 $c_Lexample_ScriptNavigation$.prototype.setupScriptNavigationOrHideControls__V = (function() {
   var this$2 = $m_s_Console$();
   var this$3 = $as_Ljava_io_PrintStream(this$2.outVar$2.v$1);
-  this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V("5:11\n");
+  this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V("5:30\n");
   var targetCharacterAttempt = this.getCurrentCharacterName__T__s_Option($dp_toString__T($m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().location));
   if ((!targetCharacterAttempt.isEmpty__Z())) {
     var arg1 = targetCharacterAttempt.get__O();
@@ -1562,7 +1562,7 @@ $c_Lexample_ScriptNavigation$.prototype.setupScriptNavigationOrHideControls__V =
     var jsx$1 = new $c_s_StringContext($ct_sjs_js_WrappedArray__init___sjs_js_Array(new $c_sjs_js_WrappedArray(), array));
     var array$1 = [targetCharacter];
     var targetCharacterLines = jsx$2(jsx$1.s__sc_Seq__T($ct_sjs_js_WrappedArray__init___sjs_js_Array(new $c_sjs_js_WrappedArray(), array$1)));
-    if (($uI(targetCharacterLines.length) !== 0)) {
+    if (($uI(targetCharacterLines.length) > 0)) {
       var this$15 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
       var array$2 = ["", "/"];
       var jsx$3 = new $c_s_StringContext($ct_sjs_js_WrappedArray__init___sjs_js_Array(new $c_sjs_js_WrappedArray(), array$2));
@@ -1572,126 +1572,123 @@ $c_Lexample_ScriptNavigation$.prototype.setupScriptNavigationOrHideControls__V =
         $m_Lexample_ContentHiding$().reveal__T__Lorg_scalajs_jquery_JQuery(".two-row-layout")
       } else {
         $m_Lexample_ContentHiding$().reveal__T__Lorg_scalajs_jquery_JQuery(".one-row-layout")
-      }
-    };
-    var firstCharacterLine = targetCharacterLines.get(0);
-    targetCharacterLines.click($m_sjs_js_Any$().fromFunction1__F1__sjs_js_Function1(new $c_sjsr_AnonFunction1((function($this) {
-      return (function(eventObject$2) {
-        return $m_Lexample_ContentHiding$().toggleContent__Lorg_scalajs_jquery_JQueryEventObject__sjs_js_Any(eventObject$2)
-      })
-    })(this))));
-    var currentTarget = new $c_Lexample_CurrentTarget($m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById($as_T(firstCharacterLine.id))));
-    $i_jquery(".scroll-to-next-line").click($m_sjs_js_Any$().fromFunction1__F1__sjs_js_Function1(new $c_sjsr_AnonFunction1((function(this$2$1, currentTarget$1) {
-      return (function(x$2$2) {
-        var numSteps = 1;
-        while (true) {
-          currentTarget$1.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTarget$1.connectedLine$1.nextLineId$1));
-          if ((numSteps > 0)) {
-            numSteps = (((-1) + numSteps) | 0);
-            continue
-          } else {
-            var this$21 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
-            var array$4 = ["", "/"];
-            var jsx$4 = new $c_s_StringContext($ct_sjs_js_WrappedArray__init___sjs_js_Array(new $c_sjs_js_WrappedArray(), array$4));
-            var array$5 = [this$2$1.TARGET$undSCRIPT$undVARIATION$1];
-            var s$1 = jsx$4.s__sc_Seq__T($ct_sjs_js_WrappedArray__init___sjs_js_Array(new $c_sjs_js_WrappedArray(), array$5));
-            if (($uI(this$21.indexOf(s$1)) !== (-1))) {
-              currentTarget$1.connectedLine$1.cueLine$1.scrollIntoView(true);
-              $m_Lexample_SpeechClient$().speak__T__V(currentTarget$1.connectedLine$1.cueLineContent$1)
+      };
+      targetCharacterLines.each((function(arg1$2, arg2$2) {
+        var arg1$1 = $uI(arg1$2);
+        return $m_Lexample_ScriptNavigation$().example$ScriptNavigation$$$anonfun$setupScriptNavigationOrHideControls$2__I__Lorg_scalajs_dom_raw_Element__Lorg_scalajs_jquery_JQuery(arg1$1, arg2$2)
+      }));
+      var firstCharacterLine = targetCharacterLines.get(0);
+      var currentTarget = new $c_Lexample_CurrentTarget($m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById($as_T(firstCharacterLine.id))));
+      $i_jquery(".scroll-to-next-line").click($m_sjs_js_Any$().fromFunction1__F1__sjs_js_Function1(new $c_sjsr_AnonFunction1((function($this, currentTarget$1) {
+        return (function(x$2$2) {
+          var numSteps = 1;
+          while (true) {
+            currentTarget$1.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTarget$1.connectedLine$1.nextLineId$1));
+            if ((numSteps > 0)) {
+              numSteps = (((-1) + numSteps) | 0);
+              continue
             } else {
-              currentTarget$1.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
-            }
-          };
-          break
-        }
-      })
-    })(this, currentTarget))));
-    $i_jquery(".scroll-to-next-line-big").click($m_sjs_js_Any$().fromFunction1__F1__sjs_js_Function1(new $c_sjsr_AnonFunction1((function(this$3$1, currentTarget$2) {
-      return (function(x$4$2) {
-        var numSteps$1 = 10;
-        while (true) {
-          currentTarget$2.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTarget$2.connectedLine$1.nextLineId$1));
-          if ((numSteps$1 > 0)) {
-            numSteps$1 = (((-1) + numSteps$1) | 0);
-            continue
-          } else {
-            var this$27 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
-            var array$6 = ["", "/"];
-            var jsx$5 = new $c_s_StringContext($ct_sjs_js_WrappedArray__init___sjs_js_Array(new $c_sjs_js_WrappedArray(), array$6));
-            var array$7 = [this$3$1.TARGET$undSCRIPT$undVARIATION$1];
-            var s$2 = jsx$5.s__sc_Seq__T($ct_sjs_js_WrappedArray__init___sjs_js_Array(new $c_sjs_js_WrappedArray(), array$7));
-            if (($uI(this$27.indexOf(s$2)) !== (-1))) {
-              currentTarget$2.connectedLine$1.cueLine$1.scrollIntoView(true);
-              $m_Lexample_SpeechClient$().speak__T__V(currentTarget$2.connectedLine$1.cueLineContent$1)
+              var this$21 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
+              var array$4 = ["", "/"];
+              var jsx$4 = new $c_s_StringContext($ct_sjs_js_WrappedArray__init___sjs_js_Array(new $c_sjs_js_WrappedArray(), array$4));
+              var array$5 = [$this.TARGET$undSCRIPT$undVARIATION$1];
+              var s$1 = jsx$4.s__sc_Seq__T($ct_sjs_js_WrappedArray__init___sjs_js_Array(new $c_sjs_js_WrappedArray(), array$5));
+              if (($uI(this$21.indexOf(s$1)) !== (-1))) {
+                currentTarget$1.connectedLine$1.cueLine$1.scrollIntoView(true);
+                $m_Lexample_SpeechClient$().speak__T__V(currentTarget$1.connectedLine$1.cueLineContent$1)
+              } else {
+                currentTarget$1.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
+              }
+            };
+            break
+          }
+        })
+      })(this, currentTarget))));
+      $i_jquery(".scroll-to-next-line-big").click($m_sjs_js_Any$().fromFunction1__F1__sjs_js_Function1(new $c_sjsr_AnonFunction1((function(this$2$1, currentTarget$2) {
+        return (function(x$4$2) {
+          var numSteps$1 = 10;
+          while (true) {
+            currentTarget$2.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTarget$2.connectedLine$1.nextLineId$1));
+            if ((numSteps$1 > 0)) {
+              numSteps$1 = (((-1) + numSteps$1) | 0);
+              continue
             } else {
-              currentTarget$2.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
-            }
-          };
-          break
-        }
-      })
-    })(this, currentTarget))));
-    $i_jquery(".scroll-to-previous-line").click($m_sjs_js_Any$().fromFunction1__F1__sjs_js_Function1(new $c_sjsr_AnonFunction1((function(this$4$1, currentTarget$3) {
-      return (function(x$6$2) {
-        var numSteps$2 = 1;
-        while (true) {
-          currentTarget$3.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTarget$3.connectedLine$1.previousLineId$1));
-          if ((numSteps$2 > 0)) {
-            numSteps$2 = (((-1) + numSteps$2) | 0);
-            continue
-          } else {
-            var this$33 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
-            var array$8 = ["", "/"];
-            var jsx$6 = new $c_s_StringContext($ct_sjs_js_WrappedArray__init___sjs_js_Array(new $c_sjs_js_WrappedArray(), array$8));
-            var array$9 = [this$4$1.TARGET$undSCRIPT$undVARIATION$1];
-            var s$3 = jsx$6.s__sc_Seq__T($ct_sjs_js_WrappedArray__init___sjs_js_Array(new $c_sjs_js_WrappedArray(), array$9));
-            if (($uI(this$33.indexOf(s$3)) !== (-1))) {
-              currentTarget$3.connectedLine$1.cueLine$1.scrollIntoView(true);
-              $m_Lexample_SpeechClient$().speak__T__V(currentTarget$3.connectedLine$1.cueLineContent$1)
+              var this$27 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
+              var array$6 = ["", "/"];
+              var jsx$5 = new $c_s_StringContext($ct_sjs_js_WrappedArray__init___sjs_js_Array(new $c_sjs_js_WrappedArray(), array$6));
+              var array$7 = [this$2$1.TARGET$undSCRIPT$undVARIATION$1];
+              var s$2 = jsx$5.s__sc_Seq__T($ct_sjs_js_WrappedArray__init___sjs_js_Array(new $c_sjs_js_WrappedArray(), array$7));
+              if (($uI(this$27.indexOf(s$2)) !== (-1))) {
+                currentTarget$2.connectedLine$1.cueLine$1.scrollIntoView(true);
+                $m_Lexample_SpeechClient$().speak__T__V(currentTarget$2.connectedLine$1.cueLineContent$1)
+              } else {
+                currentTarget$2.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
+              }
+            };
+            break
+          }
+        })
+      })(this, currentTarget))));
+      $i_jquery(".scroll-to-previous-line").click($m_sjs_js_Any$().fromFunction1__F1__sjs_js_Function1(new $c_sjsr_AnonFunction1((function(this$3$1, currentTarget$3) {
+        return (function(x$6$2) {
+          var numSteps$2 = 1;
+          while (true) {
+            currentTarget$3.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTarget$3.connectedLine$1.previousLineId$1));
+            if ((numSteps$2 > 0)) {
+              numSteps$2 = (((-1) + numSteps$2) | 0);
+              continue
             } else {
-              currentTarget$3.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
-            }
-          };
-          break
-        }
-      })
-    })(this, currentTarget))));
-    $i_jquery(".scroll-to-previous-line-big").click($m_sjs_js_Any$().fromFunction1__F1__sjs_js_Function1(new $c_sjsr_AnonFunction1((function(this$5$1, currentTarget$4) {
-      return (function(x$8$2) {
-        var numSteps$3 = 10;
-        while (true) {
-          currentTarget$4.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTarget$4.connectedLine$1.previousLineId$1));
-          if ((numSteps$3 > 0)) {
-            numSteps$3 = (((-1) + numSteps$3) | 0);
-            continue
-          } else {
-            var this$39 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
-            var array$10 = ["", "/"];
-            var jsx$7 = new $c_s_StringContext($ct_sjs_js_WrappedArray__init___sjs_js_Array(new $c_sjs_js_WrappedArray(), array$10));
-            var array$11 = [this$5$1.TARGET$undSCRIPT$undVARIATION$1];
-            var s$4 = jsx$7.s__sc_Seq__T($ct_sjs_js_WrappedArray__init___sjs_js_Array(new $c_sjs_js_WrappedArray(), array$11));
-            if (($uI(this$39.indexOf(s$4)) !== (-1))) {
-              currentTarget$4.connectedLine$1.cueLine$1.scrollIntoView(true);
-              $m_Lexample_SpeechClient$().speak__T__V(currentTarget$4.connectedLine$1.cueLineContent$1)
+              var this$33 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
+              var array$8 = ["", "/"];
+              var jsx$6 = new $c_s_StringContext($ct_sjs_js_WrappedArray__init___sjs_js_Array(new $c_sjs_js_WrappedArray(), array$8));
+              var array$9 = [this$3$1.TARGET$undSCRIPT$undVARIATION$1];
+              var s$3 = jsx$6.s__sc_Seq__T($ct_sjs_js_WrappedArray__init___sjs_js_Array(new $c_sjs_js_WrappedArray(), array$9));
+              if (($uI(this$33.indexOf(s$3)) !== (-1))) {
+                currentTarget$3.connectedLine$1.cueLine$1.scrollIntoView(true);
+                $m_Lexample_SpeechClient$().speak__T__V(currentTarget$3.connectedLine$1.cueLineContent$1)
+              } else {
+                currentTarget$3.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
+              }
+            };
+            break
+          }
+        })
+      })(this, currentTarget))));
+      $i_jquery(".scroll-to-previous-line-big").click($m_sjs_js_Any$().fromFunction1__F1__sjs_js_Function1(new $c_sjsr_AnonFunction1((function(this$4$1, currentTarget$4) {
+        return (function(x$8$2) {
+          var numSteps$3 = 10;
+          while (true) {
+            currentTarget$4.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTarget$4.connectedLine$1.previousLineId$1));
+            if ((numSteps$3 > 0)) {
+              numSteps$3 = (((-1) + numSteps$3) | 0);
+              continue
             } else {
-              currentTarget$4.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
-            }
-          };
-          break
-        }
-      })
-    })(this, currentTarget))));
-    targetCharacterLines.each((function(arg1$2, arg2$2) {
-      $uI(arg1$2);
-      $m_Lexample_ContentHiding$().toggleContentInJqueryElement__Lorg_scalajs_dom_raw_Element__V(arg2$2)
-    }));
-    targetCharacterLines.each((function(arg1$2$1, arg2$2$1) {
-      var arg1$3 = $uI(arg1$2$1);
-      return $m_Lexample_ScriptNavigation$().example$ScriptNavigation$$$anonfun$setupScriptNavigationOrHideControls$12__I__Lorg_scalajs_dom_raw_Element__Lorg_scalajs_jquery_JQuery(arg1$3, arg2$2$1)
-    }))
+              var this$39 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
+              var array$10 = ["", "/"];
+              var jsx$7 = new $c_s_StringContext($ct_sjs_js_WrappedArray__init___sjs_js_Array(new $c_sjs_js_WrappedArray(), array$10));
+              var array$11 = [this$4$1.TARGET$undSCRIPT$undVARIATION$1];
+              var s$4 = jsx$7.s__sc_Seq__T($ct_sjs_js_WrappedArray__init___sjs_js_Array(new $c_sjs_js_WrappedArray(), array$11));
+              if (($uI(this$39.indexOf(s$4)) !== (-1))) {
+                currentTarget$4.connectedLine$1.cueLine$1.scrollIntoView(true);
+                $m_Lexample_SpeechClient$().speak__T__V(currentTarget$4.connectedLine$1.cueLineContent$1)
+              } else {
+                currentTarget$4.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
+              }
+            };
+            break
+          }
+        })
+      })(this, currentTarget))))
+    }
   }
 });
-$c_Lexample_ScriptNavigation$.prototype.example$ScriptNavigation$$$anonfun$setupScriptNavigationOrHideControls$12__I__Lorg_scalajs_dom_raw_Element__Lorg_scalajs_jquery_JQuery = (function(index, line) {
+$c_Lexample_ScriptNavigation$.prototype.example$ScriptNavigation$$$anonfun$setupScriptNavigationOrHideControls$2__I__Lorg_scalajs_dom_raw_Element__Lorg_scalajs_jquery_JQuery = (function(index, line) {
+  $i_jquery(line).click($m_sjs_js_Any$().fromFunction1__F1__sjs_js_Function1(new $c_sjsr_AnonFunction1((function($this) {
+    return (function(eventObject$2) {
+      return $m_Lexample_ContentHiding$().toggleContent__Lorg_scalajs_jquery_JQueryEventObject__sjs_js_Any(eventObject$2)
+    })
+  })(this))));
+  $m_Lexample_ContentHiding$().toggleContentInJqueryElement__Lorg_scalajs_dom_raw_Element__V(line);
   return $i_jquery(line).addClass("targetCharacter")
 });
 var $d_Lexample_ScriptNavigation$ = new $TypeData().initClass({

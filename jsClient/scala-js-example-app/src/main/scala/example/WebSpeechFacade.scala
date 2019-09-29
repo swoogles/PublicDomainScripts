@@ -24,4 +24,3 @@ object WebSpeechFacade {
     def getVoices(): js.Array[SpeechSynthesisVoice] = js.native
   }
 }
-
