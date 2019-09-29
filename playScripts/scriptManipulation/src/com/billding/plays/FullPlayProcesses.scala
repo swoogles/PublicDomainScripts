@@ -2,6 +2,7 @@ package com.billding.plays
 
 import com.billding.plays.parsing.MitHtml
 import better.files.Dsl.cwd
+import better.files.File
 import zio.{Fiber, Task, ZIO}
 import zio.console._
 
@@ -50,16 +51,15 @@ object FullPlayProcesses {
         .flatMap(_ => theComedyOfErrors)
         .flatMap(_ => othello)
         .flatMap(_ => unsafeWorld.listFilesInGeneratedDir())
-        .map { files =>
-          Rendering.createPlayMenuContent(files)
-        }
-        .flatMap(
-          playMenuText =>
-            unsafeWorld.writePlaySelectionMenu(playMenuText.toString())
-        )
-        .map(_ => "Sucessfully created character menu")
+        .flatMap(files => createAndWritePlaySelectionPage(files))
+        .flatMap(_ => ZIO("Sucessfully created character menu"))
 
     }
+  }
+
+  def createAndWritePlaySelectionPage(files: List[File]) = {
+    val playMenuText = Rendering.createPlayMenuContent(files)
+    unsafeWorld.writePlaySelectionMenu(playMenuText.toString())
   }
 
   val ALL_SCRIPT_VARIANTS: Set[ScriptVariant] =
