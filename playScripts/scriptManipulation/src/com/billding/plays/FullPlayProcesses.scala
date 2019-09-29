@@ -53,7 +53,7 @@ object FullPlayProcesses {
     }
   }
 
-  def createAndWritePlaySelectionPage(files: List[File]) = {
+  private def createAndWritePlaySelectionPage(files: List[File]) = {
     val playMenuText = Rendering.createPlayMenuContent(files)
     unsafeWorld.writePlaySelectionMenu(playMenuText.toString())
   }
@@ -96,7 +96,7 @@ object FullPlayProcesses {
   ): ZIO[Console, Throwable, List[Unit]] = {
     unsafeWorld.getFileAsOneBigString(nameOfFileToParse).flatMap {
       fileContent: String =>
-        val typedLinesOutter =
+        val typedLinesOutter: List[Line] =
           scriptTyper(fileContent)
 
         val allCharactersDynamic =
@@ -104,67 +104,23 @@ object FullPlayProcesses {
 
         val lineWriting: Set[ZIO[Console, Throwable, Unit]] =
           for (scriptVariant <- scriptVariants) yield {
-            putStrLn(s"   -${scriptVariant.name}").flatMap { _ =>
-              val manipulatedScript: List[Line] = Parsing.manipulateScript(
-                typedLinesOutter,
-                scriptVariant.transformation
-              )
-
-              val characterAgnosticConnectedLines
-                  : List[Either[Line, ConnectedLine]] =
-                ConnectedLine.makeAllConnectedLines(manipulatedScript)
-              import scalatags.Text // TODO Hrm. Doesn't belong in this file.
-              val htmlOutput: List[Text.TypedTag[String]] =
-                characterAgnosticConnectedLines
-                  .map {
-                    case Left(line) => Rendering.toHtml(line)
-                    case Right(connectedLine) =>
-                      Rendering.toHtml(connectedLine)
-                  }
-
-              unsafeWorld.writeNewLinesForPlay(
-                outputPlayName,
-                scriptVariant.name,
-                htmlOutput.map(_.toString)
-              )
-            }
-
+            putStrLn(s"   -${scriptVariant.name}")
+              .flatMap { _ =>
+                writeAScriptVariant(
+                  outputPlayName,
+                  scriptVariant,
+                  typedLinesOutter
+                )
+              }
           }
 
         val characterSpecificWork: List[ZIO[Console, Throwable, Unit]] =
           for (character <- allCharactersDynamic) yield {
-            unsafeWorld
-              .createCharacterDirectory(character, outputPlayName)
-              .flatMap { _ =>
-                unsafeWorld
-                  .writeRootCharacterMenu(
-                    Rendering
-                      .characterListMenu(
-                        allCharactersDynamic,
-                        outputPlayName
-                      )
-                      .toString(),
-                    outputPlayName
-                  )
-              }
-              .flatMap(
-                _ =>
-                  unsafeWorld
-                    .getCharacterScripts(character, outputPlayName)
-              )
-              .flatMap { characterScripts =>
-                val renderedMenu =
-                  Rendering
-                    .characterSubdirectory(characterScripts)
-                    .toString()
-
-                unsafeWorld
-                  .writeMenu(
-                    character,
-                    renderedMenu,
-                    outputPlayName
-                  )
-              }
+            characterSpecificLogic(
+              outputPlayName,
+              character,
+              allCharactersDynamic
+            )
           }
 
         putStrLn(s"Creating script variations for $outputPlayName")
@@ -174,7 +130,75 @@ object FullPlayProcesses {
 
   }
 
-  def mitPlay(
+  private def writeAScriptVariant(
+      outputPlayName: String,
+      scriptVariant: ScriptVariant,
+      typedLinesOutter: List[Line]
+  ) = {
+
+    val manipulatedScript: List[Line] = Parsing.manipulateScript(
+      typedLinesOutter,
+      scriptVariant.transformation
+    )
+
+    val characterAgnosticConnectedLines: List[Either[Line, ConnectedLine]] =
+      ConnectedLine.makeAllConnectedLines(manipulatedScript)
+    import scalatags.Text // TODO Hrm. Doesn't belong in this file.
+    val htmlOutput: List[Text.TypedTag[String]] =
+      characterAgnosticConnectedLines
+        .map {
+          case Left(line) => Rendering.toHtml(line)
+          case Right(connectedLine) =>
+            Rendering.toHtml(connectedLine)
+        }
+
+    unsafeWorld.writeNewLinesForPlay(
+      outputPlayName,
+      scriptVariant.name,
+      htmlOutput.map(_.toString)
+    )
+  }
+
+  private def characterSpecificLogic(
+      outputPlayName: String,
+      character: PlayCharacter,
+      allCharactersDynamic: List[PlayCharacter]
+  ) = {
+    unsafeWorld
+      .createCharacterDirectory(character, outputPlayName)
+      .flatMap { _ =>
+        unsafeWorld
+          .writeRootCharacterMenu(
+            Rendering
+              .characterListMenu(
+                allCharactersDynamic,
+                outputPlayName
+              )
+              .toString(),
+            outputPlayName
+          )
+      }
+      .flatMap(
+        _ =>
+          unsafeWorld
+            .getCharacterScripts(character, outputPlayName)
+      )
+      .flatMap { characterScripts =>
+        val renderedMenu =
+          Rendering
+            .characterSubdirectory(characterScripts)
+            .toString()
+
+        unsafeWorld
+          .writeMenu(
+            character,
+            renderedMenu,
+            outputPlayName
+          )
+      }
+  }
+
+  private def mitPlay(
       nameOfFileToParse: String,
       outputPlayName: String,
       scriptVariants: Set[ScriptVariant]
