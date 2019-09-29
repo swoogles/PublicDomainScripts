@@ -11,8 +11,6 @@ class CurrentTarget( var connectedLine: ConnectedLine ) {
 
 
 object ScriptNavigation {
-  var targetCharacterLines: JQuery = _
-
   val TARGET_SCRIPT_VARIATION =
 //    "full_script_with_lines_highlighted"
   "completely_blank_lines_with_spoken_cues"

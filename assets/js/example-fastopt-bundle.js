@@ -1460,38 +1460,36 @@ function $m_Lexample_ContentHiding$() {
   return $n_Lexample_ContentHiding$
 }
 /** @constructor */
-function $c_Lexample_CurrentTargets(previousLineId, nextLineId) {
-  this.previousLineId$1 = null;
-  this.nextLineId$1 = null;
-  this.previousLineId$1 = previousLineId;
-  this.nextLineId$1 = nextLineId
+function $c_Lexample_CurrentTarget(connectedLine) {
+  this.connectedLine$1 = null;
+  this.connectedLine$1 = connectedLine
 }
-$c_Lexample_CurrentTargets.prototype = new $h_O();
-$c_Lexample_CurrentTargets.prototype.constructor = $c_Lexample_CurrentTargets;
+$c_Lexample_CurrentTarget.prototype = new $h_O();
+$c_Lexample_CurrentTarget.prototype.constructor = $c_Lexample_CurrentTarget;
 /** @constructor */
-function $h_Lexample_CurrentTargets() {
+function $h_Lexample_CurrentTarget() {
   /*<skip>*/
 }
-$h_Lexample_CurrentTargets.prototype = $c_Lexample_CurrentTargets.prototype;
-function $is_Lexample_CurrentTargets(obj) {
-  return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lexample_CurrentTargets)))
+$h_Lexample_CurrentTarget.prototype = $c_Lexample_CurrentTarget.prototype;
+function $is_Lexample_CurrentTarget(obj) {
+  return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lexample_CurrentTarget)))
 }
-function $as_Lexample_CurrentTargets(obj) {
-  return (($is_Lexample_CurrentTargets(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "example.CurrentTargets"))
+function $as_Lexample_CurrentTarget(obj) {
+  return (($is_Lexample_CurrentTarget(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "example.CurrentTarget"))
 }
-function $isArrayOf_Lexample_CurrentTargets(obj, depth) {
-  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lexample_CurrentTargets)))
+function $isArrayOf_Lexample_CurrentTarget(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lexample_CurrentTarget)))
 }
-function $asArrayOf_Lexample_CurrentTargets(obj, depth) {
-  return (($isArrayOf_Lexample_CurrentTargets(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lexample.CurrentTargets;", depth))
+function $asArrayOf_Lexample_CurrentTarget(obj, depth) {
+  return (($isArrayOf_Lexample_CurrentTarget(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lexample.CurrentTarget;", depth))
 }
-var $d_Lexample_CurrentTargets = new $TypeData().initClass({
-  Lexample_CurrentTargets: 0
-}, false, "example.CurrentTargets", {
-  Lexample_CurrentTargets: 1,
+var $d_Lexample_CurrentTarget = new $TypeData().initClass({
+  Lexample_CurrentTarget: 0
+}, false, "example.CurrentTarget", {
+  Lexample_CurrentTarget: 1,
   O: 1
 });
-$c_Lexample_CurrentTargets.prototype.$classData = $d_Lexample_CurrentTargets;
+$c_Lexample_CurrentTarget.prototype.$classData = $d_Lexample_CurrentTarget;
 /** @constructor */
 function $c_Lexample_ScalaJSExample$() {
   /*<skip>*/
@@ -1522,7 +1520,6 @@ function $m_Lexample_ScalaJSExample$() {
 }
 /** @constructor */
 function $c_Lexample_ScriptNavigation$() {
-  this.targetCharacterLines$1 = null;
   this.TARGET$undSCRIPT$undVARIATION$1 = null;
   this.TARGET$undSCRIPT$undVARIATION$1 = "completely_blank_lines_with_spoken_cues"
 }
@@ -1567,7 +1564,7 @@ $c_Lexample_ScriptNavigation$.prototype.getCurrentCharacterName__T__s_Option = (
 $c_Lexample_ScriptNavigation$.prototype.setupScriptNavigationOrHideControls__V = (function() {
   var this$2 = $m_s_Console$();
   var this$3 = $as_Ljava_io_PrintStream(this$2.outVar$2.v$1);
-  this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V("3:36\n");
+  this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V("3:54\n");
   var targetCharacterAttempt = this.getCurrentCharacterName__T__s_Option($dp_toString__T($m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().location));
   if ((!targetCharacterAttempt.isEmpty__Z())) {
     var arg1 = targetCharacterAttempt.get__O();
@@ -1602,121 +1599,103 @@ $c_Lexample_ScriptNavigation$.prototype.setupScriptNavigationOrHideControls__V =
         return $m_Lexample_ContentHiding$().toggleContent__Lorg_scalajs_jquery_JQueryEventObject__sjs_js_Any(eventObject$2)
       })
     })(this))));
-    var currentTargets = new $c_Lexample_CurrentTargets($as_T(firstCharacterLine.id), $as_T(firstCharacterLine.id));
-    $i_jquery(".scroll-to-next-line").click($m_sjs_js_Any$().fromFunction1__F1__sjs_js_Function1(new $c_sjsr_AnonFunction1((function(this$2$1, currentTargets$1) {
+    var currentTarget = new $c_Lexample_CurrentTarget($m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById($as_T(firstCharacterLine.id))));
+    $i_jquery(".scroll-to-next-line").click($m_sjs_js_Any$().fromFunction1__F1__sjs_js_Function1(new $c_sjsr_AnonFunction1((function(this$2$1, currentTarget$1) {
       return (function(x$2$2) {
-        var targetLine = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTargets$1.nextLineId$1);
-        var targetLineTyped = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine(targetLine);
-        currentTargets$1.nextLineId$1 = targetLineTyped.nextLineId$1;
-        currentTargets$1.previousLineId$1 = targetLineTyped.previousLineId$1;
+        currentTarget$1.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTarget$1.connectedLine$1.nextLineId$1));
         var this$21 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
         var array$4 = ["", "/"];
         var jsx$4 = new $c_s_StringContext($ct_sjs_js_WrappedArray__init___sjs_js_Array(new $c_sjs_js_WrappedArray(), array$4));
         var array$5 = [this$2$1.TARGET$undSCRIPT$undVARIATION$1];
         var s$1 = jsx$4.s__sc_Seq__T($ct_sjs_js_WrappedArray__init___sjs_js_Array(new $c_sjs_js_WrappedArray(), array$5));
         if (($uI(this$21.indexOf(s$1)) !== (-1))) {
-          targetLineTyped.cueLine$1.scrollIntoView(true);
-          $m_Lexample_SpeechClient$().speak__T__V(targetLineTyped.cueLineContent$1)
+          currentTarget$1.connectedLine$1.cueLine$1.scrollIntoView(true);
+          $m_Lexample_SpeechClient$().speak__T__V(currentTarget$1.connectedLine$1.cueLineContent$1)
         } else {
-          targetLineTyped.dataScrollBuffer$1.scrollIntoView(false)
+          currentTarget$1.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
         }
       })
-    })(this, currentTargets))));
-    $i_jquery(".scroll-to-next-line-big").click($m_sjs_js_Any$().fromFunction1__F1__sjs_js_Function1(new $c_sjsr_AnonFunction1((function(this$3$1, currentTargets$2) {
+    })(this, currentTarget))));
+    $i_jquery(".scroll-to-next-line-big").click($m_sjs_js_Any$().fromFunction1__F1__sjs_js_Function1(new $c_sjsr_AnonFunction1((function(this$3$1, currentTarget$2) {
       return (function(x$4$2) {
         var f = (function($this$1) {
           return (function(x$5$2) {
-            var x$5 = $as_Lexample_CurrentTargets(x$5$2);
-            return x$5.nextLineId$1
+            var x$5 = $as_Lexample_CurrentTarget(x$5$2);
+            return x$5.connectedLine$1.nextLineId$1
           })
         })(this$3$1);
         var numSteps = 10;
         while (true) {
-          var targetLine$1 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById($as_T(f(currentTargets$2)));
-          var targetLineTyped$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine(targetLine$1);
-          currentTargets$2.nextLineId$1 = targetLineTyped$1.nextLineId$1;
-          currentTargets$2.previousLineId$1 = targetLineTyped$1.previousLineId$1;
+          currentTarget$2.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById($as_T(f(currentTarget$2))));
           if ((numSteps > 0)) {
             numSteps = (((-1) + numSteps) | 0);
             continue
           } else {
-            var targetLine$2 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById($as_T(f(currentTargets$2)));
-            var targetLineTyped$2 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine(targetLine$2);
-            currentTargets$2.nextLineId$1 = targetLineTyped$2.nextLineId$1;
-            currentTargets$2.previousLineId$1 = targetLineTyped$2.previousLineId$1;
+            currentTarget$2.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById($as_T(f(currentTarget$2))));
             var this$27 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
             var array$6 = ["", "/"];
             var jsx$5 = new $c_s_StringContext($ct_sjs_js_WrappedArray__init___sjs_js_Array(new $c_sjs_js_WrappedArray(), array$6));
             var array$7 = [this$3$1.TARGET$undSCRIPT$undVARIATION$1];
             var s$2 = jsx$5.s__sc_Seq__T($ct_sjs_js_WrappedArray__init___sjs_js_Array(new $c_sjs_js_WrappedArray(), array$7));
             if (($uI(this$27.indexOf(s$2)) !== (-1))) {
-              targetLineTyped$2.cueLine$1.scrollIntoView(true);
-              $m_Lexample_SpeechClient$().speak__T__V(targetLineTyped$2.cueLineContent$1)
+              currentTarget$2.connectedLine$1.cueLine$1.scrollIntoView(true);
+              $m_Lexample_SpeechClient$().speak__T__V(currentTarget$2.connectedLine$1.cueLineContent$1)
             } else {
-              targetLineTyped$2.dataScrollBuffer$1.scrollIntoView(false)
+              currentTarget$2.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
             }
           };
           break
         }
       })
-    })(this, currentTargets))));
-    $i_jquery(".scroll-to-previous-line").click($m_sjs_js_Any$().fromFunction1__F1__sjs_js_Function1(new $c_sjsr_AnonFunction1((function(this$4$1, currentTargets$3) {
+    })(this, currentTarget))));
+    $i_jquery(".scroll-to-previous-line").click($m_sjs_js_Any$().fromFunction1__F1__sjs_js_Function1(new $c_sjsr_AnonFunction1((function(this$4$1, currentTarget$3) {
       return (function(x$6$2) {
-        var targetLine$3 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTargets$3.previousLineId$1);
-        var targetLineTyped$3 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine(targetLine$3);
-        currentTargets$3.nextLineId$1 = targetLineTyped$3.nextLineId$1;
-        currentTargets$3.previousLineId$1 = targetLineTyped$3.previousLineId$1;
+        currentTarget$3.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTarget$3.connectedLine$1.previousLineId$1));
         var this$33 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
         var array$8 = ["", "/"];
         var jsx$6 = new $c_s_StringContext($ct_sjs_js_WrappedArray__init___sjs_js_Array(new $c_sjs_js_WrappedArray(), array$8));
         var array$9 = [this$4$1.TARGET$undSCRIPT$undVARIATION$1];
         var s$3 = jsx$6.s__sc_Seq__T($ct_sjs_js_WrappedArray__init___sjs_js_Array(new $c_sjs_js_WrappedArray(), array$9));
         if (($uI(this$33.indexOf(s$3)) !== (-1))) {
-          targetLineTyped$3.cueLine$1.scrollIntoView(true);
-          $m_Lexample_SpeechClient$().speak__T__V(targetLineTyped$3.cueLineContent$1)
+          currentTarget$3.connectedLine$1.cueLine$1.scrollIntoView(true);
+          $m_Lexample_SpeechClient$().speak__T__V(currentTarget$3.connectedLine$1.cueLineContent$1)
         } else {
-          targetLineTyped$3.dataScrollBuffer$1.scrollIntoView(false)
+          currentTarget$3.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
         }
       })
-    })(this, currentTargets))));
-    $i_jquery(".scroll-to-previous-line-big").click($m_sjs_js_Any$().fromFunction1__F1__sjs_js_Function1(new $c_sjsr_AnonFunction1((function(this$5$1, currentTargets$4) {
+    })(this, currentTarget))));
+    $i_jquery(".scroll-to-previous-line-big").click($m_sjs_js_Any$().fromFunction1__F1__sjs_js_Function1(new $c_sjsr_AnonFunction1((function(this$5$1, currentTarget$4) {
       return (function(x$8$2) {
         var f$1 = (function($this$2) {
           return (function(x$9$2) {
-            var x$9 = $as_Lexample_CurrentTargets(x$9$2);
-            return x$9.previousLineId$1
+            var x$9 = $as_Lexample_CurrentTarget(x$9$2);
+            return x$9.connectedLine$1.previousLineId$1
           })
         })(this$5$1);
         var numSteps$1 = 10;
         while (true) {
-          var targetLine$4 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById($as_T(f$1(currentTargets$4)));
-          var targetLineTyped$4 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine(targetLine$4);
-          currentTargets$4.nextLineId$1 = targetLineTyped$4.nextLineId$1;
-          currentTargets$4.previousLineId$1 = targetLineTyped$4.previousLineId$1;
+          currentTarget$4.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById($as_T(f$1(currentTarget$4))));
           if ((numSteps$1 > 0)) {
             numSteps$1 = (((-1) + numSteps$1) | 0);
             continue
           } else {
-            var targetLine$5 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById($as_T(f$1(currentTargets$4)));
-            var targetLineTyped$5 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine(targetLine$5);
-            currentTargets$4.nextLineId$1 = targetLineTyped$5.nextLineId$1;
-            currentTargets$4.previousLineId$1 = targetLineTyped$5.previousLineId$1;
+            currentTarget$4.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById($as_T(f$1(currentTarget$4))));
             var this$39 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
             var array$10 = ["", "/"];
             var jsx$7 = new $c_s_StringContext($ct_sjs_js_WrappedArray__init___sjs_js_Array(new $c_sjs_js_WrappedArray(), array$10));
             var array$11 = [this$5$1.TARGET$undSCRIPT$undVARIATION$1];
             var s$4 = jsx$7.s__sc_Seq__T($ct_sjs_js_WrappedArray__init___sjs_js_Array(new $c_sjs_js_WrappedArray(), array$11));
             if (($uI(this$39.indexOf(s$4)) !== (-1))) {
-              targetLineTyped$5.cueLine$1.scrollIntoView(true);
-              $m_Lexample_SpeechClient$().speak__T__V(targetLineTyped$5.cueLineContent$1)
+              currentTarget$4.connectedLine$1.cueLine$1.scrollIntoView(true);
+              $m_Lexample_SpeechClient$().speak__T__V(currentTarget$4.connectedLine$1.cueLineContent$1)
             } else {
-              targetLineTyped$5.dataScrollBuffer$1.scrollIntoView(false)
+              currentTarget$4.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
             }
           };
           break
         }
       })
-    })(this, currentTargets))));
+    })(this, currentTarget))));
     targetCharacterLines.each((function(arg1$2, arg2$2) {
       $uI(arg1$2);
       $m_Lexample_ContentHiding$().toggleContentInJqueryElement__Lorg_scalajs_dom_raw_Element__V(arg2$2)
