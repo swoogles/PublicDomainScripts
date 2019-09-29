@@ -4,10 +4,6 @@ import org.scalajs.dom
 import dom.document.getElementById
 import org.scalajs.jquery.{JQuery, JQueryEventObject}
 
-class CurrentTarget( var connectedLine: ConnectedLine ) {
-  def updateTarget (targetId: CurrentTarget => String): Unit =
-    this.connectedLine = ConnectedLine(getElementById(targetId(this)))
-}
 
 
 object ScriptNavigation {
@@ -57,8 +53,6 @@ object ScriptNavigation {
       val targetCharacterLines = jquery(s".$targetCharacter")
 
       if (targetCharacterLines.length == 0) { // There are no characters, so we're not viewing a script that needs controls.
-        ContentHiding.hideInstantly(".one-row-layout")
-        ContentHiding.hideInstantly(".two-row-layout")
       }
       else if (dom.document.URL.contains(s"$TARGET_SCRIPT_VARIATION/")) { // What an ugly way to work with this for the time being
         ContentHiding.reveal(".two-row-layout")
