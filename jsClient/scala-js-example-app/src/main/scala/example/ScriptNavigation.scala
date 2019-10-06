@@ -17,7 +17,7 @@ object ScriptNavigation {
   ): Unit = {
     currentTarget.updateTarget(targetId)
 
-    if (numSteps > 0)
+    if (numSteps > 1)
       iterateToElement(targetId, numSteps - 1, scrollingTarget, currentTarget)
     else {
       if (dom.document.URL.contains(s"$TARGET_SCRIPT_VARIATION/")) { // What an ugly way to work with this for the time being
@@ -41,7 +41,7 @@ object ScriptNavigation {
   }
 
   def setupScriptNavigationOrHideControls() {
-    println("5:19")
+    println("9:39")
 
     val targetCharacterAttempt: Option[String] = getCurrentCharacterName(
       dom.window.location.toString
@@ -60,16 +60,19 @@ object ScriptNavigation {
             ContentHiding.reveal(".one-row-layout")
           }
 
-          targetCharacterLines.each((index, line) => {
-            jquery(line).click(ContentHiding.toggleContent _)
-            ContentHiding.toggleContentInJqueryElement(line)
-            jquery(line).addClass("targetCharacter")
-          })
-
           val firstCharacterLine = targetCharacterLines.get(0)
           val currentTarget = new CurrentTarget(
             ConnectedLine(getElementById(firstCharacterLine.id))
           )
+
+          targetCharacterLines.each((index, line) => {
+            jquery(line).click{eventObject: JQueryEventObject =>
+              ContentHiding.toggleContent(eventObject)
+              currentTarget.updateTarget(_ => line.id)
+            }
+            ContentHiding.toggleContentInJqueryElement(line)
+            jquery(line).addClass("targetCharacter")
+          })
 
           jquery(".scroll-to-next-line")
             .click { _: JQueryEventObject =>
