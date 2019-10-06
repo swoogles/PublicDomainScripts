@@ -17,9 +17,9 @@ testFrameworks += new TestFramework("utest.runner.Framework")
 libraryDependencies ++= Seq(
     "org.scala-js" %%% "scalajs-dom" % "0.9.7",
     "com.lihaoyi" %%% "utest" % "0.6.7" % "test, it",
-    "be.doeraene" %%% "scalajs-jquery" % "0.9.5",
-    "org.scala-js" %% "scalajs-env-selenium" % "1.0.0-M7"
-//  "org.scala-lang.modules" %%% "scala-async" % "0.10.0"
+    "be.doeraene" %%% "scalajs-jquery" % "0.9.5"
+//"be.doeraene" %%% "scalajs-jquery" % "0.6.29"
+    , "dev.zio" %%% "zio" % "1.0.0-RC13"
 
     // https://mvnrepository.com/artifact/com.thoughtworks.future/future
 //    "com.thoughtworks.future" %%% "future" % "2.0.0",
