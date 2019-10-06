@@ -40,7 +40,7 @@ object ScriptNavigation {
       None
   }
 
-  def setupScriptNavigationOrHideControls() {
+  def setupScriptNavigationOrHideControls() = {
     println("9:59")
 
     val targetCharacterAttempt: Option[String] = getCurrentCharacterName(
@@ -117,6 +117,7 @@ object ScriptNavigation {
 
       }
     )
+    1
   }
 
 }

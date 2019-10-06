@@ -13,6 +13,7 @@ scalaJSUseMainModuleInitializer := true
 
 testFrameworks += new TestFramework("utest.runner.Framework")
 
+webpackConfigFile := Some(baseDirectory.value / "my.custom.webpack.config.js")
 
 libraryDependencies ++= Seq(
     "org.scala-js" %%% "scalajs-dom" % "0.9.7",
