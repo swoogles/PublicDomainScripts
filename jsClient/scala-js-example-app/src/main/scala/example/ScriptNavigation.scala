@@ -70,6 +70,7 @@ object ScriptNavigation {
               ContentHiding.toggleContent(eventObject)
               currentTarget.updateTarget(_ => line.id)
             }
+            ContentHiding.toggleContentInJqueryElement(line)
             jquery(line).addClass("targetCharacter")
           })
 

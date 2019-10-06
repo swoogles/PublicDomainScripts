@@ -1814,6 +1814,17 @@ $c_Lexample_ContentHiding$.prototype.toggleContent__Lorg_scalajs_jquery_JQueryEv
 $c_Lexample_ContentHiding$.prototype.reveal__T__Lorg_scalajs_jquery_JQuery = (function(selector) {
   return $i_jquery(selector).attr("hidden", false)
 });
+$c_Lexample_ContentHiding$.prototype.toggleContentInJqueryElement__Lorg_scalajs_dom_raw_Element__V = (function(element) {
+  var fullContent = $i_jquery(element).children(".full-content");
+  var reducedContent = $i_jquery(element).children(".reduced-content");
+  if (($as_T(fullContent.css("display")) === "none")) {
+    this.displayInline__p1__Lorg_scalajs_jquery_JQuery__V(fullContent);
+    this.hide__p1__Lorg_scalajs_jquery_JQuery__V(reducedContent)
+  } else {
+    this.hide__p1__Lorg_scalajs_jquery_JQuery__V(fullContent);
+    this.displayInline__p1__Lorg_scalajs_jquery_JQuery__V(reducedContent)
+  }
+});
 $c_Lexample_ContentHiding$.prototype.hide__p1__Lorg_scalajs_jquery_JQuery__V = (function(element) {
   element.css("display", "none")
 });
@@ -2058,6 +2069,7 @@ $c_Lexample_ScriptNavigation$.prototype.example$ScriptNavigation$$$anonfun$setup
       currentTarget$1$1.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById($as_T(line$1.id)))
     })
   })(this, currentTarget$1, line));
+  $m_Lexample_ContentHiding$().toggleContentInJqueryElement__Lorg_scalajs_dom_raw_Element__V(line);
   return $i_jquery(line).addClass("targetCharacter")
 });
 var $d_Lexample_ScriptNavigation$ = new $TypeData().initClass({
