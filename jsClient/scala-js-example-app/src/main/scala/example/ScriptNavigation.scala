@@ -10,7 +10,7 @@ object ScriptNavigation {
     "completely_blank_lines_with_spoken_cues"
 
   private def iterateToElement(
-      targetId: (CurrentTarget) => String,
+      targetId: CurrentTarget => String,
       numSteps: Int,
       scrollingTarget: ScrollingTarget,
       currentTarget: CurrentTarget
@@ -41,7 +41,7 @@ object ScriptNavigation {
   }
 
   def setupScriptNavigationOrHideControls() {
-    println("9:39")
+    println("9:59")
 
     val targetCharacterAttempt: Option[String] = getCurrentCharacterName(
       dom.window.location.toString
@@ -70,7 +70,6 @@ object ScriptNavigation {
               ContentHiding.toggleContent(eventObject)
               currentTarget.updateTarget(_ => line.id)
             }
-            ContentHiding.toggleContentInJqueryElement(line)
             jquery(line).addClass("targetCharacter")
           })
 
