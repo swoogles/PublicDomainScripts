@@ -8,7 +8,7 @@ object ScalaJSExample extends App {
 
     val logic = for {
       _ <- putStrLn("doing stuff in ZIO!")
-      _ <-  ScriptNavigation.setupScriptNavigationOrHideControls()
+      _ <- ScriptNavigation.setupScriptNavigationOrHideControls()
       _ <- putStrLn("More stuff")
     } yield (1)
 

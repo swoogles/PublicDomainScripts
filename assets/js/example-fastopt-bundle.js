@@ -1875,40 +1875,7 @@ function $h_Lexample_ScriptNavigation$() {
   /*<skip>*/
 }
 $h_Lexample_ScriptNavigation$.prototype = $c_Lexample_ScriptNavigation$.prototype;
-$c_Lexample_ScriptNavigation$.prototype.init___ = (function() {
-  this.TARGET$undSCRIPT$undVARIATION$1 = "completely_blank_lines_with_spoken_cues";
-  return this
-});
-$c_Lexample_ScriptNavigation$.prototype.example$ScriptNavigation$$$anonfun$setupForCharacter$1__I__Lorg_scalajs_dom_raw_Element__Lexample_CurrentTarget__Lorg_scalajs_jquery_JQuery = (function(index, line, currentTarget$1) {
-  $i_jquery(line).click((function($this, currentTarget$1$1, line$1) {
-    return (function(eventObject$2) {
-      $m_Lexample_ContentHiding$().toggleContent__Lorg_scalajs_jquery_JQueryEventObject__sjs_js_Any(eventObject$2);
-      currentTarget$1$1.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById($as_T(line$1.id)))
-    })
-  })(this, currentTarget$1, line));
-  $m_Lexample_ContentHiding$().showReducedContentOfJqueryElement__Lorg_scalajs_dom_raw_Element__V(line);
-  return $i_jquery(line).addClass("targetCharacter")
-});
-$c_Lexample_ScriptNavigation$.prototype.setupScriptNavigationOrHideControls__Lzio_ZIO = (function() {
-  var this$2 = $m_s_Console$();
-  var this$3 = $as_Ljava_io_PrintStream(this$2.outVar$2.v$1);
-  this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V("21:33\n");
-  var targetCharacterAttempt = this.getCurrentCharacterName__T__s_Option($objectToString($m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().location));
-  var this$4 = $m_Lzio_ZIO$();
-  var v = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this, targetCharacterAttempt$1) {
-    return (function() {
-      if (targetCharacterAttempt$1.isEmpty__Z()) {
-        return $m_s_None$()
-      } else {
-        var arg1 = targetCharacterAttempt$1.get__O();
-        var targetCharacter = $as_T(arg1);
-        return new $c_s_Some().init___O($this.setupForCharacter__T__T(targetCharacter))
-      }
-    })
-  })(this, targetCharacterAttempt));
-  return $f_Lzio_ZIOFunctions__fromOption__F0__Lzio_ZIO(this$4, v)
-});
-$c_Lexample_ScriptNavigation$.prototype.getCurrentCharacterName__T__s_Option = (function(url) {
+$c_Lexample_ScriptNavigation$.prototype.extractCurrentCharacterNameFromUrl__T__s_Option = (function(url) {
   var this$2 = new $c_sci_StringOps().init___T(url);
   var $$this = this$2.repr$1;
   var len = $uI($$this.length);
@@ -1946,7 +1913,7 @@ $c_Lexample_ScriptNavigation$.prototype.getCurrentCharacterName__T__s_Option = (
     return $m_s_None$()
   }
 });
-$c_Lexample_ScriptNavigation$.prototype.setupForCharacter__T__T = (function(targetCharacter) {
+$c_Lexample_ScriptNavigation$.prototype.setupForCharacter__T__Lzio_ZIO = (function(targetCharacter) {
   var x = ("crudely retrieved character: " + targetCharacter);
   var this$2 = $m_s_Console$();
   var this$3 = $as_Ljava_io_PrintStream(this$2.outVar$2.v$1);
@@ -1956,128 +1923,225 @@ $c_Lexample_ScriptNavigation$.prototype.setupForCharacter__T__T = (function(targ
   var jsx$1 = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array));
   var array$1 = [targetCharacter];
   var targetCharacterLines = jsx$2(jsx$1.s__sc_Seq__T(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$1)));
-  if (($uI(targetCharacterLines.length) > 0)) {
-    var thiz = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
-    var array$2 = ["", "/"];
-    var jsx$3 = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$2));
-    var array$3 = [this.TARGET$undSCRIPT$undVARIATION$1];
-    var s = jsx$3.s__sc_Seq__T(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$3));
-    if (($uI(thiz.indexOf(s)) !== (-1))) {
-      $m_Lexample_ContentHiding$().reveal__T__Lorg_scalajs_jquery_JQuery(".two-row-layout")
-    } else {
-      $m_Lexample_ContentHiding$().reveal__T__Lorg_scalajs_jquery_JQuery(".one-row-layout")
-    };
-    var firstCharacterLine = targetCharacterLines.get(0);
-    var currentTarget = new $c_Lexample_CurrentTarget().init___Lexample_ConnectedLine($m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById($as_T(firstCharacterLine.id))));
-    targetCharacterLines.each((function(currentTarget$1) {
-      return (function(arg1$2, arg2$2) {
-        var arg1 = $uI(arg1$2);
-        return $m_Lexample_ScriptNavigation$().example$ScriptNavigation$$$anonfun$setupForCharacter$1__I__Lorg_scalajs_dom_raw_Element__Lexample_CurrentTarget__Lorg_scalajs_jquery_JQuery(arg1, arg2$2, currentTarget$1)
-      })
-    })(currentTarget));
-    $i_jquery(".scroll-to-next-line").click((function($this, currentTarget$2) {
-      return (function(x$3$2) {
-        var numSteps = 1;
-        _iterateToElement: while (true) {
-          currentTarget$2.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTarget$2.connectedLine$1.nextLineId$1));
-          if ((numSteps > 1)) {
-            numSteps = (((-1) + numSteps) | 0);
-            continue _iterateToElement
-          } else {
-            var thiz$1 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
-            var array$4 = ["", "/"];
-            var jsx$4 = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$4));
-            var array$5 = [$this.TARGET$undSCRIPT$undVARIATION$1];
-            var s$1 = jsx$4.s__sc_Seq__T(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$5));
-            if (($uI(thiz$1.indexOf(s$1)) !== (-1))) {
-              currentTarget$2.connectedLine$1.cueLine$1.scrollIntoView(true);
-              $m_Lexample_SpeechClient$().speak__T__V(currentTarget$2.connectedLine$1.cueLineContent$1)
-            } else {
-              currentTarget$2.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
-            }
-          };
-          break
-        }
-      })
-    })(this, currentTarget));
-    $i_jquery(".scroll-to-next-line-big").click((function(this$2$1, currentTarget$3) {
-      return (function(x$5$2) {
-        var numSteps$1 = 10;
-        _iterateToElement$1: while (true) {
-          currentTarget$3.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTarget$3.connectedLine$1.nextLineId$1));
-          if ((numSteps$1 > 1)) {
-            numSteps$1 = (((-1) + numSteps$1) | 0);
-            continue _iterateToElement$1
-          } else {
-            var thiz$2 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
-            var array$6 = ["", "/"];
-            var jsx$5 = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$6));
-            var array$7 = [this$2$1.TARGET$undSCRIPT$undVARIATION$1];
-            var s$2 = jsx$5.s__sc_Seq__T(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$7));
-            if (($uI(thiz$2.indexOf(s$2)) !== (-1))) {
-              currentTarget$3.connectedLine$1.cueLine$1.scrollIntoView(true);
-              $m_Lexample_SpeechClient$().speak__T__V(currentTarget$3.connectedLine$1.cueLineContent$1)
-            } else {
-              currentTarget$3.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
-            }
-          };
-          break
-        }
-      })
-    })(this, currentTarget));
-    $i_jquery(".scroll-to-previous-line").click((function(this$3$1, currentTarget$4) {
-      return (function(x$7$2) {
-        var numSteps$2 = 1;
-        _iterateToElement$2: while (true) {
-          currentTarget$4.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTarget$4.connectedLine$1.previousLineId$1));
-          if ((numSteps$2 > 1)) {
-            numSteps$2 = (((-1) + numSteps$2) | 0);
-            continue _iterateToElement$2
-          } else {
-            var thiz$3 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
-            var array$8 = ["", "/"];
-            var jsx$6 = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$8));
-            var array$9 = [this$3$1.TARGET$undSCRIPT$undVARIATION$1];
-            var s$3 = jsx$6.s__sc_Seq__T(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$9));
-            if (($uI(thiz$3.indexOf(s$3)) !== (-1))) {
-              currentTarget$4.connectedLine$1.cueLine$1.scrollIntoView(true);
-              $m_Lexample_SpeechClient$().speak__T__V(currentTarget$4.connectedLine$1.cueLineContent$1)
-            } else {
-              currentTarget$4.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
-            }
-          };
-          break
-        }
-      })
-    })(this, currentTarget));
-    $i_jquery(".scroll-to-previous-line-big").click((function(this$4$1, currentTarget$5) {
-      return (function(x$9$2) {
-        var numSteps$3 = 10;
-        _iterateToElement$3: while (true) {
-          currentTarget$5.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTarget$5.connectedLine$1.previousLineId$1));
-          if ((numSteps$3 > 1)) {
-            numSteps$3 = (((-1) + numSteps$3) | 0);
-            continue _iterateToElement$3
-          } else {
-            var thiz$4 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
-            var array$10 = ["", "/"];
-            var jsx$7 = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$10));
-            var array$11 = [this$4$1.TARGET$undSCRIPT$undVARIATION$1];
-            var s$4 = jsx$7.s__sc_Seq__T(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$11));
-            if (($uI(thiz$4.indexOf(s$4)) !== (-1))) {
-              currentTarget$5.connectedLine$1.cueLine$1.scrollIntoView(true);
-              $m_Lexample_SpeechClient$().speak__T__V(currentTarget$5.connectedLine$1.cueLineContent$1)
-            } else {
-              currentTarget$5.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
-            }
-          };
-          break
-        }
-      })
-    })(this, currentTarget));
-    return "We setup the character!"
+  var thiz = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
+  var array$2 = ["", "/"];
+  var jsx$3 = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$2));
+  var array$3 = [this.TARGET$undSCRIPT$undVARIATION$1];
+  var s = jsx$3.s__sc_Seq__T(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$3));
+  if (($uI(thiz.indexOf(s)) !== (-1))) {
+    $m_Lexample_ContentHiding$().reveal__T__Lorg_scalajs_jquery_JQuery(".two-row-layout")
   } else {
-    return "We didn't do shit for the character!"
+    $m_Lexample_ContentHiding$().reveal__T__Lorg_scalajs_jquery_JQuery(".one-row-layout")
+  };
+  var firstCharacterLine = targetCharacterLines.get(0);
+  var currentTarget = new $c_Lexample_CurrentTarget().init___Lexample_ConnectedLine($m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById($as_T(firstCharacterLine.id))));
+  $m_Lzio_ZIO$();
+  var a = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this, targetCharacterLines$1, currentTarget$1) {
+    return (function() {
+      return targetCharacterLines$1.each((function(currentTarget$1$1) {
+        return (function(arg1$2, arg2$2) {
+          var arg1 = $uI(arg1$2);
+          return $m_Lexample_ScriptNavigation$().example$ScriptNavigation$$$anonfun$setupForCharacter$2__I__Lorg_scalajs_dom_raw_Element__Lexample_CurrentTarget__Lorg_scalajs_jquery_JQuery(arg1, arg2$2, currentTarget$1$1)
+        })
+      })(currentTarget$1))
+    })
+  })(this, targetCharacterLines, currentTarget));
+  var this$24 = new $c_Lzio_ZIO$EffectPartial().init___F0(a);
+  var k = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1, currentTarget$2) {
+    return (function(x$3$2) {
+      $m_Lzio_ZIO$();
+      var a$1 = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this$1, currentTarget$1$2) {
+        return (function() {
+          return $i_jquery(".scroll-to-next-line").click((function($this$2, currentTarget$1$3) {
+            return (function(x$4$2) {
+              var numSteps = 1;
+              _iterateToElement: while (true) {
+                currentTarget$1$3.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTarget$1$3.connectedLine$1.nextLineId$1));
+                if ((numSteps > 1)) {
+                  numSteps = (((-1) + numSteps) | 0);
+                  continue _iterateToElement
+                } else {
+                  var thiz$1 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
+                  var array$4 = ["", "/"];
+                  var jsx$4 = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$4));
+                  var array$5 = [$this$2.TARGET$undSCRIPT$undVARIATION$1];
+                  var s$1 = jsx$4.s__sc_Seq__T(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$5));
+                  if (($uI(thiz$1.indexOf(s$1)) !== (-1))) {
+                    currentTarget$1$3.connectedLine$1.cueLine$1.scrollIntoView(true);
+                    $m_Lexample_SpeechClient$().speak__T__V(currentTarget$1$3.connectedLine$1.cueLineContent$1)
+                  } else {
+                    currentTarget$1$3.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
+                  }
+                };
+                break
+              }
+            })
+          })($this$1, currentTarget$1$2))
+        })
+      })(this$2$1, currentTarget$2));
+      return new $c_Lzio_ZIO$EffectPartial().init___F0(a$1)
+    })
+  })(this, currentTarget));
+  var this$33 = new $c_Lzio_ZIO$FlatMap().init___Lzio_ZIO__F1(this$24, k);
+  var k$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$3$1, currentTarget$3) {
+    return (function(x$6$2) {
+      $m_Lzio_ZIO$();
+      var a$2 = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this$3, currentTarget$1$4) {
+        return (function() {
+          return $i_jquery(".scroll-to-next-line-big").click((function($this$4, currentTarget$1$5) {
+            return (function(x$7$2) {
+              var numSteps$1 = 10;
+              _iterateToElement$1: while (true) {
+                currentTarget$1$5.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTarget$1$5.connectedLine$1.nextLineId$1));
+                if ((numSteps$1 > 1)) {
+                  numSteps$1 = (((-1) + numSteps$1) | 0);
+                  continue _iterateToElement$1
+                } else {
+                  var thiz$2 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
+                  var array$6 = ["", "/"];
+                  var jsx$5 = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$6));
+                  var array$7 = [$this$4.TARGET$undSCRIPT$undVARIATION$1];
+                  var s$2 = jsx$5.s__sc_Seq__T(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$7));
+                  if (($uI(thiz$2.indexOf(s$2)) !== (-1))) {
+                    currentTarget$1$5.connectedLine$1.cueLine$1.scrollIntoView(true);
+                    $m_Lexample_SpeechClient$().speak__T__V(currentTarget$1$5.connectedLine$1.cueLineContent$1)
+                  } else {
+                    currentTarget$1$5.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
+                  }
+                };
+                break
+              }
+            })
+          })($this$3, currentTarget$1$4))
+        })
+      })(this$3$1, currentTarget$3));
+      return new $c_Lzio_ZIO$EffectPartial().init___F0(a$2)
+    })
+  })(this, currentTarget));
+  var this$42 = new $c_Lzio_ZIO$FlatMap().init___Lzio_ZIO__F1(this$33, k$1);
+  var k$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$4$1, currentTarget$4) {
+    return (function(x$9$2) {
+      $m_Lzio_ZIO$();
+      var a$3 = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this$5, currentTarget$1$6) {
+        return (function() {
+          return $i_jquery(".scroll-to-previous-line").click((function($this$6, currentTarget$1$7) {
+            return (function(x$10$2) {
+              var numSteps$2 = 1;
+              _iterateToElement$2: while (true) {
+                currentTarget$1$7.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTarget$1$7.connectedLine$1.previousLineId$1));
+                if ((numSteps$2 > 1)) {
+                  numSteps$2 = (((-1) + numSteps$2) | 0);
+                  continue _iterateToElement$2
+                } else {
+                  var thiz$3 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
+                  var array$8 = ["", "/"];
+                  var jsx$6 = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$8));
+                  var array$9 = [$this$6.TARGET$undSCRIPT$undVARIATION$1];
+                  var s$3 = jsx$6.s__sc_Seq__T(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$9));
+                  if (($uI(thiz$3.indexOf(s$3)) !== (-1))) {
+                    currentTarget$1$7.connectedLine$1.cueLine$1.scrollIntoView(true);
+                    $m_Lexample_SpeechClient$().speak__T__V(currentTarget$1$7.connectedLine$1.cueLineContent$1)
+                  } else {
+                    currentTarget$1$7.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
+                  }
+                };
+                break
+              }
+            })
+          })($this$5, currentTarget$1$6))
+        })
+      })(this$4$1, currentTarget$4));
+      return new $c_Lzio_ZIO$EffectPartial().init___F0(a$3)
+    })
+  })(this, currentTarget));
+  var this$51 = new $c_Lzio_ZIO$FlatMap().init___Lzio_ZIO__F1(this$42, k$2);
+  var k$3 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$5$1, currentTarget$5) {
+    return (function(x$12$2) {
+      $m_Lzio_ZIO$();
+      var a$4 = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this$7, currentTarget$1$8) {
+        return (function() {
+          return $i_jquery(".scroll-to-previous-line-big").click((function($this$8, currentTarget$1$9) {
+            return (function(x$13$2) {
+              var numSteps$3 = 10;
+              _iterateToElement$3: while (true) {
+                currentTarget$1$9.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTarget$1$9.connectedLine$1.previousLineId$1));
+                if ((numSteps$3 > 1)) {
+                  numSteps$3 = (((-1) + numSteps$3) | 0);
+                  continue _iterateToElement$3
+                } else {
+                  var thiz$4 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
+                  var array$10 = ["", "/"];
+                  var jsx$7 = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$10));
+                  var array$11 = [$this$8.TARGET$undSCRIPT$undVARIATION$1];
+                  var s$4 = jsx$7.s__sc_Seq__T(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$11));
+                  if (($uI(thiz$4.indexOf(s$4)) !== (-1))) {
+                    currentTarget$1$9.connectedLine$1.cueLine$1.scrollIntoView(true);
+                    $m_Lexample_SpeechClient$().speak__T__V(currentTarget$1$9.connectedLine$1.cueLineContent$1)
+                  } else {
+                    currentTarget$1$9.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
+                  }
+                };
+                break
+              }
+            })
+          })($this$7, currentTarget$1$8))
+        })
+      })(this$5$1, currentTarget$5));
+      return new $c_Lzio_ZIO$EffectPartial().init___F0(a$4)
+    })
+  })(this, currentTarget));
+  return new $c_Lzio_ZIO$FlatMap().init___Lzio_ZIO__F1(this$51, k$3)
+});
+$c_Lexample_ScriptNavigation$.prototype.init___ = (function() {
+  this.TARGET$undSCRIPT$undVARIATION$1 = "completely_blank_lines_with_spoken_cues";
+  return this
+});
+$c_Lexample_ScriptNavigation$.prototype.setupScriptNavigationOrHideControls__Lzio_ZIO = (function() {
+  var this$2 = $m_s_Console$();
+  var this$3 = $as_Ljava_io_PrintStream(this$2.outVar$2.v$1);
+  this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V("1:47\n");
+  var targetCharacterAttempt = this.getCurrentCharacter__T__s_Option($objectToString($m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().location));
+  var this$4 = $m_Lzio_ZIO$();
+  var v = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this, targetCharacterAttempt$1) {
+    return (function() {
+      return targetCharacterAttempt$1
+    })
+  })(this, targetCharacterAttempt));
+  return $f_Lzio_ZIOFunctions__fromOption__F0__Lzio_ZIO(this$4, v).flatMap__F1__Lzio_ZIO(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
+    return (function(targetCharacter$2) {
+      var targetCharacter = $as_T(targetCharacter$2);
+      return this$2$1.setupForCharacter__T__Lzio_ZIO(targetCharacter)
+    })
+  })(this)))
+});
+$c_Lexample_ScriptNavigation$.prototype.example$ScriptNavigation$$$anonfun$setupForCharacter$2__I__Lorg_scalajs_dom_raw_Element__Lexample_CurrentTarget__Lorg_scalajs_jquery_JQuery = (function(index, line, currentTarget$1) {
+  $i_jquery(line).click((function($this, currentTarget$1$1, line$1) {
+    return (function(eventObject$2) {
+      $m_Lexample_ContentHiding$().toggleContent__Lorg_scalajs_jquery_JQueryEventObject__sjs_js_Any(eventObject$2);
+      currentTarget$1$1.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById($as_T(line$1.id)))
+    })
+  })(this, currentTarget$1, line));
+  $m_Lexample_ContentHiding$().showReducedContentOfJqueryElement__Lorg_scalajs_dom_raw_Element__V(line);
+  return $i_jquery(line).addClass("targetCharacter")
+});
+$c_Lexample_ScriptNavigation$.prototype.getCurrentCharacter__T__s_Option = (function(url) {
+  var this$1 = this.extractCurrentCharacterNameFromUrl__T__s_Option(url);
+  if (this$1.isEmpty__Z()) {
+    var jsx$1 = true
+  } else {
+    var arg1 = this$1.get__O();
+    var targetCharacter = $as_T(arg1);
+    var jsx$3 = $i_jquery;
+    var array = [".", ""];
+    var jsx$2 = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array));
+    var array$1 = [targetCharacter];
+    var targetCharacterLines = jsx$3(jsx$2.s__sc_Seq__T(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$1)));
+    var jsx$1 = ($uI(targetCharacterLines.length) > 0)
+  };
+  if (jsx$1) {
+    return this$1
+  } else {
+    return $m_s_None$()
   }
 });
 var $d_Lexample_ScriptNavigation$ = new $TypeData().initClass({
@@ -10829,7 +10893,6 @@ $c_Lexample_ScalaJSExample$.prototype.run__sci_List__Lzio_ZIO = (function(args) 
       $asUnit(_$2);
       return $m_Lexample_ScriptNavigation$().setupScriptNavigationOrHideControls__Lzio_ZIO().flatMap__F1__Lzio_ZIO(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$1) {
         return (function(_$2$2) {
-          $as_T(_$2$2);
           return $m_Lzio_console_package$().putStrLn__T__Lzio_ZIO("More stuff").map__F1__Lzio_ZIO(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$2) {
             return (function(_$2$2$1) {
               $asUnit(_$2$2$1);
@@ -10840,10 +10903,9 @@ $c_Lexample_ScalaJSExample$.prototype.run__sci_List__Lzio_ZIO = (function(args) 
       })($this)))
     })
   })(this)));
-  var failure$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2) {
+  var failure = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2) {
     return (function(failure$2) {
-      var failure = $asUnit(failure$2);
-      var x = ("Failure: " + failure);
+      var x = ("Failure: " + failure$2);
       var this$3 = $m_s_Console$();
       var this$4 = $as_Ljava_io_PrintStream(this$3.outVar$2.v$1);
       this$4.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
@@ -10862,7 +10924,7 @@ $c_Lexample_ScalaJSExample$.prototype.run__sci_List__Lzio_ZIO = (function(args) 
       return 0
     })
   })(this));
-  return $f_Lzio_ZIO__fold__F1__F1__Lzio_ZIO(logic, failure$1, success)
+  return $f_Lzio_ZIO__fold__F1__F1__Lzio_ZIO(logic, failure, success)
 });
 var $d_Lexample_ScalaJSExample$ = new $TypeData().initClass({
   Lexample_ScalaJSExample$: 0
