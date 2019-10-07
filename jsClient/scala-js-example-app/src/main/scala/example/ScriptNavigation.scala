@@ -5,6 +5,8 @@ import dom.document.getElementById
 import org.scalajs.jquery.{JQuery, JQueryEventObject}
 import zio.{IO, Task, ZIO}
 
+import scala.scalajs.js
+
 object ScriptNavigation {
   val TARGET_SCRIPT_VARIATION =
 //    "full_script_with_lines_highlighted"
@@ -56,7 +58,7 @@ object ScriptNavigation {
     val targetCharacterLines: JQuery = jquery(s".$targetCharacter")
 
     if (dom.document.URL
-          .contains(s"$TARGET_SCRIPT_VARIATION/")) { // What an ugly way to work with this for the time being
+      .contains(s"$TARGET_SCRIPT_VARIATION/")) { // What an ugly way to work with this for the time being
       ContentHiding.reveal(".two-row-layout")
     } else {
       ContentHiding.reveal(".one-row-layout")
@@ -65,6 +67,50 @@ object ScriptNavigation {
     val firstCharacterLine = targetCharacterLines.get(0)
     val currentTarget = new CurrentTarget(
       ConnectedLine(getElementById(firstCharacterLine.id))
+    )
+
+    val attachNextLineBehavior = attachClickBehaviorToElement(
+      ".scroll-to-next-line",
+      _ =>
+        iterateToElement(
+          _.connectedLine.nextLineId,
+          1,
+          Next,
+          currentTarget
+        )
+    )
+
+    val attachBigNextLineBehavior = attachClickBehaviorToElement(
+      ".scroll-to-next-line-big",
+      _ =>
+        iterateToElement(
+          _.connectedLine.nextLineId,
+          10,
+          Next,
+          currentTarget
+        )
+    )
+
+    val attachPreviousLineBehavior = attachClickBehaviorToElement(
+      ".scroll-to-previous-line",
+      _ =>
+        iterateToElement(
+          _.connectedLine.previousLineId,
+          1,
+          Prev,
+          currentTarget
+        )
+    )
+
+    val attachBigPreviousLineBehavior = attachClickBehaviorToElement(
+      ".scroll-to-previous-line-big",
+      _ =>
+        iterateToElement(
+          _.connectedLine.previousLineId,
+          10,
+          Prev,
+          currentTarget
+        )
     )
 
     ZIO {
@@ -76,67 +122,23 @@ object ScriptNavigation {
         ContentHiding.showReducedContentOfJqueryElement(line)
         jquery(line).addClass("targetCharacter")
       })
-    }.flatMap(
-        _ =>
-          ZIO {
-            jquery(".scroll-to-next-line")
-              .click { _: JQueryEventObject =>
-                iterateToElement(
-                  _.connectedLine.nextLineId,
-                  1,
-                  Next,
-                  currentTarget
-                )
-              }
-          }
-      )
-      .flatMap(
-        _ =>
-          ZIO {
-            jquery(".scroll-to-next-line-big")
-              .click { _: JQueryEventObject =>
-                iterateToElement(
-                  _.connectedLine.nextLineId,
-                  10,
-                  Next,
-                  currentTarget
-                )
-              }
-          }
-      )
-      .flatMap(
-        _ =>
-          ZIO {
-            jquery(".scroll-to-previous-line")
-              .click { _: JQueryEventObject =>
-                iterateToElement(
-                  _.connectedLine.previousLineId,
-                  1,
-                  Prev,
-                  currentTarget
-                )
-              }
-          }
-      )
-      .flatMap(
-        _ =>
-          ZIO {
-            jquery(".scroll-to-previous-line-big")
-              .click { _: JQueryEventObject =>
-                iterateToElement(
-                  _.connectedLine.previousLineId,
-                  10,
-                  Prev,
-                  currentTarget
-                )
-              }
-          }
-      )
+    }.flatMap( _ => attachNextLineBehavior )
+      .flatMap( _ => attachBigNextLineBehavior )
+      .flatMap( _ => attachPreviousLineBehavior )
+      .flatMap( _ => attachBigPreviousLineBehavior )
 
   }
 
+  def attachClickBehaviorToElement(
+      selector: String,
+      func: JQueryEventObject => js.Any
+  ) = ZIO {
+    jquery(selector)
+      .click { func }
+  }
+
   def setupScriptNavigationOrHideControls() = {
-    println("1:47")
+    println("6:15")
 
     val targetCharacterAttempt: Option[String] = getCurrentCharacter(
       dom.window.location.toString
