@@ -18,16 +18,11 @@ object ContentHiding {
   private def displayInline(element: JQuery): Unit =
     element.css("display", "inline")
 
-  def toggleContentInJqueryElement(element: Element): Unit = {
+  def showReducedContentOfJqueryElement(element: Element): Unit = {
     val fullContent: JQuery = jquery(element).children(".full-content")
     val reducedContent = jquery(element).children(".reduced-content")
-    if (fullContent.css("display") == "none") {
-      displayInline(fullContent)
-      hide(reducedContent)
-    } else {
-      hide(fullContent)
-      displayInline(reducedContent)
-    }
+    hide(fullContent)
+    displayInline(reducedContent)
   }
 
   def toggleContent(eventObject: JQueryEventObject): js.Any = {
