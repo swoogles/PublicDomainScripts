@@ -4,6 +4,7 @@ import org.scalajs.dom
 import dom.document.getElementById
 import org.scalajs.jquery.{JQuery, JQueryEventObject}
 import zio.{IO, Task, ZIO}
+import zio.console.putStrLn
 
 import scala.scalajs.js
 
@@ -52,16 +53,15 @@ object ScriptNavigation {
   }
 
   def setupForCharacter(targetCharacter: String) = {
-    // Only setup controls if there is a character selected
-    println("crudely retrieved character: " + targetCharacter)
-
     val targetCharacterLines: JQuery = jquery(s".$targetCharacter")
 
-    if (dom.document.URL
-      .contains(s"$TARGET_SCRIPT_VARIATION/")) { // What an ugly way to work with this for the time being
-      ContentHiding.reveal(".two-row-layout")
-    } else {
-      ContentHiding.reveal(".one-row-layout")
+    val showCorrectControls = ZIO {
+      if (dom.document.URL
+            .contains(s"$TARGET_SCRIPT_VARIATION/")) { // What an ugly way to work with this for the time being
+        ContentHiding.reveal(".two-row-layout")
+      } else {
+        ContentHiding.reveal(".one-row-layout")
+      }
     }
 
     val firstCharacterLine = targetCharacterLines.get(0)
@@ -113,19 +113,25 @@ object ScriptNavigation {
         )
     )
 
-    ZIO {
-      targetCharacterLines.each((index, line) => {
-        jquery(line).click { eventObject: JQueryEventObject =>
-          ContentHiding.toggleContent(eventObject)
-          currentTarget.updateTarget(_ => line.id)
-        }
-        ContentHiding.showReducedContentOfJqueryElement(line)
-        jquery(line).addClass("targetCharacter")
-      })
-    }.flatMap( _ => attachNextLineBehavior )
-      .flatMap( _ => attachBigNextLineBehavior )
-      .flatMap( _ => attachPreviousLineBehavior )
-      .flatMap( _ => attachBigPreviousLineBehavior )
+    val setupCharacterLineInitialStateAndBehavior =
+      ZIO {
+        targetCharacterLines.each((index, line) => {
+          jquery(line).click { eventObject: JQueryEventObject =>
+            ContentHiding.toggleContent(eventObject)
+            currentTarget.updateTarget(_ => line.id)
+          }
+          ContentHiding.showReducedContentOfJqueryElement(line)
+          jquery(line).addClass("targetCharacter")
+        })
+      }
+
+    putStrLn("crudely retrieved character: " + targetCharacter)
+      .flatMap(_ => setupCharacterLineInitialStateAndBehavior)
+      .flatMap(_ => showCorrectControls)
+      .flatMap(_ => attachNextLineBehavior)
+      .flatMap(_ => attachBigNextLineBehavior)
+      .flatMap(_ => attachPreviousLineBehavior)
+      .flatMap(_ => attachBigPreviousLineBehavior)
 
   }
 
@@ -138,12 +144,18 @@ object ScriptNavigation {
   }
 
   def setupScriptNavigationOrHideControls() = {
-    println("6:15")
-
     val targetCharacterAttempt: Option[String] = getCurrentCharacter(
       dom.window.location.toString
     )
-    ZIO.fromOption(targetCharacterAttempt).flatMap(setupForCharacter)
+    putStrLn("8:15")
+      .flatMap(
+        _ =>
+          ZIO
+            .fromOption(targetCharacterAttempt)
+            .mapError(_ => "No character found")
+            // Only setup controls if there is a character selected
+            .flatMap(setupForCharacter)
+      )
   }
 
 }

@@ -10,7 +10,7 @@ object ScalaJSExample extends App {
       _ <- putStrLn("doing stuff in ZIO!")
       _ <- ScriptNavigation.setupScriptNavigationOrHideControls()
       _ <- putStrLn("More stuff")
-    } yield (1)
+    } yield (0)
 
     logic.fold(failure => {
       println("Failure: " + failure)

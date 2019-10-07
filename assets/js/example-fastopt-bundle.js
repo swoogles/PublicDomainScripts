@@ -1914,207 +1914,208 @@ $c_Lexample_ScriptNavigation$.prototype.extractCurrentCharacterNameFromUrl__T__s
   }
 });
 $c_Lexample_ScriptNavigation$.prototype.setupForCharacter__T__Lzio_ZIO = (function(targetCharacter) {
-  var x = ("crudely retrieved character: " + targetCharacter);
-  var this$2 = $m_s_Console$();
-  var this$3 = $as_Ljava_io_PrintStream(this$2.outVar$2.v$1);
-  this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
   var jsx$2 = $i_jquery;
   var array = [".", ""];
   var jsx$1 = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array));
   var array$1 = [targetCharacter];
   var targetCharacterLines = jsx$2(jsx$1.s__sc_Seq__T(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$1)));
-  var thiz = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
-  var array$2 = ["", "/"];
-  var jsx$3 = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$2));
-  var array$3 = [this.TARGET$undSCRIPT$undVARIATION$1];
-  var s = jsx$3.s__sc_Seq__T(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$3));
-  if (($uI(thiz.indexOf(s)) !== (-1))) {
-    $m_Lexample_ContentHiding$().reveal__T__Lorg_scalajs_jquery_JQuery(".two-row-layout")
-  } else {
-    $m_Lexample_ContentHiding$().reveal__T__Lorg_scalajs_jquery_JQuery(".one-row-layout")
-  };
+  $m_Lzio_ZIO$();
+  var a = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this) {
+    return (function() {
+      var thiz = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
+      var array$2 = ["", "/"];
+      var jsx$3 = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$2));
+      var array$3 = [$this.TARGET$undSCRIPT$undVARIATION$1];
+      var s = jsx$3.s__sc_Seq__T(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$3));
+      if (($uI(thiz.indexOf(s)) !== (-1))) {
+        return $m_Lexample_ContentHiding$().reveal__T__Lorg_scalajs_jquery_JQuery(".two-row-layout")
+      } else {
+        return $m_Lexample_ContentHiding$().reveal__T__Lorg_scalajs_jquery_JQuery(".one-row-layout")
+      }
+    })
+  })(this));
+  var showCorrectControls = new $c_Lzio_ZIO$EffectPartial().init___F0(a);
   var firstCharacterLine = targetCharacterLines.get(0);
   var currentTarget = new $c_Lexample_CurrentTarget().init___Lexample_ConnectedLine($m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById($as_T(firstCharacterLine.id))));
+  var attachNextLineBehavior = this.attachClickBehaviorToElement__T__F1__Lzio_ZIO(".scroll-to-next-line", new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1, currentTarget$1) {
+    return (function(x$2$2) {
+      var numSteps = 1;
+      _iterateToElement: while (true) {
+        currentTarget$1.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTarget$1.connectedLine$1.nextLineId$1));
+        if ((numSteps > 1)) {
+          numSteps = (((-1) + numSteps) | 0);
+          continue _iterateToElement
+        } else {
+          var thiz$1 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
+          var array$4 = ["", "/"];
+          var jsx$4 = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$4));
+          var array$5 = [this$2$1.TARGET$undSCRIPT$undVARIATION$1];
+          var s$1 = jsx$4.s__sc_Seq__T(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$5));
+          if (($uI(thiz$1.indexOf(s$1)) !== (-1))) {
+            currentTarget$1.connectedLine$1.cueLine$1.scrollIntoView(true);
+            $m_Lexample_SpeechClient$().speak__T__V(currentTarget$1.connectedLine$1.cueLineContent$1)
+          } else {
+            currentTarget$1.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
+          }
+        };
+        break
+      };
+      var value = (void 0);
+      return value
+    })
+  })(this, currentTarget)));
+  var attachBigNextLineBehavior = this.attachClickBehaviorToElement__T__F1__Lzio_ZIO(".scroll-to-next-line-big", new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$3$1, currentTarget$2) {
+    return (function(x$4$2) {
+      var numSteps$1 = 10;
+      _iterateToElement$1: while (true) {
+        currentTarget$2.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTarget$2.connectedLine$1.nextLineId$1));
+        if ((numSteps$1 > 1)) {
+          numSteps$1 = (((-1) + numSteps$1) | 0);
+          continue _iterateToElement$1
+        } else {
+          var thiz$2 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
+          var array$6 = ["", "/"];
+          var jsx$5 = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$6));
+          var array$7 = [this$3$1.TARGET$undSCRIPT$undVARIATION$1];
+          var s$2 = jsx$5.s__sc_Seq__T(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$7));
+          if (($uI(thiz$2.indexOf(s$2)) !== (-1))) {
+            currentTarget$2.connectedLine$1.cueLine$1.scrollIntoView(true);
+            $m_Lexample_SpeechClient$().speak__T__V(currentTarget$2.connectedLine$1.cueLineContent$1)
+          } else {
+            currentTarget$2.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
+          }
+        };
+        break
+      };
+      var value$1 = (void 0);
+      return value$1
+    })
+  })(this, currentTarget)));
+  var attachPreviousLineBehavior = this.attachClickBehaviorToElement__T__F1__Lzio_ZIO(".scroll-to-previous-line", new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$4$1, currentTarget$3) {
+    return (function(x$6$2) {
+      var numSteps$2 = 1;
+      _iterateToElement$2: while (true) {
+        currentTarget$3.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTarget$3.connectedLine$1.previousLineId$1));
+        if ((numSteps$2 > 1)) {
+          numSteps$2 = (((-1) + numSteps$2) | 0);
+          continue _iterateToElement$2
+        } else {
+          var thiz$3 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
+          var array$8 = ["", "/"];
+          var jsx$6 = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$8));
+          var array$9 = [this$4$1.TARGET$undSCRIPT$undVARIATION$1];
+          var s$3 = jsx$6.s__sc_Seq__T(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$9));
+          if (($uI(thiz$3.indexOf(s$3)) !== (-1))) {
+            currentTarget$3.connectedLine$1.cueLine$1.scrollIntoView(true);
+            $m_Lexample_SpeechClient$().speak__T__V(currentTarget$3.connectedLine$1.cueLineContent$1)
+          } else {
+            currentTarget$3.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
+          }
+        };
+        break
+      };
+      var value$2 = (void 0);
+      return value$2
+    })
+  })(this, currentTarget)));
+  var attachBigPreviousLineBehavior = this.attachClickBehaviorToElement__T__F1__Lzio_ZIO(".scroll-to-previous-line-big", new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$5$1, currentTarget$4) {
+    return (function(x$8$2) {
+      var numSteps$3 = 10;
+      _iterateToElement$3: while (true) {
+        currentTarget$4.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTarget$4.connectedLine$1.previousLineId$1));
+        if ((numSteps$3 > 1)) {
+          numSteps$3 = (((-1) + numSteps$3) | 0);
+          continue _iterateToElement$3
+        } else {
+          var thiz$4 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
+          var array$10 = ["", "/"];
+          var jsx$7 = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$10));
+          var array$11 = [this$5$1.TARGET$undSCRIPT$undVARIATION$1];
+          var s$4 = jsx$7.s__sc_Seq__T(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$11));
+          if (($uI(thiz$4.indexOf(s$4)) !== (-1))) {
+            currentTarget$4.connectedLine$1.cueLine$1.scrollIntoView(true);
+            $m_Lexample_SpeechClient$().speak__T__V(currentTarget$4.connectedLine$1.cueLineContent$1)
+          } else {
+            currentTarget$4.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
+          }
+        };
+        break
+      };
+      var value$3 = (void 0);
+      return value$3
+    })
+  })(this, currentTarget)));
   $m_Lzio_ZIO$();
-  var a = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this, targetCharacterLines$1, currentTarget$1) {
+  var a$1 = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function(this$6$1, targetCharacterLines$1, currentTarget$5) {
     return (function() {
       return targetCharacterLines$1.each((function(currentTarget$1$1) {
         return (function(arg1$2, arg2$2) {
           var arg1 = $uI(arg1$2);
-          return $m_Lexample_ScriptNavigation$().example$ScriptNavigation$$$anonfun$setupForCharacter$2__I__Lorg_scalajs_dom_raw_Element__Lexample_CurrentTarget__Lorg_scalajs_jquery_JQuery(arg1, arg2$2, currentTarget$1$1)
+          return $m_Lexample_ScriptNavigation$().example$ScriptNavigation$$$anonfun$setupForCharacter$11__I__Lorg_scalajs_dom_raw_Element__Lexample_CurrentTarget__Lorg_scalajs_jquery_JQuery(arg1, arg2$2, currentTarget$1$1)
         })
-      })(currentTarget$1))
+      })(currentTarget$5))
     })
   })(this, targetCharacterLines, currentTarget));
-  var this$24 = new $c_Lzio_ZIO$EffectPartial().init___F0(a);
-  var k = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1, currentTarget$2) {
-    return (function(x$3$2) {
-      $m_Lzio_ZIO$();
-      var a$1 = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this$1, currentTarget$1$2) {
-        return (function() {
-          return $i_jquery(".scroll-to-next-line").click((function($this$2, currentTarget$1$3) {
-            return (function(x$4$2) {
-              var numSteps = 1;
-              _iterateToElement: while (true) {
-                currentTarget$1$3.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTarget$1$3.connectedLine$1.nextLineId$1));
-                if ((numSteps > 1)) {
-                  numSteps = (((-1) + numSteps) | 0);
-                  continue _iterateToElement
-                } else {
-                  var thiz$1 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
-                  var array$4 = ["", "/"];
-                  var jsx$4 = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$4));
-                  var array$5 = [$this$2.TARGET$undSCRIPT$undVARIATION$1];
-                  var s$1 = jsx$4.s__sc_Seq__T(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$5));
-                  if (($uI(thiz$1.indexOf(s$1)) !== (-1))) {
-                    currentTarget$1$3.connectedLine$1.cueLine$1.scrollIntoView(true);
-                    $m_Lexample_SpeechClient$().speak__T__V(currentTarget$1$3.connectedLine$1.cueLineContent$1)
-                  } else {
-                    currentTarget$1$3.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
-                  }
-                };
-                break
-              }
-            })
-          })($this$1, currentTarget$1$2))
-        })
-      })(this$2$1, currentTarget$2));
-      return new $c_Lzio_ZIO$EffectPartial().init___F0(a$1)
+  var setupCharacterLineInitialStateAndBehavior = new $c_Lzio_ZIO$EffectPartial().init___F0(a$1);
+  return $m_Lzio_console_package$().putStrLn__T__Lzio_ZIO(("crudely retrieved character: " + targetCharacter)).flatMap__F1__Lzio_ZIO(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$7$1, setupCharacterLineInitialStateAndBehavior$1) {
+    return (function(x$11$2) {
+      $asUnit(x$11$2);
+      return setupCharacterLineInitialStateAndBehavior$1
     })
-  })(this, currentTarget));
-  var this$33 = new $c_Lzio_ZIO$FlatMap().init___Lzio_ZIO__F1(this$24, k);
-  var k$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$3$1, currentTarget$3) {
-    return (function(x$6$2) {
-      $m_Lzio_ZIO$();
-      var a$2 = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this$3, currentTarget$1$4) {
-        return (function() {
-          return $i_jquery(".scroll-to-next-line-big").click((function($this$4, currentTarget$1$5) {
-            return (function(x$7$2) {
-              var numSteps$1 = 10;
-              _iterateToElement$1: while (true) {
-                currentTarget$1$5.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTarget$1$5.connectedLine$1.nextLineId$1));
-                if ((numSteps$1 > 1)) {
-                  numSteps$1 = (((-1) + numSteps$1) | 0);
-                  continue _iterateToElement$1
-                } else {
-                  var thiz$2 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
-                  var array$6 = ["", "/"];
-                  var jsx$5 = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$6));
-                  var array$7 = [$this$4.TARGET$undSCRIPT$undVARIATION$1];
-                  var s$2 = jsx$5.s__sc_Seq__T(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$7));
-                  if (($uI(thiz$2.indexOf(s$2)) !== (-1))) {
-                    currentTarget$1$5.connectedLine$1.cueLine$1.scrollIntoView(true);
-                    $m_Lexample_SpeechClient$().speak__T__V(currentTarget$1$5.connectedLine$1.cueLineContent$1)
-                  } else {
-                    currentTarget$1$5.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
-                  }
-                };
-                break
-              }
-            })
-          })($this$3, currentTarget$1$4))
-        })
-      })(this$3$1, currentTarget$3));
-      return new $c_Lzio_ZIO$EffectPartial().init___F0(a$2)
-    })
-  })(this, currentTarget));
-  var this$42 = new $c_Lzio_ZIO$FlatMap().init___Lzio_ZIO__F1(this$33, k$1);
-  var k$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$4$1, currentTarget$4) {
-    return (function(x$9$2) {
-      $m_Lzio_ZIO$();
-      var a$3 = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this$5, currentTarget$1$6) {
-        return (function() {
-          return $i_jquery(".scroll-to-previous-line").click((function($this$6, currentTarget$1$7) {
-            return (function(x$10$2) {
-              var numSteps$2 = 1;
-              _iterateToElement$2: while (true) {
-                currentTarget$1$7.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTarget$1$7.connectedLine$1.previousLineId$1));
-                if ((numSteps$2 > 1)) {
-                  numSteps$2 = (((-1) + numSteps$2) | 0);
-                  continue _iterateToElement$2
-                } else {
-                  var thiz$3 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
-                  var array$8 = ["", "/"];
-                  var jsx$6 = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$8));
-                  var array$9 = [$this$6.TARGET$undSCRIPT$undVARIATION$1];
-                  var s$3 = jsx$6.s__sc_Seq__T(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$9));
-                  if (($uI(thiz$3.indexOf(s$3)) !== (-1))) {
-                    currentTarget$1$7.connectedLine$1.cueLine$1.scrollIntoView(true);
-                    $m_Lexample_SpeechClient$().speak__T__V(currentTarget$1$7.connectedLine$1.cueLineContent$1)
-                  } else {
-                    currentTarget$1$7.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
-                  }
-                };
-                break
-              }
-            })
-          })($this$5, currentTarget$1$6))
-        })
-      })(this$4$1, currentTarget$4));
-      return new $c_Lzio_ZIO$EffectPartial().init___F0(a$3)
-    })
-  })(this, currentTarget));
-  var this$51 = new $c_Lzio_ZIO$FlatMap().init___Lzio_ZIO__F1(this$42, k$2);
-  var k$3 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$5$1, currentTarget$5) {
+  })(this, setupCharacterLineInitialStateAndBehavior))).flatMap__F1__Lzio_ZIO(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$8$1, showCorrectControls$1) {
     return (function(x$12$2) {
-      $m_Lzio_ZIO$();
-      var a$4 = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this$7, currentTarget$1$8) {
-        return (function() {
-          return $i_jquery(".scroll-to-previous-line-big").click((function($this$8, currentTarget$1$9) {
-            return (function(x$13$2) {
-              var numSteps$3 = 10;
-              _iterateToElement$3: while (true) {
-                currentTarget$1$9.connectedLine$1 = $m_Lexample_ConnectedLine$().apply__Lorg_scalajs_dom_raw_Element__Lexample_ConnectedLine($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(currentTarget$1$9.connectedLine$1.previousLineId$1));
-                if ((numSteps$3 > 1)) {
-                  numSteps$3 = (((-1) + numSteps$3) | 0);
-                  continue _iterateToElement$3
-                } else {
-                  var thiz$4 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
-                  var array$10 = ["", "/"];
-                  var jsx$7 = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$10));
-                  var array$11 = [$this$8.TARGET$undSCRIPT$undVARIATION$1];
-                  var s$4 = jsx$7.s__sc_Seq__T(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$11));
-                  if (($uI(thiz$4.indexOf(s$4)) !== (-1))) {
-                    currentTarget$1$9.connectedLine$1.cueLine$1.scrollIntoView(true);
-                    $m_Lexample_SpeechClient$().speak__T__V(currentTarget$1$9.connectedLine$1.cueLineContent$1)
-                  } else {
-                    currentTarget$1$9.connectedLine$1.dataScrollBuffer$1.scrollIntoView(false)
-                  }
-                };
-                break
-              }
-            })
-          })($this$7, currentTarget$1$8))
-        })
-      })(this$5$1, currentTarget$5));
-      return new $c_Lzio_ZIO$EffectPartial().init___F0(a$4)
+      return showCorrectControls$1
     })
-  })(this, currentTarget));
-  return new $c_Lzio_ZIO$FlatMap().init___Lzio_ZIO__F1(this$51, k$3)
+  })(this, showCorrectControls))).flatMap__F1__Lzio_ZIO(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$9$1, attachNextLineBehavior$1) {
+    return (function(x$13$2) {
+      return attachNextLineBehavior$1
+    })
+  })(this, attachNextLineBehavior))).flatMap__F1__Lzio_ZIO(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$10$1, attachBigNextLineBehavior$1) {
+    return (function(x$14$2) {
+      return attachBigNextLineBehavior$1
+    })
+  })(this, attachBigNextLineBehavior))).flatMap__F1__Lzio_ZIO(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$11$1, attachPreviousLineBehavior$1) {
+    return (function(x$15$2) {
+      return attachPreviousLineBehavior$1
+    })
+  })(this, attachPreviousLineBehavior))).flatMap__F1__Lzio_ZIO(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$12$1, attachBigPreviousLineBehavior$1) {
+    return (function(x$16$2) {
+      return attachBigPreviousLineBehavior$1
+    })
+  })(this, attachBigPreviousLineBehavior)))
 });
 $c_Lexample_ScriptNavigation$.prototype.init___ = (function() {
   this.TARGET$undSCRIPT$undVARIATION$1 = "completely_blank_lines_with_spoken_cues";
   return this
 });
 $c_Lexample_ScriptNavigation$.prototype.setupScriptNavigationOrHideControls__Lzio_ZIO = (function() {
-  var this$2 = $m_s_Console$();
-  var this$3 = $as_Ljava_io_PrintStream(this$2.outVar$2.v$1);
-  this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V("1:47\n");
   var targetCharacterAttempt = this.getCurrentCharacter__T__s_Option($objectToString($m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().location));
-  var this$4 = $m_Lzio_ZIO$();
-  var v = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this, targetCharacterAttempt$1) {
-    return (function() {
-      return targetCharacterAttempt$1
+  return $m_Lzio_console_package$().putStrLn__T__Lzio_ZIO("8:15").flatMap__F1__Lzio_ZIO(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this, targetCharacterAttempt$1) {
+    return (function(x$17$2) {
+      $asUnit(x$17$2);
+      var this$1 = $m_Lzio_ZIO$();
+      var v = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this$1, targetCharacterAttempt$1$1) {
+        return (function() {
+          return targetCharacterAttempt$1$1
+        })
+      })($this, targetCharacterAttempt$1));
+      var this$3 = $f_Lzio_ZIOFunctions__fromOption__F0__Lzio_ZIO(this$1, v);
+      var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2) {
+        return (function(x$18$2) {
+          $asUnit(x$18$2);
+          return "No character found"
+        })
+      })($this));
+      return $f_Lzio_ZIO__mapError__F1__Lzio_ZIO(this$3, f).flatMap__F1__Lzio_ZIO(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$3$1) {
+        return (function(targetCharacter$2) {
+          var targetCharacter = $as_T(targetCharacter$2);
+          return this$3$1.setupForCharacter__T__Lzio_ZIO(targetCharacter)
+        })
+      })($this)))
     })
-  })(this, targetCharacterAttempt));
-  return $f_Lzio_ZIOFunctions__fromOption__F0__Lzio_ZIO(this$4, v).flatMap__F1__Lzio_ZIO(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
-    return (function(targetCharacter$2) {
-      var targetCharacter = $as_T(targetCharacter$2);
-      return this$2$1.setupForCharacter__T__Lzio_ZIO(targetCharacter)
-    })
-  })(this)))
+  })(this, targetCharacterAttempt)))
 });
-$c_Lexample_ScriptNavigation$.prototype.example$ScriptNavigation$$$anonfun$setupForCharacter$2__I__Lorg_scalajs_dom_raw_Element__Lexample_CurrentTarget__Lorg_scalajs_jquery_JQuery = (function(index, line, currentTarget$1) {
+$c_Lexample_ScriptNavigation$.prototype.example$ScriptNavigation$$$anonfun$setupForCharacter$11__I__Lorg_scalajs_dom_raw_Element__Lexample_CurrentTarget__Lorg_scalajs_jquery_JQuery = (function(index, line, currentTarget$1) {
   $i_jquery(line).click((function($this, currentTarget$1$1, line$1) {
     return (function(eventObject$2) {
       $m_Lexample_ContentHiding$().toggleContent__Lorg_scalajs_jquery_JQueryEventObject__sjs_js_Any(eventObject$2);
@@ -2123,6 +2124,19 @@ $c_Lexample_ScriptNavigation$.prototype.example$ScriptNavigation$$$anonfun$setup
   })(this, currentTarget$1, line));
   $m_Lexample_ContentHiding$().showReducedContentOfJqueryElement__Lorg_scalajs_dom_raw_Element__V(line);
   return $i_jquery(line).addClass("targetCharacter")
+});
+$c_Lexample_ScriptNavigation$.prototype.attachClickBehaviorToElement__T__F1__Lzio_ZIO = (function(selector, func) {
+  $m_Lzio_ZIO$();
+  var a = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this, selector$1, func$1) {
+    return (function() {
+      return $i_jquery(selector$1).click((function(f) {
+        return (function(arg1) {
+          return f.apply__O__O(arg1)
+        })
+      })(func$1))
+    })
+  })(this, selector, func));
+  return new $c_Lzio_ZIO$EffectPartial().init___F0(a)
 });
 $c_Lexample_ScriptNavigation$.prototype.getCurrentCharacter__T__s_Option = (function(url) {
   var this$1 = this.extractCurrentCharacterNameFromUrl__T__s_Option(url);
@@ -5869,6 +5883,11 @@ function $f_Lzio_ZIO__bracket$und__Lzio_ZIO__Lzio_ZIO__Lzio_ZIO($thiz, release, 
   })($thiz, use));
   return $f_Lzio_ZIOFunctions__bracket__Lzio_ZIO__F1__F1__Lzio_ZIO(this$1, $thiz, release$2, use$2)
 }
+function $f_Lzio_ZIO__mapError__F1__Lzio_ZIO($thiz, f) {
+  var failure = new $c_Lzio_ZIO$MapErrorFn().init___F1(f);
+  var success = new $c_Lzio_ZIO$SucceedFn().init___O(f);
+  return new $c_Lzio_ZIO$Fold().init___Lzio_ZIO__F1__F1($thiz, failure, success)
+}
 function $f_Lzio_ZIO__catchAll__F1__Lzio_ZIO($thiz, h) {
   var success = new $c_Lzio_ZIO$SucceedFn().init___O(h);
   return $f_Lzio_ZIO__foldM__F1__F1__Lzio_ZIO($thiz, h, success)
@@ -8763,8 +8782,8 @@ $c_Lzio_Cause$.prototype.flatten__Lzio_Cause__sci_Set = (function(c) {
       return $as_sci_Set(this.flatten__Lzio_Cause__sci_Set(left).$$plus$plus__sc_GenTraversableOnce__sc_Set(this.flatten__Lzio_Cause__sci_Set(right)))
     } else if ((x1 instanceof $c_Lzio_Cause$Both)) {
       var x3 = $as_Lzio_Cause$Both(x1);
-      var left$2 = x3.left__Lzio_Cause();
-      var right$2 = x3.right__Lzio_Cause();
+      var left$2 = x3.left$1;
+      var right$2 = x3.right$1;
       return $as_sci_Set(this.flatten__Lzio_Cause__sci_Set(left$2).$$plus$plus__sc_GenTraversableOnce__sc_Set(this.flatten__Lzio_Cause__sci_Set(right$2)))
     } else if ((x1 instanceof $c_Lzio_Cause$Traced)) {
       var x4 = $as_Lzio_Cause$Traced(x1);
@@ -10896,7 +10915,7 @@ $c_Lexample_ScalaJSExample$.prototype.run__sci_List__Lzio_ZIO = (function(args) 
           return $m_Lzio_console_package$().putStrLn__T__Lzio_ZIO("More stuff").map__F1__Lzio_ZIO(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$2) {
             return (function(_$2$2$1) {
               $asUnit(_$2$2$1);
-              return 1
+              return 0
             })
           })($this$1)))
         })
@@ -11063,8 +11082,8 @@ function $f_Lzio_Cause__fold__O__s_PartialFunction__O($thiz, z, f) {
         break case14
       };
       var x5 = $as_Lzio_Cause$Both(_2);
-      var left$2 = x5.left__Lzio_Cause();
-      var right$2 = x5.right__Lzio_Cause();
+      var left$2 = x5.left$1;
+      var right$2 = x5.right$1;
       var temp$z$2 = $f_Lzio_Cause__fold__O__s_PartialFunction__O(left$2, _1, f);
       _$this = right$2;
       z = temp$z$2;
@@ -11096,8 +11115,8 @@ function $f_Lzio_Cause__Parallel$3__pLzio_Cause__sr_LazyRef__Lzio_Cause$Parallel
 function $f_Lzio_Cause__parallelSegments$1__pLzio_Cause__Lzio_Cause__sr_LazyRef__sr_LazyRef__sr_LazyRef__sci_List($thiz, cause, Sequential$module$1, Failure$module$1, Parallel$module$1) {
   if ((cause instanceof $c_Lzio_Cause$Both)) {
     var x2 = $as_Lzio_Cause$Both(cause);
-    var left = x2.left__Lzio_Cause();
-    var right = x2.right__Lzio_Cause();
+    var left = x2.left$1;
+    var right = x2.right$1;
     var jsx$2 = $f_Lzio_Cause__parallelSegments$1__pLzio_Cause__Lzio_Cause__sr_LazyRef__sr_LazyRef__sr_LazyRef__sci_List($thiz, left, Sequential$module$1, Failure$module$1, Parallel$module$1);
     var jsx$1 = $f_Lzio_Cause__parallelSegments$1__pLzio_Cause__Lzio_Cause__sr_LazyRef__sr_LazyRef__sr_LazyRef__sci_List($thiz, right, Sequential$module$1, Failure$module$1, Parallel$module$1);
     var this$1 = $m_sci_List$();
@@ -11145,6 +11164,38 @@ function $f_Lzio_Cause__renderInterrupt$1__pLzio_Cause__s_Option__sr_LazyRef__sr
     i = (((-1) + i) | 0)
   };
   return jsx$2.apply__sci_List__Lzio_Cause$Sequential$1(result)
+}
+function $f_Lzio_Cause__map__F1__Lzio_Cause($thiz, f) {
+  if (($thiz instanceof $c_Lzio_Cause$Fail)) {
+    var x2 = $as_Lzio_Cause$Fail($thiz);
+    var value = x2.value$1;
+    return new $c_Lzio_Cause$Fail().init___O(f.apply__O__O(value))
+  } else if (($thiz instanceof $c_Lzio_Cause$Die)) {
+    var x3 = $as_Lzio_Cause$Die($thiz);
+    return x3
+  } else {
+    var x = $m_Lzio_Cause$Interrupt$();
+    if (x.equals__O__Z($thiz)) {
+      return $m_Lzio_Cause$Interrupt$()
+    } else if (($thiz instanceof $c_Lzio_Cause$Then)) {
+      var x5 = $as_Lzio_Cause$Then($thiz);
+      var left = x5.left$1;
+      var right = x5.right$1;
+      return new $c_Lzio_Cause$Then().init___Lzio_Cause__Lzio_Cause($f_Lzio_Cause__map__F1__Lzio_Cause(left, f), $f_Lzio_Cause__map__F1__Lzio_Cause(right, f))
+    } else if (($thiz instanceof $c_Lzio_Cause$Both)) {
+      var x6 = $as_Lzio_Cause$Both($thiz);
+      var left$2 = x6.left$1;
+      var right$2 = x6.right$1;
+      return new $c_Lzio_Cause$Both().init___Lzio_Cause__Lzio_Cause($f_Lzio_Cause__map__F1__Lzio_Cause(left$2, f), $f_Lzio_Cause__map__F1__Lzio_Cause(right$2, f))
+    } else if (($thiz instanceof $c_Lzio_Cause$Traced)) {
+      var x7 = $as_Lzio_Cause$Traced($thiz);
+      var cause = x7.cause$1;
+      var trace = x7.trace$1;
+      return new $c_Lzio_Cause$Traced().init___Lzio_Cause__Lzio_ZTrace($f_Lzio_Cause__map__F1__Lzio_Cause(cause, f), trace)
+    } else {
+      throw new $c_s_MatchError().init___O($thiz)
+    }
+  }
 }
 function $f_Lzio_Cause__causeToSequential$1__pLzio_Cause__Lzio_Cause__sr_LazyRef__sr_LazyRef__sr_LazyRef__Lzio_Cause$Sequential$1($thiz, cause, Sequential$module$1, Failure$module$1, Parallel$module$1) {
   var rc11 = false;
@@ -11435,8 +11486,8 @@ function $f_Lzio_Cause__interrupted__Z($thiz) {
       }
     } else if ((x1 instanceof $c_Lzio_Cause$Both)) {
       var x3 = $as_Lzio_Cause$Both(x1);
-      var left$2 = x3.left__Lzio_Cause();
-      var right$2 = x3.right__Lzio_Cause();
+      var left$2 = x3.left$1;
+      var right$2 = x3.right$1;
       if ($f_Lzio_Cause__interrupted__Z(left$2)) {
         return true
       } else {
@@ -16575,8 +16626,148 @@ var $d_Lzio_Cause$$anonfun$failures$1 = new $TypeData().initClass({
 $c_Lzio_Cause$$anonfun$failures$1.prototype.$classData = $d_Lzio_Cause$$anonfun$failures$1;
 /** @constructor */
 function $c_Lzio_Cause$Both() {
+  $c_O.call(this);
+  this.left$1 = null;
+  this.right$1 = null
+}
+$c_Lzio_Cause$Both.prototype = new $h_O();
+$c_Lzio_Cause$Both.prototype.constructor = $c_Lzio_Cause$Both;
+/** @constructor */
+function $h_Lzio_Cause$Both() {
   /*<skip>*/
 }
+$h_Lzio_Cause$Both.prototype = $c_Lzio_Cause$Both.prototype;
+$c_Lzio_Cause$Both.prototype.productPrefix__T = (function() {
+  return "Both"
+});
+$c_Lzio_Cause$Both.prototype.productArity__I = (function() {
+  return 2
+});
+$c_Lzio_Cause$Both.prototype.equals__O__Z = (function(that) {
+  _equals: while (true) {
+    var x1 = that;
+    if ((x1 instanceof $c_Lzio_Cause$Traced)) {
+      var x2 = $as_Lzio_Cause$Traced(x1);
+      that = x2.cause$1;
+      continue _equals
+    } else if ($is_Lzio_Cause(x1)) {
+      var x3 = $as_Lzio_Cause(x1);
+      if (this.eq__p1__Lzio_Cause__Z(x3)) {
+        var jsx$1 = true
+      } else {
+        $m_Lzio_Cause$();
+        var f = (function($this) {
+          return (function(l$2, r$2) {
+            var l = $as_Lzio_Cause(l$2);
+            var r = $as_Lzio_Cause(r$2);
+            return $this.assoc__p1__Lzio_Cause__Lzio_Cause__Z(l, r)
+          })
+        })(this);
+        var jsx$1 = ($uZ(f(this, x3)) || $uZ(f(x3, this)))
+      };
+      if (jsx$1) {
+        return true
+      } else {
+        return this.comm__p1__Lzio_Cause__Z(x3)
+      }
+    } else {
+      return false
+    }
+  }
+});
+$c_Lzio_Cause$Both.prototype.productElement__I__O = (function(x$1) {
+  switch (x$1) {
+    case 0: {
+      return this.left$1;
+      break
+    }
+    case 1: {
+      return this.right$1;
+      break
+    }
+    default: {
+      throw new $c_jl_IndexOutOfBoundsException().init___T(("" + x$1))
+    }
+  }
+});
+$c_Lzio_Cause$Both.prototype.toString__T = (function() {
+  return $m_sr_ScalaRunTime$().$$undtoString__s_Product__T(this)
+});
+$c_Lzio_Cause$Both.prototype.eq__p1__Lzio_Cause__Z = (function(that) {
+  case7: {
+    if ((!(that instanceof $c_Lzio_Cause$Both))) {
+      break case7
+    };
+    var x3 = $as_Lzio_Cause$Both(that);
+    var x = this.left$1;
+    var x$2 = x3.left$1;
+    if (((x === null) ? (x$2 === null) : x.equals__O__Z(x$2))) {
+      var x$3 = this.right$1;
+      var x$4 = x3.right$1;
+      return ((x$3 === null) ? (x$4 === null) : x$3.equals__O__Z(x$4))
+    } else {
+      return false
+    }
+  };
+  return false
+});
+$c_Lzio_Cause$Both.prototype.comm__p1__Lzio_Cause__Z = (function(that) {
+  case8: {
+    var al = this.left$1;
+    var bl = this.right$1;
+    if ((!(that instanceof $c_Lzio_Cause$Both))) {
+      break case8
+    };
+    var x4 = $as_Lzio_Cause$Both(that);
+    var ar = x4.left$1;
+    var br = x4.right$1;
+    return (((al === null) ? (br === null) : al.equals__O__Z(br)) && ((bl === null) ? (ar === null) : bl.equals__O__Z(ar)))
+  };
+  return false
+});
+$c_Lzio_Cause$Both.prototype.init___Lzio_Cause__Lzio_Cause = (function(left, right) {
+  this.left$1 = left;
+  this.right$1 = right;
+  return this
+});
+$c_Lzio_Cause$Both.prototype.hashCode__I = (function() {
+  var this$1 = $m_Lzio_Cause$().flatten__Lzio_Cause__sci_Set(this);
+  var this$2 = $m_s_util_hashing_MurmurHash3$();
+  return this$2.unorderedHash__sc_TraversableOnce__I__I(this$1, this$2.setSeed$2)
+});
+$c_Lzio_Cause$Both.prototype.productIterator__sc_Iterator = (function() {
+  return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
+});
+$c_Lzio_Cause$Both.prototype.assoc__p1__Lzio_Cause__Lzio_Cause__Z = (function(l, r) {
+  case13: {
+    if ((!(l instanceof $c_Lzio_Cause$Both))) {
+      break case13
+    };
+    var x4 = $as_Lzio_Cause$Both(l);
+    var p5 = x4.left$1;
+    var cl = x4.right$1;
+    if ((!(p5 instanceof $c_Lzio_Cause$Both))) {
+      break case13
+    };
+    var x6 = $as_Lzio_Cause$Both(p5);
+    var al = x6.left$1;
+    var bl = x6.right$1;
+    if ((!(r instanceof $c_Lzio_Cause$Both))) {
+      break case13
+    };
+    var x7 = $as_Lzio_Cause$Both(r);
+    var ar = x7.left$1;
+    var p8 = x7.right$1;
+    if ((!(p8 instanceof $c_Lzio_Cause$Both))) {
+      break case13
+    };
+    var x9 = $as_Lzio_Cause$Both(p8);
+    var br = x9.left$1;
+    var cr = x9.right$1;
+    return ((((al === null) ? (ar === null) : al.equals__O__Z(ar)) && ((bl === null) ? (br === null) : bl.equals__O__Z(br))) && ((cl === null) ? (cr === null) : cl.equals__O__Z(cr)))
+  };
+  return false
+});
 function $as_Lzio_Cause$Both(obj) {
   return (((obj instanceof $c_Lzio_Cause$Both) || (obj === null)) ? obj : $throwClassCastException(obj, "zio.Cause$Both"))
 }
@@ -16586,6 +16777,18 @@ function $isArrayOf_Lzio_Cause$Both(obj, depth) {
 function $asArrayOf_Lzio_Cause$Both(obj, depth) {
   return (($isArrayOf_Lzio_Cause$Both(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lzio.Cause$Both;", depth))
 }
+var $d_Lzio_Cause$Both = new $TypeData().initClass({
+  Lzio_Cause$Both: 0
+}, false, "zio.Cause$Both", {
+  Lzio_Cause$Both: 1,
+  O: 1,
+  Lzio_Cause: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lzio_Cause$Both.prototype.$classData = $d_Lzio_Cause$Both;
 /** @constructor */
 function $c_Lzio_Cause$Die() {
   $c_O.call(this);
@@ -17034,14 +17237,14 @@ $c_Lzio_Cause$Then.prototype.dist__p1__Lzio_Cause__Lzio_Cause__Z = (function(l, 
       break case25
     };
     var x6 = $as_Lzio_Cause$Both(p5);
-    var bl = x6.left__Lzio_Cause();
-    var cl = x6.right__Lzio_Cause();
+    var bl = x6.left$1;
+    var cl = x6.right$1;
     if ((!(r instanceof $c_Lzio_Cause$Both))) {
       break case25
     };
     var x7 = $as_Lzio_Cause$Both(r);
-    var p8 = x7.left__Lzio_Cause();
-    var p9 = x7.right__Lzio_Cause();
+    var p8 = x7.left$1;
+    var p9 = x7.right$1;
     if ((!(p8 instanceof $c_Lzio_Cause$Then))) {
       break case25
     };
@@ -17070,14 +17273,14 @@ $c_Lzio_Cause$Then.prototype.dist__p1__Lzio_Cause__Lzio_Cause__Z = (function(l, 
       break case26
     };
     var x16 = $as_Lzio_Cause$Both(p15);
-    var al$2 = x16.left__Lzio_Cause();
-    var bl$2 = x16.right__Lzio_Cause();
+    var al$2 = x16.left$1;
+    var bl$2 = x16.right$1;
     if ((!(r instanceof $c_Lzio_Cause$Both))) {
       break case26
     };
     var x17 = $as_Lzio_Cause$Both(r);
-    var p18 = x17.left__Lzio_Cause();
-    var p19 = x17.right__Lzio_Cause();
+    var p18 = x17.left$1;
+    var p19 = x17.right$1;
     if ((!(p18 instanceof $c_Lzio_Cause$Then))) {
       break case26
     };
@@ -17800,6 +18003,46 @@ var $d_Lzio_ZIO$FoldCauseMFailureFn = new $TypeData().initClass({
   F1: 1
 });
 $c_Lzio_ZIO$FoldCauseMFailureFn.prototype.$classData = $d_Lzio_ZIO$FoldCauseMFailureFn;
+/** @constructor */
+function $c_Lzio_ZIO$MapErrorFn() {
+  $c_Lzio_internal_tracing_ZIOFn1.call(this);
+  this.underlying$3 = null
+}
+$c_Lzio_ZIO$MapErrorFn.prototype = new $h_Lzio_internal_tracing_ZIOFn1();
+$c_Lzio_ZIO$MapErrorFn.prototype.constructor = $c_Lzio_ZIO$MapErrorFn;
+/** @constructor */
+function $h_Lzio_ZIO$MapErrorFn() {
+  /*<skip>*/
+}
+$h_Lzio_ZIO$MapErrorFn.prototype = $c_Lzio_ZIO$MapErrorFn.prototype;
+$c_Lzio_ZIO$MapErrorFn.prototype.apply__O__O = (function(v1) {
+  return this.apply__Lzio_Cause__Lzio_ZIO($as_Lzio_Cause(v1))
+});
+$c_Lzio_ZIO$MapErrorFn.prototype.underlying__O = (function() {
+  return this.underlying$3
+});
+$c_Lzio_ZIO$MapErrorFn.prototype.init___F1 = (function(underlying) {
+  this.underlying$3 = underlying;
+  return this
+});
+$c_Lzio_ZIO$MapErrorFn.prototype.apply__Lzio_Cause__Lzio_ZIO = (function(a) {
+  var this$1 = $m_Lzio_ZIO$();
+  var f = this.underlying$3;
+  var cause = $f_Lzio_Cause__map__F1__Lzio_Cause(a, f);
+  return $f_Lzio_ZIOFunctions__halt__Lzio_Cause__Lzio_ZIO(this$1, cause)
+});
+var $d_Lzio_ZIO$MapErrorFn = new $TypeData().initClass({
+  Lzio_ZIO$MapErrorFn: 0
+}, false, "zio.ZIO$MapErrorFn", {
+  Lzio_ZIO$MapErrorFn: 1,
+  Lzio_internal_tracing_ZIOFn1: 1,
+  Lzio_internal_tracing_ZIOFn: 1,
+  O: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1,
+  F1: 1
+});
+$c_Lzio_ZIO$MapErrorFn.prototype.$classData = $d_Lzio_ZIO$MapErrorFn;
 /** @constructor */
 function $c_Lzio_ZIO$MapFn() {
   $c_Lzio_internal_tracing_ZIOFn1.call(this);

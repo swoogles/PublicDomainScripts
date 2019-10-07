@@ -5,6 +5,12 @@ import org.scalajs.jquery.{JQuery, JQueryEventObject}
 
 import scala.scalajs.js
 
+/*
+  Some of the void method here are flummoxing me in my desire to transition everything to ZIO.
+  I think the thing that's making it difficult is that my side effect is adding a click behavior to elements,
+  which is then triggered when a user interacts with the page. That's an external user interacting with an
+  external system, so I don't think it's possible for that inner click behavior to be in a monad.
+ */
 object ContentHiding {
   private def hide(element: JQuery): Unit =
     element.css("display", "none")
