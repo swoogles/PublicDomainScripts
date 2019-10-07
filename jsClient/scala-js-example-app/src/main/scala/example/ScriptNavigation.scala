@@ -3,6 +3,7 @@ package example
 import org.scalajs.dom
 import dom.document.getElementById
 import org.scalajs.jquery.{JQuery, JQueryEventObject}
+import zio.{IO, Task, ZIO}
 
 object ScriptNavigation {
   val TARGET_SCRIPT_VARIATION =
@@ -40,85 +41,86 @@ object ScriptNavigation {
       None
   }
 
-  def setupScriptNavigationOrHideControls() = {
-    println("9:59")
+  def setupForCharacter(targetCharacter: String): String = {
+    // Only setup controls if there is a character selected
+    println("crudely retrieved character: " + targetCharacter)
+
+    val targetCharacterLines: JQuery = jquery(s".$targetCharacter")
+
+    if (targetCharacterLines.length > 0) { // There are no characters, so we're not viewing a script that needs controls.
+      if (dom.document.URL
+        .contains(s"$TARGET_SCRIPT_VARIATION/")) { // What an ugly way to work with this for the time being
+        ContentHiding.reveal(".two-row-layout")
+      } else {
+        ContentHiding.reveal(".one-row-layout")
+      }
+
+      val firstCharacterLine = targetCharacterLines.get(0)
+      val currentTarget = new CurrentTarget(
+        ConnectedLine(getElementById(firstCharacterLine.id))
+      )
+
+      targetCharacterLines.each((index, line) => {
+        jquery(line).click{eventObject: JQueryEventObject =>
+          ContentHiding.toggleContent(eventObject)
+          currentTarget.updateTarget(_ => line.id)
+        }
+        ContentHiding.showReducedContentOfJqueryElement(line)
+        jquery(line).addClass("targetCharacter")
+      })
+
+      jquery(".scroll-to-next-line")
+        .click { _: JQueryEventObject =>
+          iterateToElement(
+            _.connectedLine.nextLineId,
+            1,
+            Next,
+            currentTarget
+          )
+        }
+
+      jquery(".scroll-to-next-line-big")
+        .click { _: JQueryEventObject =>
+          iterateToElement(
+            _.connectedLine.nextLineId,
+            10,
+            Next,
+            currentTarget
+          )
+        }
+
+      jquery(".scroll-to-previous-line")
+        .click { _: JQueryEventObject =>
+          iterateToElement(
+            _.connectedLine.previousLineId,
+            1,
+            Prev,
+            currentTarget
+          )
+        }
+
+      jquery(".scroll-to-previous-line-big")
+        .click { _: JQueryEventObject =>
+          iterateToElement(
+            _.connectedLine.previousLineId,
+            10,
+            Prev,
+            currentTarget
+          )
+        }
+
+      "We setup the character!"
+    } else "We didn't do shit for the character!"
+
+  }
+
+  def setupScriptNavigationOrHideControls(): IO[Unit, String] = {
+    println("21:33")
 
     val targetCharacterAttempt: Option[String] = getCurrentCharacterName(
       dom.window.location.toString
     )
-    targetCharacterAttempt.foreach(
-      targetCharacter => { // Only setup controls if there is a character selected
-        println("crudely retrieved character: " + targetCharacter)
-
-        val targetCharacterLines: JQuery = jquery(s".$targetCharacter")
-
-        if (targetCharacterLines.length > 0) { // There are no characters, so we're not viewing a script that needs controls.
-          if (dom.document.URL
-                .contains(s"$TARGET_SCRIPT_VARIATION/")) { // What an ugly way to work with this for the time being
-            ContentHiding.reveal(".two-row-layout")
-          } else {
-            ContentHiding.reveal(".one-row-layout")
-          }
-
-          val firstCharacterLine = targetCharacterLines.get(0)
-          val currentTarget = new CurrentTarget(
-            ConnectedLine(getElementById(firstCharacterLine.id))
-          )
-
-          targetCharacterLines.each((index, line) => {
-            jquery(line).click{eventObject: JQueryEventObject =>
-              ContentHiding.toggleContent(eventObject)
-              currentTarget.updateTarget(_ => line.id)
-            }
-            ContentHiding.showReducedContentOfJqueryElement(line)
-            jquery(line).addClass("targetCharacter")
-          })
-
-          jquery(".scroll-to-next-line")
-            .click { _: JQueryEventObject =>
-              iterateToElement(
-                _.connectedLine.nextLineId,
-                1,
-                Next,
-                currentTarget
-              )
-            }
-
-          jquery(".scroll-to-next-line-big")
-            .click { _: JQueryEventObject =>
-              iterateToElement(
-                _.connectedLine.nextLineId,
-                10,
-                Next,
-                currentTarget
-              )
-            }
-
-          jquery(".scroll-to-previous-line")
-            .click { _: JQueryEventObject =>
-              iterateToElement(
-                _.connectedLine.previousLineId,
-                1,
-                Prev,
-                currentTarget
-              )
-            }
-
-          jquery(".scroll-to-previous-line-big")
-            .click { _: JQueryEventObject =>
-              iterateToElement(
-                _.connectedLine.previousLineId,
-                10,
-                Prev,
-                currentTarget
-              )
-            }
-
-        }
-
-      }
-    )
-    1
+    ZIO.fromOption( targetCharacterAttempt.map( setupForCharacter ) )
   }
 
 }
