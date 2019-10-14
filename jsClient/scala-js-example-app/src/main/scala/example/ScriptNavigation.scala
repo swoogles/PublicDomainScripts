@@ -56,9 +56,11 @@ object ScriptNavigation {
   def setupForCharacter(targetCharacter: String) = {
     val desiredLineRange = (50, 100)
     val desiredLineIndices: immutable.Seq[Int] = (desiredLineRange._1 to desiredLineRange._2)
+    val indexMap = desiredLineIndices.foldLeft(Map[Int, Boolean]()){ (map, index) => {map + (index -> true)}}
 
     jquery("[id^=script-element]").each((index, line) => {
-      if (! desiredLineIndices.exists( index => line.id == s"script-element-$index"))
+      if ( !indexMap.getOrElse(index,false))
+//      if (! desiredLineIndices.exists( index => line.id == s"script-element-$index"))
         ContentHiding.hideInstantly("#" + line.id)
       println("Line: " + line.id)
     }
