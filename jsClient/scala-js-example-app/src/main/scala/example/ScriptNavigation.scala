@@ -34,15 +34,21 @@ object ScriptNavigation {
     }
   }
 
-  def extractCurrentCharacterNameFromUrl(url: String): Option[String] = {
-    // TODO Use a real, typed URL value
-    // val fields=temp_url.split("&").map(js.URIUtils.decodeURIComponent)
-    val targetCharacterWithPrefix = url.dropWhile(_ != '=')
+  // TODO The next 2 bits belong elsewhere
+  case class QueryParam(name: String, value: String)
 
-    if (!targetCharacterWithPrefix.isEmpty)
-      Some(targetCharacterWithPrefix.tail)
-    else
-      None
+  private def extractQueryParams(url: String): Seq[QueryParam] =
+    url
+      .dropWhile(_ != '?')
+      .split("&")
+      .map(js.URIUtils.decodeURIComponent)
+    .map(fullQueryParam => QueryParam(fullQueryParam.takeWhile(_ != '='), fullQueryParam.dropWhile(_ != '=').tail))
+
+  def extractCurrentCharacterNameFromUrl(url: String): Option[String] = {
+    extractQueryParams(url)
+      .filter(_.name == "character")
+      .map(_.value)
+      .headOption
   }
 
   def getCurrentCharacter(url: String): Option[String] = {
@@ -53,19 +59,35 @@ object ScriptNavigation {
     }
   }
 
-  def setupForCharacter(targetCharacter: String) = {
-    val desiredLineRange = (50, 100)
-    val desiredLineIndices: immutable.Seq[Int] = (desiredLineRange._1 to desiredLineRange._2)
-    val indexMap = desiredLineIndices.foldLeft(Map[Int, Boolean]()){ (map, index) => {map + (index -> true)}}
+  def trimDownScript(url: String) = {
+    if(url.contains("TRIM")) {
+      val desiredLineRange = (0, 10)
+      val desiredLineIndices: immutable.Seq[Int] = (desiredLineRange._1 to desiredLineRange._2)
+      val indexMap = desiredLineIndices.foldLeft(Map[Int, Boolean]()) { (map, index) => {
+        map + (index -> true)
+      }
+      }
 
-    jquery("[id^=script-element]").each((index, line) => {
-      if ( !indexMap.getOrElse(index,false))
-//      if (! desiredLineIndices.exists( index => line.id == s"script-element-$index"))
-        ContentHiding.hideInstantly("#" + line.id)
-      println("Line: " + line.id)
+      putStrLn("trimming down script")
+        .flatMap(_ =>
+          ZIO {
+            jquery("[id^=script-element]").each((index, line) => {
+              if (!indexMap.getOrElse(index, false))
+              //      if (! desiredLineIndices.exists( index => line.id == s"script-element-$index"))
+                ContentHiding.hideInstantly("#" + line.id)
+              println("Line: " + line.id)
+            }
+
+            )
+          }
+        )
+
+    } else {
+      ZIO { "No need to trim"}
     }
+  }
 
-    )
+  def setupForCharacter(targetCharacter: String) = {
     val targetCharacterLines: JQuery = jquery(s".$targetCharacter")
 
 
@@ -141,7 +163,7 @@ object ScriptNavigation {
         })
       }
 
-    putStrLn("crudely retrieved character: " + targetCharacter)
+    putStrLn("decently retrieved character: " + targetCharacter)
         .flatMap( _ => putStrLn("Number of lines: " + targetCharacterLines.length))
       .flatMap(_ => setupCharacterLineInitialStateAndBehavior)
       .flatMap(_ => showCorrectControls)
@@ -173,6 +195,7 @@ object ScriptNavigation {
             // Only setup controls if there is a character selected
             .flatMap(setupForCharacter)
       )
+//      .flatMap(trimDownScript)
   }
 
 }
