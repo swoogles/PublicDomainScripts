@@ -6,6 +6,7 @@ import org.scalajs.jquery.{JQuery, JQueryEventObject}
 import zio.{IO, Task, ZIO}
 import zio.console.putStrLn
 
+import scala.collection.immutable
 import scala.scalajs.js
 
 object ScriptNavigation {
@@ -53,7 +54,18 @@ object ScriptNavigation {
   }
 
   def setupForCharacter(targetCharacter: String) = {
+    val desiredLineRange = (50, 100)
+    val desiredLineIndices: immutable.Seq[Int] = (desiredLineRange._1 to desiredLineRange._2)
+
+    jquery("[id^=script-element]").each((index, line) => {
+      if (! desiredLineIndices.exists( index => line.id == s"script-element-$index"))
+        ContentHiding.hideInstantly("#" + line.id)
+      println("Line: " + line.id)
+    }
+
+    )
     val targetCharacterLines: JQuery = jquery(s".$targetCharacter")
+
 
     val showCorrectControls = ZIO {
       if (dom.document.URL
@@ -113,6 +125,8 @@ object ScriptNavigation {
         )
     )
 
+
+
     val setupCharacterLineInitialStateAndBehavior =
       ZIO {
         targetCharacterLines.each((index, line) => {
@@ -126,6 +140,7 @@ object ScriptNavigation {
       }
 
     putStrLn("crudely retrieved character: " + targetCharacter)
+        .flatMap( _ => putStrLn("Number of lines: " + targetCharacterLines.length))
       .flatMap(_ => setupCharacterLineInitialStateAndBehavior)
       .flatMap(_ => showCorrectControls)
       .flatMap(_ => attachNextLineBehavior)
