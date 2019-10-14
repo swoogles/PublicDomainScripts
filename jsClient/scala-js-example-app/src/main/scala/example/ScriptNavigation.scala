@@ -35,17 +35,9 @@ object ScriptNavigation {
   }
 
   // TODO The next 2 bits belong elsewhere
-  case class QueryParam(name: String, value: String)
-
-  private def extractQueryParams(url: String): Seq[QueryParam] =
-    url
-      .dropWhile(_ != '?')
-      .split("&")
-      .map(js.URIUtils.decodeURIComponent)
-    .map(fullQueryParam => QueryParam(fullQueryParam.takeWhile(_ != '='), fullQueryParam.dropWhile(_ != '=').tail))
 
   def extractCurrentCharacterNameFromUrl(url: String): Option[String] = {
-    extractQueryParams(url)
+    QueryParam.extractFromUrl(url)
       .filter(_.name == "character")
       .map(_.value)
       .headOption
@@ -60,8 +52,15 @@ object ScriptNavigation {
   }
 
   def trimDownScript(url: String) = {
-    if(url.contains("TRIM")) {
-      val desiredLineRange = (0, 10)
+    val trimValue =
+    QueryParam.extractFromUrl(url)
+      .filter(_.name == "trim")
+      .map(_.value)
+      .headOption
+    if(trimValue.isDefined) {
+      println("trim is defined")
+      val desiredLineRangeRaw = trimValue.get
+      val desiredLineRange = (desiredLineRangeRaw.takeWhile(_ != ',').toInt , desiredLineRangeRaw.dropWhile(_ != ',').tail.toInt)
       val desiredLineIndices: immutable.Seq[Int] = (desiredLineRange._1 to desiredLineRange._2)
       val indexMap = desiredLineIndices.foldLeft(Map[Int, Boolean]()) { (map, index) => {
         map + (index -> true)
