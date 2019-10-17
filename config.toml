@@ -57,3 +57,7 @@ enableEmoji = true  # Shorthand emojis in content files - https://gohugo.io/func
     url = "generated/menu"
     weight = 20
 
+  [[menu.main]]
+    name = "Purpose of this Site"
+    url = "explanation"
+    weight = 20
