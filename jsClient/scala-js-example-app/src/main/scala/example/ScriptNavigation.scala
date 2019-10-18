@@ -54,17 +54,16 @@ object ScriptNavigation {
   def indicesToKeep(trimValue: String): Set[Int]
   =
   {
-    val desiredLineRangeRaw = trimValue
-    val desiredLineRange: (Int, Int) =
+    val (rangeStart: Int, rangeEnd: Int) =
       (
-        desiredLineRangeRaw.takeWhile(_ != ',').toInt,
-        desiredLineRangeRaw.dropWhile(_ != ',').tail.toInt
+        trimValue.takeWhile(_ != ',').toInt,
+        trimValue.dropWhile(_ != ',').tail.toInt
       )
-    Range(desiredLineRange._1, desiredLineRange._2)
+    Range(rangeStart, rangeEnd)
       .foldLeft(Set[Int]()) { (map, index) => {
-      map + index
-    }
-    }
+        map + index
+      }
+      }
   }
 
   def trimDownScript(url: String) = {
