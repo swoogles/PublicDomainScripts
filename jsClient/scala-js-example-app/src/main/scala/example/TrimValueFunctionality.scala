@@ -1,5 +1,8 @@
 package example
 
+import scala.util.{Failure, Success, Try}
+import zio.ZIO
+
 
 object TrimValueFunctionality {
   val getTrimButtons: Function[ReadFromTheWorld[Document], List[Button]] = ???
@@ -38,5 +41,24 @@ object TrimValueFunctionality {
   class Url()
 
   def createUrlWithNewTrimRange(baseUrl: String): Url = ???
+
+  def indicesToKeep(trimValue: String) = ZIO.fromTry(
+    //    val (rangeStartString: String, rangeEndString: String) =
+    trimValue.span(_ != ',') match {
+      case (rangeStart: String, rangeEnd: String) => {
+        try {
+          Success {
+            Range(rangeStart.toInt, rangeEnd.tail.toInt)
+              .foldLeft(Set[Int]()) {
+                (map, index) => map + index
+              }
+          }
+        } catch {
+          case badValue: NumberFormatException => Failure(new RuntimeException("Cannot get indices from value: " + badValue))
+        }
+      }
+
+    }
+  )
 
 }

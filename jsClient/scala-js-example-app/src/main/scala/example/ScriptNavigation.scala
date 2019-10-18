@@ -2,6 +2,10 @@ package example
 
 import org.scalajs.dom
 import org.scalajs.jquery.{JQuery, JQueryEventObject}
+import zio.ZIO
+import zio.console._
+import org.scalajs.dom.document.getElementById
+
 
 import scala.collection.immutable
 import scala.scalajs.js
@@ -49,58 +53,24 @@ object ScriptNavigation {
     }
   }
 
-  def indicesToKeep(trimValue: String): Try[Set[Int]] // TODO What ZIO type could this be?
-  =
-    //    val (rangeStartString: String, rangeEndString: String) =
-    trimValue.span(_ != ',') match {
-      case (rangeStart: String, rangeEnd: String) => {
-        try {
-          Success {
-            Range(rangeStart.toInt, rangeEnd.tail.toInt)
-              .foldLeft(Set[Int]()) {
-                (map, index) => map + index
-              }
-          }
-        } catch {
-          case badValue: NumberFormatException => Failure(new RuntimeException("Cannot get indices from value: " + badValue))
-        }
-      }
-
-    }
-
-  def trimDownScript(url: String) = {
-    val trimValue =
-    QueryParam.extractFromUrl(url)
-      .filter(_.name == "trim")
-      .map(_.value)
-      .headOption
-    if(trimValue.isDefined) {
-      println("trim is defined")
-      val desiredLineRangeRaw = trimValue.get
-      val desiredLineRange = (desiredLineRangeRaw.takeWhile(_ != ',').toInt , desiredLineRangeRaw.dropWhile(_ != ',').tail.toInt)
-      val desiredLineIndices: immutable.Seq[Int] = (desiredLineRange._1 to desiredLineRange._2)
-      val indexMap = desiredLineIndices.foldLeft(Map[Int, Boolean]()) { (map, index) => {
-        map + (index -> true)
-      }
-      }
-
-      putStrLn("trimming down script")
-        .flatMap(_ =>
-          ZIO {
-            jquery("[id^=script-element]").each((index, line) => {
-              if (!indexMap.getOrElse(index, false))
-                ContentHiding.hideInstantly("#" + line.id)
-              println("Line: " + line.id)
+  def trimDownScript(url: String) =
+    ZIO.fromOption(
+      QueryParam.extractFromUrl(url)
+        .filter(_.name == "trim")
+        .map(_.value)
+        .headOption
+    ).flatMap( trimValueDefined =>
+      TrimValueFunctionality.indicesToKeep(trimValueDefined)
+        .flatMap {
+          indicesToKeep: Set[Int] =>
+            ZIO {
+              jquery("[id^=script-element]").each((index: Int, line) =>
+                if (!indicesToKeep.contains(index) ) ContentHiding.hideInstantly("#" + line.id)
+              )
+              "Yay, we trimmed."
             }
-
-            )
-          }
-        )
-
-    } else {
-      ZIO { "No need to trim"}
-    }
-  }
+        }
+    ).orElse( ZIO.succeed("No need to trim"))
 
   def setupForCharacter(targetCharacter: String) = {
     val targetCharacterLines: JQuery = jquery(s".$targetCharacter")
@@ -168,7 +138,7 @@ object ScriptNavigation {
 
     val setupCharacterLineInitialStateAndBehavior =
       ZIO {
-        targetCharacterLines.each((index, line) => {
+        targetCharacterLines.each((index: Int, line) => {
           jquery(line).click { eventObject: JQueryEventObject =>
             ContentHiding.toggleContent(eventObject)
             currentTarget.updateTarget(_ => line.id)
