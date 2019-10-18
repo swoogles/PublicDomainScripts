@@ -61,15 +61,12 @@ object ScriptNavigation {
     }
 
   def trimDownScriptIfQueryParameterIsPresent(url: String) =
-    ZIO.fromOption(
-      QueryParam.extractFromUrl(url)
-        .filter(_.name == "trim")
-        .map(_.value)
-        .headOption
-    ).flatMap( trimValueDefined =>
-      TrimValueFunctionality.indicesToKeep(trimValueDefined)
-        .flatMap (hideAllUnwantedScriptElements)
-    ).orElse( ZIO.succeed("No need to trim"))
+    QueryParam
+      .extractParameterValueFromUrl(url, "trim")
+      .flatMap( trimValue =>
+        TrimValueFunctionality.indicesToKeep(trimValue)
+          .flatMap (hideAllUnwantedScriptElements)
+      ).orElse( ZIO.succeed("No need to trim"))
 
   def setupForCharacter(targetCharacter: String) = {
     val targetCharacterLines: JQuery = jquery(s".$targetCharacter")

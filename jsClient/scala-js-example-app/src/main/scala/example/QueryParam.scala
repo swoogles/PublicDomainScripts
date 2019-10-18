@@ -1,5 +1,7 @@
 package example
 
+import zio.ZIO
+
 import scala.scalajs.js
 
 case class QueryParam(name: String, value: String)
@@ -13,5 +15,13 @@ object  QueryParam {
       .map(js.URIUtils.decodeURIComponent)
       .map(fullQueryParam => QueryParam(fullQueryParam.takeWhile(_ != '='), fullQueryParam.dropWhile(_ != '=').tail))
     .map{param => println("Extracted param: " + param); param}
-}
+
+
+  def extractParameterValueFromUrl(url: String, parameterName: String) =
+    ZIO.fromOption(
+      QueryParam.extractFromUrl(url)
+        .filter(_.name == parameterName)
+        .map(_.value)
+        .headOption
+    )}
 
