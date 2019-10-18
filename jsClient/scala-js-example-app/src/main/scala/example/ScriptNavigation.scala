@@ -51,7 +51,7 @@ object ScriptNavigation {
     }
   }
 
-  def indicesToKeep(trimValue: String): Map[Int, Boolean]
+  def indicesToKeep(trimValue: String): Set[Int]
   =
   {
     val desiredLineRangeRaw = trimValue
@@ -61,8 +61,8 @@ object ScriptNavigation {
         desiredLineRangeRaw.dropWhile(_ != ',').tail.toInt
       )
     Range(desiredLineRange._1, desiredLineRange._2)
-      .foldLeft(Map[Int, Boolean]()) { (map, index) => {
-      map + (index -> true)
+      .foldLeft(Set[Int]()) { (map, index) => {
+      map + index
     }
     }
   }
