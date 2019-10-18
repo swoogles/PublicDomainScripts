@@ -2,10 +2,9 @@ package example
 
 import org.scalajs.dom
 import org.scalajs.jquery.{JQuery, JQueryEventObject}
-import zio.ZIO
+import zio.{Task, ZIO}
 import zio.console._
 import org.scalajs.dom.document.getElementById
-
 
 import scala.collection.immutable
 import scala.scalajs.js
@@ -53,7 +52,15 @@ object ScriptNavigation {
     }
   }
 
-  def trimDownScript(url: String) =
+  def hideAllUnwantedScriptElements(indicesToKeep: Set[Int]): Task[String] =
+    ZIO {
+      jquery("[id^=script-element]").each((index: Int, line) =>
+        if (!indicesToKeep.contains(index) ) ContentHiding.hideInstantly("#" + line.id)
+      )
+      "Yay, we trimmed."
+    }
+
+  def trimDownScriptIfQueryParameterIsPresent(url: String) =
     ZIO.fromOption(
       QueryParam.extractFromUrl(url)
         .filter(_.name == "trim")
@@ -61,20 +68,11 @@ object ScriptNavigation {
         .headOption
     ).flatMap( trimValueDefined =>
       TrimValueFunctionality.indicesToKeep(trimValueDefined)
-        .flatMap {
-          indicesToKeep: Set[Int] =>
-            ZIO {
-              jquery("[id^=script-element]").each((index: Int, line) =>
-                if (!indicesToKeep.contains(index) ) ContentHiding.hideInstantly("#" + line.id)
-              )
-              "Yay, we trimmed."
-            }
-        }
+        .flatMap (hideAllUnwantedScriptElements)
     ).orElse( ZIO.succeed("No need to trim"))
 
   def setupForCharacter(targetCharacter: String) = {
     val targetCharacterLines: JQuery = jquery(s".$targetCharacter")
-
 
     val showCorrectControls = ZIO {
       if (dom.document.URL

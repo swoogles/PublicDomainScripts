@@ -12,7 +12,7 @@ object ScalaJSExample extends App {
       _ <- putStrLn("doing stuff in ZIO!")
       url <- ZIO { dom.window.location.toString }
       _ <- ScriptNavigation.setupScriptNavigationOrHideControls()
-      _ <- ScriptNavigation.trimDownScript(url)
+      _ <- ScriptNavigation.trimDownScriptIfQueryParameterIsPresent(url)
       _ <- putStrLn("More stuff")
     } yield (0)
 
