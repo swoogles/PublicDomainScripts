@@ -1,13 +1,11 @@
 package example
 
 import org.scalajs.dom
-import dom.document.getElementById
 import org.scalajs.jquery.{JQuery, JQueryEventObject}
-import zio.{IO, Task, ZIO}
-import zio.console.putStrLn
 
 import scala.collection.immutable
 import scala.scalajs.js
+import scala.util.{Failure, Success, Try}
 
 object ScriptNavigation {
   val TARGET_SCRIPT_VARIATION =
@@ -51,15 +49,24 @@ object ScriptNavigation {
     }
   }
 
-  def indicesToKeep(trimValue: String): Set[Int]
+  def indicesToKeep(trimValue: String): Try[Set[Int]] // TODO What ZIO type could this be?
   =
     //    val (rangeStartString: String, rangeEndString: String) =
     trimValue.span(_ != ',') match {
-      case (rangeStart: String, rangeEnd: String)
-        if rangeStart.nonEmpty && rangeEnd.nonEmpty =>
-          Range(rangeStart.toInt, rangeEnd.tail.toInt)
-            .foldLeft(Set[Int]()) { (map, index) => map + index }
-      case badValue => throw new RuntimeException("Cannot get indices from value: " + badValue)
+      case (rangeStart: String, rangeEnd: String) => {
+        try {
+          Success {
+            Range(rangeStart.toInt, rangeEnd.tail.toInt)
+              .foldLeft(Set[Int]()) {
+                (map, index) => map + index
+              }
+          }
+        } catch {
+          case badValue: NumberFormatException => Failure(new RuntimeException("Cannot get indices from value: " + badValue))
+        }
+      }
+
+    }
 
   def trimDownScript(url: String) = {
     val trimValue =
