@@ -53,18 +53,13 @@ object ScriptNavigation {
 
   def indicesToKeep(trimValue: String): Set[Int]
   =
-  {
-    val (rangeStart: Int, rangeEnd: Int) =
-      (
-        trimValue.takeWhile(_ != ',').toInt,
-        trimValue.dropWhile(_ != ',').tail.toInt
-      )
-    Range(rangeStart, rangeEnd)
-      .foldLeft(Set[Int]()) { (map, index) => {
-        map + index
-      }
-      }
-  }
+    //    val (rangeStartString: String, rangeEndString: String) =
+    trimValue.span(_ != ',') match {
+      case (rangeStart: String, rangeEnd: String)
+        if rangeStart.nonEmpty && rangeEnd.nonEmpty =>
+          Range(rangeStart.toInt, rangeEnd.tail.toInt)
+            .foldLeft(Set[Int]()) { (map, index) => map + index }
+      case badValue => throw new RuntimeException("Cannot get indices from value: " + badValue)
 
   def trimDownScript(url: String) = {
     val trimValue =
