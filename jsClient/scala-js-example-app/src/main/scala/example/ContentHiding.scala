@@ -10,6 +10,7 @@ import scala.scalajs.js
   I think the thing that's making it difficult is that my side effect is adding a click behavior to elements,
   which is then triggered when a user interacts with the page. That's an external user interacting with an
   external system, so I don't think it's possible for that inner click behavior to be in a monad.
+    This might be exactly what scalajs-react solves
  */
 object ContentHiding {
   private def hide(element: JQuery): Unit =

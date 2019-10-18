@@ -68,90 +68,93 @@ object ScriptNavigation {
           .flatMap (hideAllUnwantedScriptElements)
       ).orElse( ZIO.succeed("No need to trim"))
 
-  def setupForCharacter(targetCharacter: String) = {
-    val targetCharacterLines: JQuery = jquery(s".$targetCharacter")
+  def getLinesForCharacter(targetCharacter: String) = ZIO {
+    jquery(s".$targetCharacter")
+  }
 
-    val showCorrectControls = ZIO {
-      if (dom.document.URL
-            .contains(s"$TARGET_SCRIPT_VARIATION/")) { // What an ugly way to work with this for the time being
-        ContentHiding.reveal(".two-row-layout")
-      } else {
-        ContentHiding.reveal(".one-row-layout")
-      }
+  val showCorrectControls = ZIO {
+    if (dom.document.URL
+      .contains(s"$TARGET_SCRIPT_VARIATION/")) { // What an ugly way to work with this for the time being
+      ContentHiding.reveal(".two-row-layout")
+    } else {
+      ContentHiding.reveal(".one-row-layout")
     }
-
-    val firstCharacterLine = targetCharacterLines.get(0)
-    val currentTarget = new CurrentTarget(
-      ConnectedLine(getElementById(firstCharacterLine.id))
-    )
-
-    val attachNextLineBehavior = attachClickBehaviorToElement(
-      ".scroll-to-next-line",
-      _ =>
-        iterateToElement(
-          _.connectedLine.nextLineId,
-          1,
-          Next,
-          currentTarget
-        )
-    )
-
-    val attachBigNextLineBehavior = attachClickBehaviorToElement(
-      ".scroll-to-next-line-big",
-      _ =>
-        iterateToElement(
-          _.connectedLine.nextLineId,
-          10,
-          Next,
-          currentTarget
-        )
-    )
-
-    val attachPreviousLineBehavior = attachClickBehaviorToElement(
-      ".scroll-to-previous-line",
-      _ =>
-        iterateToElement(
-          _.connectedLine.previousLineId,
-          1,
-          Prev,
-          currentTarget
-        )
-    )
-
-    val attachBigPreviousLineBehavior = attachClickBehaviorToElement(
-      ".scroll-to-previous-line-big",
-      _ =>
-        iterateToElement(
-          _.connectedLine.previousLineId,
-          10,
-          Prev,
-          currentTarget
-        )
-    )
+  }
 
 
+  def setupForCharacter(targetCharacter: String) = {
+    getLinesForCharacter(targetCharacter).flatMap { targetCharacterLines: JQuery =>
 
-    val setupCharacterLineInitialStateAndBehavior =
-      ZIO {
-        targetCharacterLines.each((index: Int, line) => {
-          jquery(line).click { eventObject: JQueryEventObject =>
-            ContentHiding.toggleContent(eventObject)
-            currentTarget.updateTarget(_ => line.id)
-          }
-          ContentHiding.showReducedContentOfJqueryElement(line)
-          jquery(line).addClass("targetCharacter")
-        })
-      }
+      val currentTarget = new CurrentTarget(
+        ConnectedLine(getElementById(targetCharacterLines.get(0).id))
+      )
 
-    putStrLn("decently retrieved character: " + targetCharacter)
-        .flatMap( _ => putStrLn("Number of lines: " + targetCharacterLines.length))
-      .flatMap(_ => setupCharacterLineInitialStateAndBehavior)
-      .flatMap(_ => showCorrectControls)
-      .flatMap(_ => attachNextLineBehavior)
-      .flatMap(_ => attachBigNextLineBehavior)
-      .flatMap(_ => attachPreviousLineBehavior)
-      .flatMap(_ => attachBigPreviousLineBehavior)
+      val attachNextLineBehavior = attachClickBehaviorToElement(
+        ".scroll-to-next-line",
+        _ =>
+          iterateToElement(
+            _.connectedLine.nextLineId,
+            1,
+            Next,
+            currentTarget
+          )
+      )
 
+      val attachBigNextLineBehavior = attachClickBehaviorToElement(
+        ".scroll-to-next-line-big",
+        _ =>
+          iterateToElement(
+            _.connectedLine.nextLineId,
+            10,
+            Next,
+            currentTarget
+          )
+      )
+
+      val attachPreviousLineBehavior = attachClickBehaviorToElement(
+        ".scroll-to-previous-line",
+        _ =>
+          iterateToElement(
+            _.connectedLine.previousLineId,
+            1,
+            Prev,
+            currentTarget
+          )
+      )
+
+      val attachBigPreviousLineBehavior = attachClickBehaviorToElement(
+        ".scroll-to-previous-line-big",
+        _ =>
+          iterateToElement(
+            _.connectedLine.previousLineId,
+            10,
+            Prev,
+            currentTarget
+          )
+      )
+
+
+      val setupCharacterLineInitialStateAndBehavior =
+        ZIO {
+          targetCharacterLines.each((index: Int, line) => {
+            jquery(line).click { eventObject: JQueryEventObject =>
+              ContentHiding.toggleContent(eventObject)
+              currentTarget.updateTarget(_ => line.id)
+            }
+            ContentHiding.showReducedContentOfJqueryElement(line)
+            jquery(line).addClass("targetCharacter")
+          })
+        }
+
+        putStrLn("Number of lines: " + targetCharacterLines.length)
+        .flatMap(_ => setupCharacterLineInitialStateAndBehavior)
+        .flatMap(_ => showCorrectControls)
+        .flatMap(_ => attachNextLineBehavior)
+        .flatMap(_ => attachBigNextLineBehavior)
+        .flatMap(_ => attachPreviousLineBehavior)
+        .flatMap(_ => attachBigPreviousLineBehavior)
+
+    }
   }
 
   def attachClickBehaviorToElement(
