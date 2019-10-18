@@ -51,6 +51,22 @@ object ScriptNavigation {
     }
   }
 
+  def indicesToKeep(trimValue: String): Map[Int, Boolean]
+  =
+  {
+    val desiredLineRangeRaw = trimValue
+    val desiredLineRange: (Int, Int) =
+      (
+        desiredLineRangeRaw.takeWhile(_ != ',').toInt,
+        desiredLineRangeRaw.dropWhile(_ != ',').tail.toInt
+      )
+    Range(desiredLineRange._1, desiredLineRange._2)
+      .foldLeft(Map[Int, Boolean]()) { (map, index) => {
+      map + (index -> true)
+    }
+    }
+  }
+
   def trimDownScript(url: String) = {
     val trimValue =
     QueryParam.extractFromUrl(url)
@@ -72,7 +88,6 @@ object ScriptNavigation {
           ZIO {
             jquery("[id^=script-element]").each((index, line) => {
               if (!indexMap.getOrElse(index, false))
-              //      if (! desiredLineIndices.exists( index => line.id == s"script-element-$index"))
                 ContentHiding.hideInstantly("#" + line.id)
               println("Line: " + line.id)
             }
