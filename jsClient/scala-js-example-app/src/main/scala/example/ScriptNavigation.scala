@@ -36,7 +36,6 @@ object ScriptNavigation {
   }
 
   // TODO The next 2 bits belong elsewhere
-
   def extractCurrentCharacterNameFromUrl(url: String): Option[String] = {
     QueryParam.extractFromUrl(url)
       .filter(_.name == "character")
@@ -81,78 +80,89 @@ object ScriptNavigation {
     }
   }
 
+  object ScrollButtonBehavior {
+    def attachNextLineBehavior(currentTarget: CurrentTarget) =
+      attachClickBehaviorToElement(
+      ".scroll-to-next-line",
+      _ =>
+        iterateToElement(
+          _.connectedLine.nextLineId,
+          1,
+          Next,
+          currentTarget
+        )
+    )
+
+    def attachBigNextLineBehavior(currentTarget: CurrentTarget) =
+      attachClickBehaviorToElement(
+      ".scroll-to-next-line-big",
+      _ =>
+        iterateToElement(
+          _.connectedLine.nextLineId,
+          10,
+          Next,
+          currentTarget
+        )
+    )
+
+    def attachPreviousLineBehavior(currentTarget: CurrentTarget) = attachClickBehaviorToElement(
+      ".scroll-to-previous-line",
+      _ =>
+        iterateToElement(
+          _.connectedLine.previousLineId,
+          1,
+          Prev,
+          currentTarget
+        )
+    )
+
+    def attachBigPreviousLineBehavior(currentTarget: CurrentTarget) = attachClickBehaviorToElement(
+      ".scroll-to-previous-line-big",
+      _ =>
+        iterateToElement(
+          _.connectedLine.previousLineId,
+          10,
+          Prev,
+          currentTarget
+        )
+    )
+
+    val allButtonBehaviors = (currentTargetLocal: CurrentTarget) =>
+      ZIO.collectAll(
+        List(
+          attachNextLineBehavior(currentTargetLocal),
+          attachBigNextLineBehavior(currentTargetLocal),
+          attachPreviousLineBehavior(currentTargetLocal),
+          attachBigPreviousLineBehavior(currentTargetLocal)
+        )
+      )
+  }
+
+  def setupCharacterLineInitialStateAndBehavior(targetCharacterLines: JQuery, currentTargetLocal: CurrentTarget) =
+    ZIO {
+      targetCharacterLines.each((line: dom.Element) => {
+        jquery(line).click { eventObject: JQueryEventObject =>
+          ContentHiding.toggleContent(eventObject)
+          currentTargetLocal.updateTarget(_ => line.id)
+        }
+        ContentHiding.showReducedContentOfJqueryElement(line)
+        jquery(line).addClass("targetCharacter")
+      })
+    }
+
+
 
   def setupForCharacter(targetCharacter: String) = {
     getLinesForCharacter(targetCharacter).flatMap { targetCharacterLines: JQuery =>
 
-      val currentTarget = new CurrentTarget(
+      val currentTargetLocal = new CurrentTarget(
         ConnectedLine(getElementById(targetCharacterLines.get(0).id))
       )
 
-      val attachNextLineBehavior = attachClickBehaviorToElement(
-        ".scroll-to-next-line",
-        _ =>
-          iterateToElement(
-            _.connectedLine.nextLineId,
-            1,
-            Next,
-            currentTarget
-          )
-      )
-
-      val attachBigNextLineBehavior = attachClickBehaviorToElement(
-        ".scroll-to-next-line-big",
-        _ =>
-          iterateToElement(
-            _.connectedLine.nextLineId,
-            10,
-            Next,
-            currentTarget
-          )
-      )
-
-      val attachPreviousLineBehavior = attachClickBehaviorToElement(
-        ".scroll-to-previous-line",
-        _ =>
-          iterateToElement(
-            _.connectedLine.previousLineId,
-            1,
-            Prev,
-            currentTarget
-          )
-      )
-
-      val attachBigPreviousLineBehavior = attachClickBehaviorToElement(
-        ".scroll-to-previous-line-big",
-        _ =>
-          iterateToElement(
-            _.connectedLine.previousLineId,
-            10,
-            Prev,
-            currentTarget
-          )
-      )
-
-
-      val setupCharacterLineInitialStateAndBehavior =
-        ZIO {
-          targetCharacterLines.each((index: Int, line) => {
-            jquery(line).click { eventObject: JQueryEventObject =>
-              ContentHiding.toggleContent(eventObject)
-              currentTarget.updateTarget(_ => line.id)
-            }
-            ContentHiding.showReducedContentOfJqueryElement(line)
-            jquery(line).addClass("targetCharacter")
-          })
-        }
-
         putStrLn("Number of lines: " + targetCharacterLines.length)
-        .flatMap(_ => setupCharacterLineInitialStateAndBehavior)
+        .flatMap(_ => setupCharacterLineInitialStateAndBehavior(targetCharacterLines, currentTargetLocal))
         .flatMap(_ => showCorrectControls)
-        .flatMap(_ => attachNextLineBehavior)
-        .flatMap(_ => attachBigNextLineBehavior)
-        .flatMap(_ => attachPreviousLineBehavior)
-        .flatMap(_ => attachBigPreviousLineBehavior)
+        .flatMap(_ => ScrollButtonBehavior.allButtonBehaviors(currentTargetLocal))
 
     }
   }
@@ -174,9 +184,9 @@ object ScriptNavigation {
         _ =>
           ZIO
             .fromOption(targetCharacterAttempt)
-            .mapError(_ => "No character found")
             // Only setup controls if there is a character selected
             .flatMap(setupForCharacter)
+            .mapError(_ => "No character found")
       )
 //      .flatMap(trimDownScript)
   }
