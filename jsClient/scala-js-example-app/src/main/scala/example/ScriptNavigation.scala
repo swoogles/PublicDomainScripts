@@ -6,14 +6,10 @@ import zio.{Task, ZIO}
 import zio.console._
 import org.scalajs.dom.document.getElementById
 
-import scala.collection.immutable
 import scala.scalajs.js
-import scala.util.{Failure, Success, Try}
 
 object ScriptNavigation {
-  val TARGET_SCRIPT_VARIATION =
-//    "full_script_with_lines_highlighted"
-    "completely_blank_lines_with_spoken_cues"
+  val TARGET_SCRIPT_VARIATION = "completely_blank_lines_with_spoken_cues"
 
   private def iterateToElement(
       targetId: CurrentTarget => String,
@@ -141,6 +137,7 @@ object ScriptNavigation {
   def setupCharacterLineInitialStateAndBehavior(targetCharacterLines: JQuery, currentTargetLocal: CurrentTarget) =
     ZIO {
       targetCharacterLines.each((line: dom.Element) => {
+        // TODO What all can we break up and chain in here?
         jquery(line).click { eventObject: JQueryEventObject =>
           ContentHiding.toggleContent(eventObject)
           currentTargetLocal.updateTarget(_ => line.id)
@@ -159,7 +156,7 @@ object ScriptNavigation {
         ConnectedLine(getElementById(targetCharacterLines.get(0).id))
       )
 
-        putStrLn("Number of lines: " + targetCharacterLines.length)
+      putStrLn("Number of lines: " + targetCharacterLines.length)
         .flatMap(_ => setupCharacterLineInitialStateAndBehavior(targetCharacterLines, currentTargetLocal))
         .flatMap(_ => showCorrectControls)
         .flatMap(_ => ScrollButtonBehavior.allButtonBehaviors(currentTargetLocal))

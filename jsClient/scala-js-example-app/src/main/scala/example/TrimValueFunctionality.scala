@@ -3,10 +3,20 @@ package example
 import scala.util.{Failure, Success, Try}
 import zio.ZIO
 
+import org.scalajs.dom
+import org.scalajs.jquery.{JQuery, JQueryEventObject}
+import zio.{Task, ZIO}
+import zio.console._
+import org.scalajs.dom.document.getElementById
+
+import scala.scalajs.js
+import org.scalajs.dom.html.Document
+
 
 object TrimValueFunctionality {
   val getTrimButtons: Function[ReadFromTheWorld[Document], List[Button]] = ???
-  val getTrimButtonsMonad: Effect[ReadFromTheWorld[Document]] = ???
+  val getTrimButtonsMonad: ZIO[Document, Throwable, String] =
+    ZIO.accessM{document => ZIO(document.URL)}
 
   val trimButtonsIntoValues: Function[List[Button], TrimRange] = ???
   val applyTrimRangeToCurrentUrl: Function[TrimRange, Url] = ???
@@ -19,13 +29,12 @@ object TrimValueFunctionality {
       .andThen(applyTrimRangeToCurrentUrl)
       .andThen(navigateToUrlInBrowser)
 
-  val realProgramThatGetsTrimButtons: Effect[List[Button]] =
+  val realProgramThatGetsTrimButtons =
     getTrimButtonsMonad
-      .map(getTrimButtons)
 
-  val roundTripProgram: Effect[Document] =
-    realProgramThatGetsTrimButtons
-      .flatMap( input => navigateToUrlInBrowserMonad)
+//  val roundTripProgram =
+//    realProgramThatGetsTrimButtons
+//      .flatMap( input => navigateToUrlInBrowserMonad)
 
 
   def mainMethod () = {
@@ -34,7 +43,6 @@ object TrimValueFunctionality {
       .andThen(writeToTheWorld => writeToTheWorld.unsafeRun(documentFromEnvironment))
   }
 
-  class Document
   class Button()
   class TrimRange(start: Int, end: Int)
   class QueryParameter(name: String, value: String)
