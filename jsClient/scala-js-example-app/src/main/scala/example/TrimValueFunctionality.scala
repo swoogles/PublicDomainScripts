@@ -1,11 +1,10 @@
 package example
 
 import scala.util.{Failure, Success, Try}
-import zio.ZIO
+import zio.{Task, URIO, ZIO}
 import org.scalajs.dom
 import org.scalajs.dom.Window
 import org.scalajs.jquery.{JQuery, JQueryEventObject, JQueryStatic}
-import zio.{Task, ZIO}
 import zio.console._
 import org.scalajs.dom.document.getElementById
 
@@ -23,8 +22,8 @@ object TrimValueFunctionality {
       RangeInputFields(trimStart, trimEnd)
     }}
 
-  val getCurrentUrl: ZIO[Document, Throwable, String] =
-    ZIO.accessM{document => ZIO(document.URL)}
+  val getCurrentUrl: URIO[Document, String] =
+    URIO.accessM{ document => URIO(document.URL)}
 
   val trimButtonsIntoValues: Function[RangeInputFields, TrimRange] =
     rangeInputFields => TrimRange(rangeInputFields.minimum.toInt, rangeInputFields.maximum.toInt)
@@ -47,20 +46,24 @@ object TrimValueFunctionality {
   val realProgramThatGetsTrimButtons =
     getTrimButtonsMonad
 
+  /*
   trait Environment extends Window with JQueryStatic{
     val window: Window
     val jQueryStatic: JQueryStatic
   }
 
+   */
+
   def mainMethod () = {
 
     val theBigRealWindow: Window = org.scalajs.dom.window
 
-    val cobbledTogetherEnvironment: Environment =
+    /*
       new Environment {
         override val jQueryStatic: JQueryStatic = jquery
         override val window: Window = theBigRealWindow
       }
+     */
 
     val fullProgram: ZIO[Window with JQueryStatic, Throwable, Unit] =
     for {
@@ -72,7 +75,6 @@ object TrimValueFunctionality {
       println("We done, broh!")
     }
 
-    fullProgram.provide(cobbledTogetherEnvironment).run
 //    fullProgram.provide(theBigRealWindow).provide(documentFromEnvironment)
 //    browseToStripDownScriptSpecifiedByInputFields
 //      .andThen(writeToTheWorld => writeToTheWorld.unsafeRun(documentFromEnvironment))

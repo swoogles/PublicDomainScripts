@@ -63,9 +63,16 @@ object ScriptNavigation {
           .flatMap (hideAllUnwantedScriptElements)
       ).orElse( ZIO.succeed("No need to trim"))
 
-  def getLinesForCharacter(targetCharacter: String) = ZIO {
+  def getLinesForCharacter(targetCharacter: String): Task[JQuery] = ZIO {
     jquery(s".$targetCharacter")
   }
+
+  def getLinesForCharacterWithEnvironment(targetCharacter: String): ZIO[JQueryProvider, Throwable, JQuery] =
+    ZIO.accessM { jQueryProvider: JQueryProvider =>
+      ZIO {
+        jQueryProvider.getJqueryObject(s".$targetCharacter")
+      }
+    }
 
   val showCorrectControls = ZIO {
     if (dom.document.URL
@@ -149,19 +156,17 @@ object ScriptNavigation {
 
 
 
-  def setupForCharacter(targetCharacter: String) = {
-    getLinesForCharacter(targetCharacter).flatMap { targetCharacterLines: JQuery =>
-
-      val currentTargetLocal = new CurrentTarget(
-        ConnectedLine(getElementById(targetCharacterLines.get(0).id))
-      )
-
-      putStrLn("Number of lines: " + targetCharacterLines.length)
-        .flatMap(_ => setupCharacterLineInitialStateAndBehavior(targetCharacterLines, currentTargetLocal))
-        .flatMap(_ => showCorrectControls)
-        .flatMap(_ => ScrollButtonBehavior.allButtonBehaviors(currentTargetLocal))
-
+  def setupForCharacter(targetCharacter: String): ZIO[JQueryProvider, Throwable, List[JQuery]] = {
+    for {
+      targetCharacterLines  <- getLinesForCharacterWithEnvironment(targetCharacter)
+      currentTargetLocal = new CurrentTarget( ConnectedLine(getElementById(targetCharacterLines.get(0).id)) )
+      _ <- setupCharacterLineInitialStateAndBehavior(targetCharacterLines, currentTargetLocal)
+      _ <- showCorrectControls
+      assignedButtons <- ScrollButtonBehavior.allButtonBehaviors(currentTargetLocal)
+    }  yield {
+      assignedButtons
     }
+
   }
 
   def attachClickBehaviorToElement(
@@ -176,16 +181,11 @@ object ScriptNavigation {
     val targetCharacterAttempt: Option[String] = getCurrentCharacter(
       dom.window.location.toString
     )
-    putStrLn("8:15")
-      .flatMap(
-        _ =>
-          ZIO
-            .fromOption(targetCharacterAttempt)
-            // Only setup controls if there is a character selected
-            .flatMap(setupForCharacter)
-            .mapError(_ => "No character found")
-      )
-//      .flatMap(trimDownScript)
+    ZIO
+      .fromOption(targetCharacterAttempt)
+      // Only setup controls if there is a character selected
+      .flatMap(setupForCharacter)
+      .mapError(_ => "No character found!")
   }
 
 }
