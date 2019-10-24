@@ -2340,12 +2340,7 @@ function $m_Lexample_SpeechClient$() {
 /** @constructor */
 function $c_Lexample_TrimValueFunctionality$() {
   $c_O.call(this);
-  this.getTrimButtonsMonad$1 = null;
-  this.getCurrentUrl$1 = null;
-  this.trimButtonsIntoValues$1 = null;
-  this.applyTrimRangeToCurrentUrl$1 = null;
-  this.navigateToUrlInBrowser$1 = null;
-  this.realProgramThatGetsTrimButtons$1 = null
+  this.applyTrimRangeToCurrentUrl$1 = null
 }
 $c_Lexample_TrimValueFunctionality$.prototype = new $h_O();
 $c_Lexample_TrimValueFunctionality$.prototype.constructor = $c_Lexample_TrimValueFunctionality$;
@@ -2356,66 +2351,7 @@ function $h_Lexample_TrimValueFunctionality$() {
 $h_Lexample_TrimValueFunctionality$.prototype = $c_Lexample_TrimValueFunctionality$.prototype;
 $c_Lexample_TrimValueFunctionality$.prototype.init___ = (function() {
   $n_Lexample_TrimValueFunctionality$ = this;
-  $m_Lzio_ZIO$();
-  var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
-    return (function(jquery$2) {
-      $m_Lzio_ZIO$();
-      var a = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this$1, jquery) {
-        return (function() {
-          var trimStart = $objectToString(jquery("#trimStart").val());
-          var trimEnd = $objectToString(jquery("#trimEnd").val());
-          return new $c_Lexample_RangeInputFields().init___T__T(trimStart, trimEnd)
-        })
-      })($this, jquery$2));
-      return new $c_Lzio_ZIO$EffectPartial().init___F0(a)
-    })
-  })(this));
-  this.getTrimButtonsMonad$1 = new $c_Lzio_ZIO$Read().init___F1(f);
-  $m_Lzio_URIO$();
-  $m_Lzio_ZIO$();
-  var f$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
-    return (function(document$2) {
-      $m_Lzio_URIO$();
-      var a$1 = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this$2, document) {
-        return (function() {
-          return $as_T(document.URL)
-        })
-      })(this$2$1, document$2));
-      $m_Lzio_ZIO$();
-      return new $c_Lzio_ZIO$EffectTotal().init___F0(a$1)
-    })
-  })(this));
-  this.getCurrentUrl$1 = new $c_Lzio_ZIO$Read().init___F1(f$1);
-  this.trimButtonsIntoValues$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$3$1) {
-    return (function(rangeInputFields$2) {
-      var rangeInputFields = $as_Lexample_RangeInputFields(rangeInputFields$2);
-      var x = rangeInputFields.minimum$1;
-      var this$10 = new $c_sci_StringOps().init___T(x);
-      var this$12 = $m_jl_Integer$();
-      var $$this$2 = this$10.repr$1;
-      var jsx$1 = this$12.parseInt__T__I__I($$this$2, 10);
-      var x$1 = rangeInputFields.maximum$1;
-      var this$14 = new $c_sci_StringOps().init___T(x$1);
-      var this$16 = $m_jl_Integer$();
-      var $$this$3 = this$14.repr$1;
-      return new $c_Lexample_TrimValueFunctionality$TrimRange().init___I__I(jsx$1, this$16.parseInt__T__I__I($$this$3, 10))
-    })
-  })(this));
   this.applyTrimRangeToCurrentUrl$1 = $m_s_Predef$().$$qmark$qmark$qmark__sr_Nothing$();
-  $m_Lzio_ZIO$();
-  var f$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$4$1) {
-    return (function(window$2) {
-      $m_Lzio_ZIO$();
-      var a$2 = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this$3, window) {
-        return (function() {
-          window.location.href = "someNewUrl"
-        })
-      })(this$4$1, window$2));
-      return new $c_Lzio_ZIO$EffectPartial().init___F0(a$2)
-    })
-  })(this));
-  this.navigateToUrlInBrowser$1 = new $c_Lzio_ZIO$Read().init___F1(f$2);
-  this.realProgramThatGetsTrimButtons$1 = this.getTrimButtonsMonad$1;
   return this
 });
 $c_Lexample_TrimValueFunctionality$.prototype.indicesToKeep__T__Lzio_ZIO = (function(trimValue) {
@@ -2430,12 +2366,12 @@ $c_Lexample_TrimValueFunctionality$.prototype.indicesToKeep__T__Lzio_ZIO = (func
         if ((i < len)) {
           var arg1 = this$2.apply__I__O(i);
           if ((arg1 === null)) {
-            var x$2 = 0
+            var x$1 = 0
           } else {
             var this$6 = $as_jl_Character(arg1);
-            var x$2 = this$6.value$1
+            var x$1 = this$6.value$1
           };
-          var jsx$1 = (x$2 !== 44)
+          var jsx$1 = (x$1 !== 44)
         } else {
           var jsx$1 = false
         };
@@ -2494,7 +2430,7 @@ $c_Lexample_TrimValueFunctionality$.prototype.indicesToKeep__T__Lzio_ZIO = (func
           }
         }
       };
-      throw new $c_s_MatchError().init___O(x1)
+      throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(new $c_jl_RuntimeException().init___T(("Dunno what happened here: " + x1)))
     })
   })(this, trimValue));
   return $f_Lzio_ZIOFunctions__fromTry__F0__Lzio_ZIO(this$22, value$1)
@@ -2685,45 +2621,6 @@ function $m_Lzio_UIO$() {
     $n_Lzio_UIO$ = new $c_Lzio_UIO$().init___()
   };
   return $n_Lzio_UIO$
-}
-/** @constructor */
-function $c_Lzio_URIO$() {
-  $c_O.call(this);
-  this.interrupt$1 = null;
-  this.never$1 = null;
-  this.none$1 = null;
-  this.unit$1 = null;
-  this.yieldNow$1 = null
-}
-$c_Lzio_URIO$.prototype = new $h_O();
-$c_Lzio_URIO$.prototype.constructor = $c_Lzio_URIO$;
-/** @constructor */
-function $h_Lzio_URIO$() {
-  /*<skip>*/
-}
-$h_Lzio_URIO$.prototype = $c_Lzio_URIO$.prototype;
-$c_Lzio_URIO$.prototype.init___ = (function() {
-  $n_Lzio_URIO$ = this;
-  this.interrupt$1 = $m_Lzio_ZIO$().interrupt$1;
-  this.never$1 = $m_Lzio_ZIO$().never$1;
-  this.none$1 = $m_Lzio_ZIO$().none$1;
-  this.unit$1 = $m_Lzio_ZIO$().unit$1;
-  this.yieldNow$1 = $m_Lzio_ZIO$().yieldNow$1;
-  return this
-});
-var $d_Lzio_URIO$ = new $TypeData().initClass({
-  Lzio_URIO$: 0
-}, false, "zio.URIO$", {
-  Lzio_URIO$: 1,
-  O: 1
-});
-$c_Lzio_URIO$.prototype.$classData = $d_Lzio_URIO$;
-var $n_Lzio_URIO$ = (void 0);
-function $m_Lzio_URIO$() {
-  if ((!$n_Lzio_URIO$)) {
-    $n_Lzio_URIO$ = new $c_Lzio_URIO$().init___()
-  };
-  return $n_Lzio_URIO$
 }
 /** @constructor */
 function $c_Lzio_ZIO$AccessPartiallyApplied$() {
@@ -9452,12 +9349,17 @@ $c_Lexample_QueryParam$.prototype.extractFromUrl__T__sc_Seq = (function(url) {
       i$1 = ((1 + i$1) | 0)
     };
     var xs$1 = $makeNativeArrayWrapper($d_T.getArrayOf(), elems$2);
-    var elems$2$1 = null;
-    elems$2$1 = [];
+    var this$26 = $m_s_Array$();
+    new $c_s_Predef$DummyImplicit().init___();
+    new $c_s_FallbackArrayBuilding$$anon$1().init___s_FallbackArrayBuilding(this$26);
+    var b = $m_scm_ArraySeq$().newBuilder__scm_Builder();
     var x1$1 = xs$1.u.length;
     switch (x1$1) {
       case (-1): {
         break
+      }
+      default: {
+        b.sizeHint__I__V(x1$1)
       }
     };
     var i$2 = 0;
@@ -9466,18 +9368,18 @@ $c_Lexample_QueryParam$.prototype.extractFromUrl__T__sc_Seq = (function(url) {
       var index$1 = i$2;
       var arg1$2 = xs$1.get(index$1);
       var fullQueryParam = $as_T(arg1$2);
-      var this$33 = new $c_sci_StringOps().init___T(fullQueryParam);
-      var $$this$2 = this$33.repr$1;
+      var this$31 = new $c_sci_StringOps().init___T(fullQueryParam);
+      var $$this$2 = this$31.repr$1;
       var len$3 = $uI($$this$2.length);
       var i$3 = 0;
       while (true) {
         if ((i$3 < len$3)) {
-          var arg1$3 = this$33.apply__I__O(i$3);
+          var arg1$3 = this$31.apply__I__O(i$3);
           if ((arg1$3 === null)) {
             var x$2 = 0
           } else {
-            var this$37 = $as_jl_Character(arg1$3);
-            var x$2 = this$37.value$1
+            var this$35 = $as_jl_Character(arg1$3);
+            var x$2 = this$35.value$1
           };
           var jsx$3 = (x$2 !== 61)
         } else {
@@ -9490,19 +9392,19 @@ $c_Lexample_QueryParam$.prototype.extractFromUrl__T__sc_Seq = (function(url) {
         }
       };
       var n$1 = i$3;
-      var jsx$4 = $m_sci_StringOps$().slice$extension__T__I__I__T(this$33.repr$1, 0, n$1);
-      var this$39 = new $c_sci_StringOps().init___T(fullQueryParam);
-      var $$this$3 = this$39.repr$1;
+      var jsx$4 = $m_sci_StringOps$().slice$extension__T__I__I__T(this$31.repr$1, 0, n$1);
+      var this$37 = new $c_sci_StringOps().init___T(fullQueryParam);
+      var $$this$3 = this$37.repr$1;
       var len$4 = $uI($$this$3.length);
       var i$4 = 0;
       while (true) {
         if ((i$4 < len$4)) {
-          var arg1$4 = this$39.apply__I__O(i$4);
+          var arg1$4 = this$37.apply__I__O(i$4);
           if ((arg1$4 === null)) {
             var x$3 = 0
           } else {
-            var this$43 = $as_jl_Character(arg1$4);
-            var x$3 = this$43.value$1
+            var this$41 = $as_jl_Character(arg1$4);
+            var x$3 = this$41.value$1
           };
           var jsx$2 = (x$3 !== 61)
         } else {
@@ -9515,40 +9417,12 @@ $c_Lexample_QueryParam$.prototype.extractFromUrl__T__sc_Seq = (function(url) {
         }
       };
       var n$2 = i$4;
-      var $$this$4 = this$39.repr$1;
+      var $$this$4 = this$37.repr$1;
       var until$1 = $uI($$this$4.length);
-      var x$4 = $m_sci_StringOps$().slice$extension__T__I__I__T(this$39.repr$1, n$2, until$1);
-      var this$47 = new $c_sci_StringOps().init___T(x$4);
-      var elem$2 = new $c_Lexample_QueryParam().init___T__T(jsx$4, $as_T($f_sc_IndexedSeqOptimized__tail__O(this$47)));
-      elems$2$1.push(elem$2);
+      var x$4 = $m_sci_StringOps$().slice$extension__T__I__I__T(this$37.repr$1, n$2, until$1);
+      var this$45 = new $c_sci_StringOps().init___T(x$4);
+      b.$$plus$eq__O__scm_Builder(new $c_Lexample_QueryParam().init___T__T(jsx$4, $as_T($f_sc_IndexedSeqOptimized__tail__O(this$45))));
       i$2 = ((1 + i$2) | 0)
-    };
-    var xs$2 = $makeNativeArrayWrapper($d_Lexample_QueryParam.getArrayOf(), elems$2$1);
-    var this$50 = $m_s_Array$();
-    new $c_s_Predef$DummyImplicit().init___();
-    new $c_s_FallbackArrayBuilding$$anon$1().init___s_FallbackArrayBuilding(this$50);
-    var b = $m_scm_ArraySeq$().newBuilder__scm_Builder();
-    var x1$2 = xs$2.u.length;
-    switch (x1$2) {
-      case (-1): {
-        break
-      }
-      default: {
-        b.sizeHint__I__V(x1$2)
-      }
-    };
-    var i$5 = 0;
-    var len$5 = xs$2.u.length;
-    while ((i$5 < len$5)) {
-      var index$2 = i$5;
-      var arg1$5 = xs$2.get(index$2);
-      var param = $as_Lexample_QueryParam(arg1$5);
-      var x$5 = ("Extracted param: " + param);
-      var this$55 = $m_s_Console$();
-      var this$56 = $as_Ljava_io_PrintStream(this$55.outVar$2.v$1);
-      this$56.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$5 + "\n"));
-      b.$$plus$eq__O__scm_Builder(param);
-      i$5 = ((1 + i$5) | 0)
     };
     return $as_sc_Seq(b.result__O())
   } else {
@@ -15099,167 +14973,6 @@ var $d_Lexample_QueryParam = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lexample_QueryParam.prototype.$classData = $d_Lexample_QueryParam;
-/** @constructor */
-function $c_Lexample_RangeInputFields() {
-  $c_O.call(this);
-  this.minimum$1 = null;
-  this.maximum$1 = null
-}
-$c_Lexample_RangeInputFields.prototype = new $h_O();
-$c_Lexample_RangeInputFields.prototype.constructor = $c_Lexample_RangeInputFields;
-/** @constructor */
-function $h_Lexample_RangeInputFields() {
-  /*<skip>*/
-}
-$h_Lexample_RangeInputFields.prototype = $c_Lexample_RangeInputFields.prototype;
-$c_Lexample_RangeInputFields.prototype.init___T__T = (function(minimum, maximum) {
-  this.minimum$1 = minimum;
-  this.maximum$1 = maximum;
-  return this
-});
-$c_Lexample_RangeInputFields.prototype.productPrefix__T = (function() {
-  return "RangeInputFields"
-});
-$c_Lexample_RangeInputFields.prototype.productArity__I = (function() {
-  return 2
-});
-$c_Lexample_RangeInputFields.prototype.equals__O__Z = (function(x$1) {
-  if ((this === x$1)) {
-    return true
-  } else if ((x$1 instanceof $c_Lexample_RangeInputFields)) {
-    var RangeInputFields$1 = $as_Lexample_RangeInputFields(x$1);
-    return ((this.minimum$1 === RangeInputFields$1.minimum$1) && (this.maximum$1 === RangeInputFields$1.maximum$1))
-  } else {
-    return false
-  }
-});
-$c_Lexample_RangeInputFields.prototype.productElement__I__O = (function(x$1) {
-  switch (x$1) {
-    case 0: {
-      return this.minimum$1;
-      break
-    }
-    case 1: {
-      return this.maximum$1;
-      break
-    }
-    default: {
-      throw new $c_jl_IndexOutOfBoundsException().init___T(("" + x$1))
-    }
-  }
-});
-$c_Lexample_RangeInputFields.prototype.toString__T = (function() {
-  return $m_sr_ScalaRunTime$().$$undtoString__s_Product__T(this)
-});
-$c_Lexample_RangeInputFields.prototype.hashCode__I = (function() {
-  var this$2 = $m_s_util_hashing_MurmurHash3$();
-  return this$2.productHash__s_Product__I__I(this, (-889275714))
-});
-$c_Lexample_RangeInputFields.prototype.productIterator__sc_Iterator = (function() {
-  return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
-});
-function $as_Lexample_RangeInputFields(obj) {
-  return (((obj instanceof $c_Lexample_RangeInputFields) || (obj === null)) ? obj : $throwClassCastException(obj, "example.RangeInputFields"))
-}
-function $isArrayOf_Lexample_RangeInputFields(obj, depth) {
-  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lexample_RangeInputFields)))
-}
-function $asArrayOf_Lexample_RangeInputFields(obj, depth) {
-  return (($isArrayOf_Lexample_RangeInputFields(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lexample.RangeInputFields;", depth))
-}
-var $d_Lexample_RangeInputFields = new $TypeData().initClass({
-  Lexample_RangeInputFields: 0
-}, false, "example.RangeInputFields", {
-  Lexample_RangeInputFields: 1,
-  O: 1,
-  s_Product: 1,
-  s_Equals: 1,
-  s_Serializable: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Lexample_RangeInputFields.prototype.$classData = $d_Lexample_RangeInputFields;
-/** @constructor */
-function $c_Lexample_TrimValueFunctionality$TrimRange() {
-  $c_O.call(this);
-  this.start$1 = 0;
-  this.end$1 = 0
-}
-$c_Lexample_TrimValueFunctionality$TrimRange.prototype = new $h_O();
-$c_Lexample_TrimValueFunctionality$TrimRange.prototype.constructor = $c_Lexample_TrimValueFunctionality$TrimRange;
-/** @constructor */
-function $h_Lexample_TrimValueFunctionality$TrimRange() {
-  /*<skip>*/
-}
-$h_Lexample_TrimValueFunctionality$TrimRange.prototype = $c_Lexample_TrimValueFunctionality$TrimRange.prototype;
-$c_Lexample_TrimValueFunctionality$TrimRange.prototype.productPrefix__T = (function() {
-  return "TrimRange"
-});
-$c_Lexample_TrimValueFunctionality$TrimRange.prototype.productArity__I = (function() {
-  return 2
-});
-$c_Lexample_TrimValueFunctionality$TrimRange.prototype.equals__O__Z = (function(x$1) {
-  if ((this === x$1)) {
-    return true
-  } else if ((x$1 instanceof $c_Lexample_TrimValueFunctionality$TrimRange)) {
-    var TrimRange$1 = $as_Lexample_TrimValueFunctionality$TrimRange(x$1);
-    return ((this.start$1 === TrimRange$1.start$1) && (this.end$1 === TrimRange$1.end$1))
-  } else {
-    return false
-  }
-});
-$c_Lexample_TrimValueFunctionality$TrimRange.prototype.productElement__I__O = (function(x$1) {
-  switch (x$1) {
-    case 0: {
-      return this.start$1;
-      break
-    }
-    case 1: {
-      return this.end$1;
-      break
-    }
-    default: {
-      throw new $c_jl_IndexOutOfBoundsException().init___T(("" + x$1))
-    }
-  }
-});
-$c_Lexample_TrimValueFunctionality$TrimRange.prototype.init___I__I = (function(start, end) {
-  this.start$1 = start;
-  this.end$1 = end;
-  $m_s_Predef$().assert__Z__V((start < end));
-  return this
-});
-$c_Lexample_TrimValueFunctionality$TrimRange.prototype.toString__T = (function() {
-  return $m_sr_ScalaRunTime$().$$undtoString__s_Product__T(this)
-});
-$c_Lexample_TrimValueFunctionality$TrimRange.prototype.hashCode__I = (function() {
-  var acc = (-889275714);
-  acc = $m_sr_Statics$().mix__I__I__I(acc, this.start$1);
-  acc = $m_sr_Statics$().mix__I__I__I(acc, this.end$1);
-  return $m_sr_Statics$().finalizeHash__I__I__I(acc, 2)
-});
-$c_Lexample_TrimValueFunctionality$TrimRange.prototype.productIterator__sc_Iterator = (function() {
-  return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
-});
-function $as_Lexample_TrimValueFunctionality$TrimRange(obj) {
-  return (((obj instanceof $c_Lexample_TrimValueFunctionality$TrimRange) || (obj === null)) ? obj : $throwClassCastException(obj, "example.TrimValueFunctionality$TrimRange"))
-}
-function $isArrayOf_Lexample_TrimValueFunctionality$TrimRange(obj, depth) {
-  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lexample_TrimValueFunctionality$TrimRange)))
-}
-function $asArrayOf_Lexample_TrimValueFunctionality$TrimRange(obj, depth) {
-  return (($isArrayOf_Lexample_TrimValueFunctionality$TrimRange(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lexample.TrimValueFunctionality$TrimRange;", depth))
-}
-var $d_Lexample_TrimValueFunctionality$TrimRange = new $TypeData().initClass({
-  Lexample_TrimValueFunctionality$TrimRange: 0
-}, false, "example.TrimValueFunctionality$TrimRange", {
-  Lexample_TrimValueFunctionality$TrimRange: 1,
-  O: 1,
-  s_Product: 1,
-  s_Equals: 1,
-  s_Serializable: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Lexample_TrimValueFunctionality$TrimRange.prototype.$classData = $d_Lexample_TrimValueFunctionality$TrimRange;
 /** @constructor */
 function $c_Ljava_io_BufferedReader() {
   $c_Ljava_io_Reader.call(this);

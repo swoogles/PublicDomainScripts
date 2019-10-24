@@ -33,6 +33,7 @@ object ScriptNavigation {
 
   // TODO The next 2 bits belong elsewhere
   def extractCurrentCharacterNameFromUrl(url: String): Option[String] = {
+    // TODO Convert to this: QueryParam.extractParameterValueFromUrl(url, "character")
     QueryParam.extractFromUrl(url)
       .filter(_.name == "character")
       .map(_.value)
@@ -49,8 +50,9 @@ object ScriptNavigation {
 
   def hideAllUnwantedScriptElements(indicesToKeep: Set[Int]): Task[String] =
     ZIO {
-      jquery("[id^=script-element]").each((index: Int, line) =>
-        if (!indicesToKeep.contains(index) ) ContentHiding.hideInstantly("#" + line.id)
+      jquery("[id^=script-element]").each((index: Int, line) => {
+        if (!indicesToKeep.contains(index)) ContentHiding.hideInstantly("#" + line.id)
+      }
       )
       "Yay, we trimmed."
     }
@@ -58,9 +60,10 @@ object ScriptNavigation {
   def trimDownScriptIfQueryParameterIsPresent(url: String) =
     QueryParam
       .extractParameterValueFromUrl(url, "trim")
-      .flatMap( trimValue =>
+      .flatMap( trimValue => {
         TrimValueFunctionality.indicesToKeep(trimValue)
-          .flatMap (hideAllUnwantedScriptElements)
+          .flatMap(hideAllUnwantedScriptElements)
+      }
       ).orElse( ZIO.succeed("No need to trim"))
 
   def getLinesForCharacter(targetCharacter: String): Task[JQuery] = ZIO {
