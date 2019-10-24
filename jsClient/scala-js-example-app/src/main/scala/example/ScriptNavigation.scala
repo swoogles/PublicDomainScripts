@@ -3,7 +3,6 @@ package example
 import org.scalajs.dom
 import org.scalajs.jquery.{JQuery, JQueryEventObject}
 import zio.{Task, ZIO}
-import zio.console._
 import org.scalajs.dom.document.getElementById
 
 import scala.scalajs.js

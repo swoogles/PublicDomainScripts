@@ -7,25 +7,6 @@ import org.scalajs.jquery.JQueryStatic
 
 import org.scalajs.dom.html.Document
 
-case class RangeInputFields(minimum: String, maximum: String)
-class Button()
-
-case class TrimRange(start: Int, end: Int) {
-  assert(start < end)
-}
-
-object TrimRange {
-  def safelyConstructed(start: Int, end: Int): Either[String, TrimRange] = {
-    if (start > end)
-      Left(s"start must be <= end. start=$start end=$end")
-    else
-      Right(TrimRange(start, end))
-  }
-}
-
-case class Url(input: String)
-
-
 object TrimValueFunctionality {
 
   def unimplementedStuff() = {
@@ -55,7 +36,6 @@ object TrimValueFunctionality {
         }
     }
 
-
     /*
     val browseToStripDownScriptSpecifiedByInputFields: ReadFromTheWorld[Document] => WriteToTheWorld[Document] =
       getTrimButtons
@@ -64,8 +44,42 @@ object TrimValueFunctionality {
         .andThen(navigateToUrlInBrowser)
      */
 
-
   }
+
+  def multipleIndexRangesToKeep(trimValue: String) = {
+
+    import java.util
+    import java.util.regex.Pattern
+    val matchList = new util.ArrayList[String]
+    val regex = Pattern.compile("\\[(.*?)\\]")
+    val regexMatcher = regex.matcher("[0,3][6,10][15,22]")
+
+    while ( {
+      regexMatcher.find
+    }) { //Finds Matching Pattern in String
+      matchList.add(regexMatcher.group(1)) //Fetching Group from String
+      println("Matched group: " + regexMatcher.group(1))
+    }
+
+  ZIO.fromTry {
+    trimValue.span(_ != ',') match {
+      case (rangeStart: String, rangeEnd: String) => {
+        try {
+          Success {
+            Range.inclusive(rangeStart.toInt, rangeEnd.tail.toInt)
+              .foldLeft(Set[Int]()) {
+                (map, index) => map + index
+              }
+          }
+        } catch {
+          case badValue: NumberFormatException => Failure(new RuntimeException("Cannot get indices from value: " + badValue))
+        }
+      }
+
+      case default => throw new RuntimeException("Dunno what happened here: " + default)
+    }
+  }
+}
 
   def indicesToKeep(trimValue: String) =
     ZIO.fromTry {
@@ -73,7 +87,7 @@ object TrimValueFunctionality {
         case (rangeStart: String, rangeEnd: String) => {
           try {
             Success {
-              Range(rangeStart.toInt, rangeEnd.tail.toInt)
+              Range.inclusive(rangeStart.toInt, rangeEnd.tail.toInt)
                 .foldLeft(Set[Int]()) {
                   (map, index) => map + index
                 }
