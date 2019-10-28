@@ -13,9 +13,10 @@ object TrimValueFunctionalityTest extends TestSuite {
 
       assert(result == Set(0,1,2,3,4,5))
     }
+
     'MultipleIndexRanges {
       assert(0 == 0)
-      val result: Set[Int] = runtime.unsafeRun(TrimValueFunctionality.multipleIndexRangesToKeep("0,5"))
+      val result: Set[Int] = runtime.unsafeRun(TrimValueFunctionality.multipleIndexRangesToKeep("[0,3][6,10][15,22]"))
 
       assert(result == Set(0,1,2,3,4,5))
     }

@@ -1,10 +1,9 @@
 package example
 
 import scala.util.{Failure, Success}
-import zio.{URIO, ZIO}
+import zio.{Task, URIO, ZIO}
 import org.scalajs.dom.Window
 import org.scalajs.jquery.JQueryStatic
-
 import org.scalajs.dom.html.Document
 
 object TrimValueFunctionality {
@@ -50,36 +49,41 @@ object TrimValueFunctionality {
 
     import java.util
     import java.util.regex.Pattern
-    val matchList = new util.ArrayList[String]
+    val matchList = new util.ArrayList[zio.Task[Set[Int]]]
     val regex = Pattern.compile("\\[(.*?)\\]")
-    val regexMatcher = regex.matcher("[0,3][6,10][15,22]")
+    val regexMatcher = regex.matcher(trimValue)
 
-    while ( {
-      regexMatcher.find
-    }) { //Finds Matching Pattern in String
-      matchList.add(regexMatcher.group(1)) //Fetching Group from String
+    while ( regexMatcher.find ) { //Finds Matching Pattern in String
+      matchList.add(
+        ZIO.fromTry {
+          println("Attempting to split : " + regexMatcher.group(1))
+          regexMatcher.group(1).span(_ != ',') match {
+            case (rangeStart: String, rangeEnd: String) => {
+              try {
+                Success {
+                  Range.inclusive(rangeStart.toInt, rangeEnd.tail.toInt)
+                    .foldLeft(Set[Int]()) {
+                      (map, index) => map + index
+                    }
+                }
+              } catch {
+                case badValue: NumberFormatException => Failure(new RuntimeException("Cannot get indices from value: " + badValue))
+              }
+            }
+
+            case default => throw new RuntimeException("Dunno what happened here: " + default)
+          }
+        }
+      ) //Fetching Group from String
       println("Matched group: " + regexMatcher.group(1))
     }
 
-  ZIO.fromTry {
-    trimValue.span(_ != ',') match {
-      case (rangeStart: String, rangeEnd: String) => {
-        try {
-          Success {
-            Range.inclusive(rangeStart.toInt, rangeEnd.tail.toInt)
-              .foldLeft(Set[Int]()) {
-                (map, index) => map + index
-              }
-          }
-        } catch {
-          case badValue: NumberFormatException => Failure(new RuntimeException("Cannot get indices from value: " + badValue))
-        }
-      }
+    import scala.collection.JavaConversions._
 
-      case default => throw new RuntimeException("Dunno what happened here: " + default)
-    }
+    val startingZio: zio.Task[Set[Int]] = ZIO{Set[Int]()}
+    matchList.foldLeft(startingZio)( (acc: Task[Set[Int]], task: Task[Set[Int]]) => acc.*>(task))
+
   }
-}
 
   def indicesToKeep(trimValue: String) =
     ZIO.fromTry {
