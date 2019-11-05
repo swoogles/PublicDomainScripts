@@ -70,11 +70,11 @@
 	{{ block "main" . -}}{{ end -}}
 	{{ block "footer" . -}}{{ end }}
 	{{ $script := resources.Get "js/main.js" | minify | fingerprint -}}
-	{{ $script := resources.Get "js/example-fastopt-bundle.js" | minify | fingerprint -}}
+	{{ $jsClient := resources.Get "js/example-fastopt-bundle.js" | minify | fingerprint -}}
 	<script src="{{ $script.Permalink }}" {{ printf "integrity=%q" $script.Data.Integrity | safeHTMLAttr }}></script>
 	{{- partial "analytics.html" . }}
-	{{- if templates.Exists "partials/extra-foot.html" -}}
-	{{ partial "extra-foot.html" . }}
+	{{- if templates.Exists "partials/footer.html" -}}
+	{{ partial "footer.html" . }}
 	{{- end }}
 </body>
 
