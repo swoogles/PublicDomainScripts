@@ -2339,8 +2339,7 @@ function $m_Lexample_SpeechClient$() {
 }
 /** @constructor */
 function $c_Lexample_TrimValueFunctionality$() {
-  $c_O.call(this);
-  this.applyTrimRangeToCurrentUrl$1 = null
+  $c_O.call(this)
 }
 $c_Lexample_TrimValueFunctionality$.prototype = new $h_O();
 $c_Lexample_TrimValueFunctionality$.prototype.constructor = $c_Lexample_TrimValueFunctionality$;
@@ -2350,13 +2349,11 @@ function $h_Lexample_TrimValueFunctionality$() {
 }
 $h_Lexample_TrimValueFunctionality$.prototype = $c_Lexample_TrimValueFunctionality$.prototype;
 $c_Lexample_TrimValueFunctionality$.prototype.init___ = (function() {
-  $n_Lexample_TrimValueFunctionality$ = this;
-  this.applyTrimRangeToCurrentUrl$1 = $m_s_Predef$().$$qmark$qmark$qmark__sr_Nothing$();
   return this
 });
 $c_Lexample_TrimValueFunctionality$.prototype.indicesToKeep__T__Lzio_ZIO = (function(trimValue) {
-  var this$22 = $m_Lzio_ZIO$();
-  var value$1 = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this, trimValue$1) {
+  var this$21 = $m_Lzio_ZIO$();
+  var value = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this, trimValue$1) {
     return (function() {
       var this$2 = new $c_sci_StringOps().init___T(trimValue$1);
       var $$this = this$2.repr$1;
@@ -2366,12 +2363,12 @@ $c_Lexample_TrimValueFunctionality$.prototype.indicesToKeep__T__Lzio_ZIO = (func
         if ((i < len)) {
           var arg1 = this$2.apply__I__O(i);
           if ((arg1 === null)) {
-            var x$1 = 0
+            var x$2 = 0
           } else {
             var this$6 = $as_jl_Character(arg1);
-            var x$1 = this$6.value$1
+            var x$2 = this$6.value$1
           };
-          var jsx$1 = (x$1 !== 44)
+          var jsx$1 = (x$2 !== 44)
         } else {
           var jsx$1 = false
         };
@@ -2400,8 +2397,7 @@ $c_Lexample_TrimValueFunctionality$.prototype.indicesToKeep__T__Lzio_ZIO = (func
               var this$16 = $m_jl_Integer$();
               var $$this$2 = this$14.repr$1;
               var end = this$16.parseInt__T__I__I($$this$2, 10);
-              var isEmpty$4 = (start >= end);
-              var scala$collection$immutable$Range$$lastElement$4 = (((-1) + end) | 0);
+              var isEmpty$4 = (start > end);
               var z = $m_s_Predef$().Set$2.apply__sc_Seq__sc_GenTraversable($m_sci_Nil$());
               var elem$1 = null;
               elem$1 = z;
@@ -2412,7 +2408,7 @@ $c_Lexample_TrimValueFunctionality$.prototype.indicesToKeep__T__Lzio_ZIO = (func
                   var arg1$2 = elem$1;
                   var map = $as_sci_Set(arg1$2);
                   elem$1 = $as_sci_Set(map.$$plus__O__sc_Set(arg1$1));
-                  if ((i$1 === scala$collection$immutable$Range$$lastElement$4)) {
+                  if ((i$1 === end)) {
                     break
                   };
                   i$1 = ((1 + i$1) | 0)
@@ -2433,7 +2429,7 @@ $c_Lexample_TrimValueFunctionality$.prototype.indicesToKeep__T__Lzio_ZIO = (func
       throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(new $c_jl_RuntimeException().init___T(("Dunno what happened here: " + x1)))
     })
   })(this, trimValue));
-  return $f_Lzio_ZIOFunctions__fromTry__F0__Lzio_ZIO(this$22, value$1)
+  return $f_Lzio_ZIOFunctions__fromTry__F0__Lzio_ZIO(this$21, value)
 });
 var $d_Lexample_TrimValueFunctionality$ = new $TypeData().initClass({
   Lexample_TrimValueFunctionality$: 0
@@ -10703,6 +10699,11 @@ function $h_s_Predef$() {
   /*<skip>*/
 }
 $h_s_Predef$.prototype = $c_s_Predef$.prototype;
+$c_s_Predef$.prototype.assert__Z__V = (function(assertion) {
+  if ((!assertion)) {
+    throw new $c_jl_AssertionError().init___O("assertion failed")
+  }
+});
 $c_s_Predef$.prototype.init___ = (function() {
   $n_s_Predef$ = this;
   $m_s_package$();
@@ -10717,18 +10718,10 @@ $c_s_Predef$.prototype.init___ = (function() {
   this.scala$Predef$$singleton$und$eq$colon$eq$f = new $c_s_Predef$$anon$3().init___();
   return this
 });
-$c_s_Predef$.prototype.assert__Z__V = (function(assertion) {
-  if ((!assertion)) {
-    throw new $c_jl_AssertionError().init___O("assertion failed")
-  }
-});
 $c_s_Predef$.prototype.require__Z__V = (function(requirement) {
   if ((!requirement)) {
     throw new $c_jl_IllegalArgumentException().init___T("requirement failed")
   }
-});
-$c_s_Predef$.prototype.$$qmark$qmark$qmark__sr_Nothing$ = (function() {
-  throw new $c_s_NotImplementedError().init___()
 });
 var $d_s_Predef$ = new $TypeData().initClass({
   s_Predef$: 0
@@ -11883,7 +11876,7 @@ $c_Lexample_ScalaJSExample$.prototype.main__AT__V = (function(args0) {
 $c_Lexample_ScalaJSExample$.prototype.run__sci_List__Lzio_ZIO = (function(args) {
   new $c_Lexample_ScalaJSExample$$anon$1().init___();
   var liveEnvironment = new $c_Lexample_BillEnvironment().init___Lorg_scalajs_dom_raw_Window__Lorg_scalajs_jquery_JQueryStatic__Lzio_console_Console$Service($m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window(), $i_jquery, $as_Lzio_console_Console(this.Environment$1).console__Lzio_console_Console$Service());
-  var logic = $m_Lzio_console_package$().putStrLn__T__Lzio_ZIO("doing stuff in ZIO!").flatMap__F1__Lzio_ZIO(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+  var logic = $m_Lzio_console_package$().putStrLn__T__Lzio_ZIO("Finally back in action").flatMap__F1__Lzio_ZIO(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
     return (function(_$2) {
       $asUnit(_$2);
       $m_Lzio_ZIO$();
@@ -14165,31 +14158,6 @@ function $m_s_Array$() {
   };
   return $n_s_Array$
 }
-/** @constructor */
-function $c_s_NotImplementedError() {
-  $c_jl_Error.call(this)
-}
-$c_s_NotImplementedError.prototype = new $h_jl_Error();
-$c_s_NotImplementedError.prototype.constructor = $c_s_NotImplementedError;
-/** @constructor */
-function $h_s_NotImplementedError() {
-  /*<skip>*/
-}
-$h_s_NotImplementedError.prototype = $c_s_NotImplementedError.prototype;
-$c_s_NotImplementedError.prototype.init___ = (function() {
-  $c_jl_Throwable.prototype.init___T__jl_Throwable__Z__Z.call(this, "an implementation is missing", null, true, true);
-  return this
-});
-var $d_s_NotImplementedError = new $TypeData().initClass({
-  s_NotImplementedError: 0
-}, false, "scala.NotImplementedError", {
-  s_NotImplementedError: 1,
-  jl_Error: 1,
-  jl_Throwable: 1,
-  O: 1,
-  Ljava_io_Serializable: 1
-});
-$c_s_NotImplementedError.prototype.$classData = $d_s_NotImplementedError;
 /** @constructor */
 function $c_s_Predef$$eq$colon$eq() {
   $c_O.call(this)
@@ -23838,9 +23806,6 @@ function $f_sc_IndexedSeqOptimized__head__O($thiz) {
 function $f_sc_IndexedSeqOptimized__lengthCompare__I__I($thiz, len) {
   return (($thiz.length__I() - len) | 0)
 }
-function $f_sc_IndexedSeqOptimized__exists__F1__Z($thiz, p) {
-  return ($f_sc_IndexedSeqOptimized__prefixLengthImpl__psc_IndexedSeqOptimized__F1__Z__I($thiz, p, false) !== $thiz.length__I())
-}
 function $f_sc_IndexedSeqOptimized__sameElements__sc_GenIterable__Z($thiz, that) {
   if ($is_sc_IndexedSeq(that)) {
     var x2 = $as_sc_IndexedSeq(that);
@@ -23857,6 +23822,9 @@ function $f_sc_IndexedSeqOptimized__sameElements__sc_GenIterable__Z($thiz, that)
   } else {
     return $f_sc_IterableLike__sameElements__sc_GenIterable__Z($thiz, that)
   }
+}
+function $f_sc_IndexedSeqOptimized__exists__F1__Z($thiz, p) {
+  return ($f_sc_IndexedSeqOptimized__prefixLengthImpl__psc_IndexedSeqOptimized__F1__Z__I($thiz, p, false) !== $thiz.length__I())
 }
 function $f_sc_IndexedSeqOptimized__toList__sci_List($thiz) {
   var i = (((-1) + $thiz.length__I()) | 0);
@@ -23948,16 +23916,6 @@ function $f_sc_IndexedSeqOptimized__copyToArray__O__I__I__V($thiz, xs, start, le
     j = ((1 + j) | 0)
   }
 }
-function $f_sc_LinearSeqOptimized__exists__F1__Z($thiz, p) {
-  var these = $thiz;
-  while ((!these.isEmpty__Z())) {
-    if ($uZ(p.apply__O__O(these.head__O()))) {
-      return true
-    };
-    these = $as_sc_LinearSeqOptimized(these.tail__O())
-  };
-  return false
-}
 function $f_sc_LinearSeqOptimized__lengthCompare__I__I($thiz, len) {
   if ((len < 0)) {
     return 1
@@ -23984,6 +23942,16 @@ function $f_sc_LinearSeqOptimized__sameElements__sc_GenIterable__Z($thiz, that) 
   } else {
     return $f_sc_IterableLike__sameElements__sc_GenIterable__Z($thiz, that)
   }
+}
+function $f_sc_LinearSeqOptimized__exists__F1__Z($thiz, p) {
+  var these = $thiz;
+  while ((!these.isEmpty__Z())) {
+    if ($uZ(p.apply__O__O(these.head__O()))) {
+      return true
+    };
+    these = $as_sc_LinearSeqOptimized(these.tail__O())
+  };
+  return false
 }
 function $f_sc_LinearSeqOptimized__apply__I__O($thiz, n) {
   var rest = $thiz.drop__I__sc_LinearSeqOptimized(n);
@@ -24118,12 +24086,12 @@ $h_sc_AbstractIterable.prototype = $c_sc_AbstractIterable.prototype;
 $c_sc_AbstractIterable.prototype.head__O = (function() {
   return this.iterator__sc_Iterator().next__O()
 });
-$c_sc_AbstractIterable.prototype.sameElements__sc_GenIterable__Z = (function(that) {
-  return $f_sc_IterableLike__sameElements__sc_GenIterable__Z(this, that)
-});
 $c_sc_AbstractIterable.prototype.exists__F1__Z = (function(p) {
   var this$1 = this.iterator__sc_Iterator();
   return $f_sc_Iterator__exists__F1__Z(this$1, p)
+});
+$c_sc_AbstractIterable.prototype.sameElements__sc_GenIterable__Z = (function(that) {
+  return $f_sc_IterableLike__sameElements__sc_GenIterable__Z(this, that)
 });
 $c_sc_AbstractIterable.prototype.forall__F1__Z = (function(p) {
   var this$1 = this.iterator__sc_Iterator();

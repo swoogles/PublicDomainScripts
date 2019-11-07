@@ -69,9 +69,8 @@
   </div>
 	{{ block "main" . -}}{{ end -}}
 	{{ block "footer" . -}}{{ end }}
-	{{ $script := resources.Get "js/main.js" | minify | fingerprint -}}
 	{{ $jsClient := resources.Get "js/example-fastopt-bundle.js" | minify | fingerprint -}}
-	<script src="{{ $script.Permalink }}" {{ printf "integrity=%q" $script.Data.Integrity | safeHTMLAttr }}></script>
+	<script src="{{ $jsClient.Permalink }}" ></script>
 	{{- partial "analytics.html" . }}
 	{{- if templates.Exists "partials/footer.html" -}}
 	{{ partial "footer.html" . }}

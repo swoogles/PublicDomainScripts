@@ -1,11 +1,10 @@
 // Turn this project into a Scala.js project by importing these settings
 enablePlugins(ScalaJSPlugin)
 enablePlugins(ScalaJSBundlerPlugin)
-// TODO Get scalafmt in the mix here
 
-name := "Example"
+name := "ScriptNavigation"
 
-version := "0.1-SNAPSHOT"
+version := "0.2-SNAPSHOT"
 
 scalaVersion := "2.12.1"
 
@@ -18,27 +17,17 @@ webpackConfigFile := Some(baseDirectory.value / "my.custom.webpack.config.js")
 libraryDependencies ++= Seq(
     "org.scala-js" %%% "scalajs-dom" % "0.9.7",
     "com.lihaoyi" %%% "utest" % "0.6.7" % "test, it",
-    "be.doeraene" %%% "scalajs-jquery" % "0.9.5"
-//"be.doeraene" %%% "scalajs-jquery" % "0.6.29"
-    , "dev.zio" %%% "zio" % "1.0.0-RC13"
-
-    // https://mvnrepository.com/artifact/com.thoughtworks.future/future
-//    "com.thoughtworks.future" %%% "future" % "2.0.0",
-//    "com.thoughtworks.raii" %%% "asynchronous" % "2.0.0"
-
+    "be.doeraene" %%% "scalajs-jquery" % "0.9.5",
+    "dev.zio" %%% "zio" % "1.0.0-RC13"
 )
 
 npmDependencies in Compile ++= Seq(
     "jquery" -> "2.1.3"
 )
 
-
-
 lazy val myProject = project.in(file(".")).
   enablePlugins(ScalaJSPlugin).
-  // add the `it` configuration
   configs(IntegrationTest).
-  // add `it` tasks
   settings(Defaults.itSettings: _*).
   // add Scala.js-specific settings and tasks to the `it` configuration
   settings(inConfig(IntegrationTest)(ScalaJSPlugin.testConfigSettings): _*)

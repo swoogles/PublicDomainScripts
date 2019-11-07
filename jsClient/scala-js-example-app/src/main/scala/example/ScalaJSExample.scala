@@ -48,7 +48,7 @@ object ScalaJSExample extends App {
       )
 
     val logic: ZIO[Console with JQueryProvider, io.Serializable, Int] = for {
-      _ <- putStrLn("doing stuff in ZIO!")
+      _ <- putStrLn("Finally back in action")
       url <- ZIO { dom.window.location.toString }
       _ <- ScriptNavigation.setupScriptNavigationOrHideControls()
       _ <- ScriptNavigation.trimDownScriptIfQueryParameterIsPresent(url)
