@@ -4,7 +4,7 @@ command = "hugo"
 publish = "public"
 
 [build.environment]
-GO_IMPORT_PATH = "github.com/swoogles/bionicBodyFitness"
+GO_IMPORT_PATH = "github.com/swoogles/PublicDomainScripts"
 
 [context.production.environment]
 HUGO_ENV = "production"
