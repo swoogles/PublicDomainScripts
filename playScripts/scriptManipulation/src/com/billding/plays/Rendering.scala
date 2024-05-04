@@ -125,12 +125,12 @@ object Rendering {
     }
   }
 
-  val DIRECTORY_NAME = "opensourceplaymemorization"
+  val DIRECTORY_NAME = "publicdomainscripts"
 
   def getrelativeUrl(filePath: String): String = {
     filePath.toLowerCase
 //                              "/home/bfrasure/repositories/opensourceplaymemorization/content/generated/othello/character_menu"
-      .replace(s"/home/bfrasure/repositories/$DIRECTORY_NAME/content", "") // TODO this is brittle
+      .replace(s"/users/bfrasure/repositories/$DIRECTORY_NAME/content", "") // TODO this is brittle
       .takeWhile(_ != '.')
   }
 

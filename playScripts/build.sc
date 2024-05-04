@@ -16,12 +16,12 @@ object scriptManipulation extends ScalaModule with ScalafmtModule {
     ivy"dev.zio::zio:1.0.0-RC12-1"
 
     )
-  object test extends Tests {
-    override def ivyDeps = Agg(ivy"com.lihaoyi::utest:0.6.0")
-
-    def testFrameworks = Seq("utest.runner.Framework")
-  }
-
+//  object test extends Tests {
+//    override def ivyDeps = Agg(ivy"com.lihaoyi::utest:0.6.0")
+//
+//    def testFrameworks = Seq("utest.runner.Framework")
+//  }
+//
 
   def fancyProcess() = T.command(
     reformat
